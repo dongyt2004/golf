@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Arise Admin Panel"/>
+    <meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Themeforest, Bootstrap, C3 Graphs, D3 Graphs, NVD3 Graphs, Admin Skin, Black Admin Dashboard, Grey Admin Dashboard, Dark Admin Dashboard, Simple Admin Dashboard, Simple Admin Theme, Simple Bootstrap Dashboard, "/>
+    <meta name="author" content="dongyt"/>
+    <title>高尔夫球场中控管理系统</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+
+    <!-- Main CSS -->
+    <link href="css/main.css" rel="stylesheet" media="screen"/>
+
+    <!-- Ion Icons -->
+    <link href="fonts/font-awesome.css" rel="stylesheet"/>
+
+    <!-- Ion Icons -->
+    <link href="fonts/icomoon/icomoon.css" rel="stylesheet"/>
+
+    <!-- Alertify CSS -->
+    <link href="css/alertify/core.css" rel="stylesheet"/>
+    <link href="css/alertify/default.css" rel="stylesheet"/>
+
+    <link href="css/metroStyle/metroStyle.css" rel="stylesheet" type="text/css"/>
+
+    <style type="text/css">
+        .ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
+        .ztree li ul.level0 {padding:0; background:none;}
+    </style>
+
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        @media(max-width:767px) {
+            .dongyk {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Header starts -->
+<header>
+
+    <!-- Logo starts -->
+    <a href="/dynamics.html" class="logo">
+        <img src="/logo.png" alt="高尔夫球场中控管理系统"/>
+    </a>
+    <!-- Logo ends -->
+
+    <!-- Header actions starts -->
+    <ul id="header-actions" class="clearfix">
+        <li class="list-box user-admin hidden-xs dropdown">
+            <div class="admin-details">
+                <div class="name">{#user}{real_name}{/user}</div>
+                <div class="designation">操 作 员</div>
+            </div>
+            <a id="drop4" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-user"></i>
+            </a>
+            <ul class="dropdown-menu sm">
+                <li class="dropdown-content">
+                    <a href="/change_password.html">修改密码</a>
+                    <a href="/logout.do">退出系统</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <button type="button" id="toggleMenu" class="toggle-menu">
+                <i class="collapse-menu-icon"></i>
+            </button>
+        </li>
+    </ul>
+    <!-- Header actions ends -->
+
+</header>
+<!-- Header ends -->
+
+<!-- Left sidebar start -->
+<div class='vertical-nav{@eq key=click_count value="0" type="number"} vertical-nav-sm{/eq}'>
+
+    <!-- Collapse menu starts -->
+    <button class="collapse-menu">
+        <i class='{@eq key=click_count value="0" type="number"}icon-menu2{:else}icon-cross2{/eq}'></i>
+    </button>
+    <!-- Collapse menu ends -->
+
+    <!-- Sidebar menu starts -->
+    <ul class="menu clearfix">
+        <li>
+            <a href="/dynamics.html">
+                <i class="icon-golf"></i>
+                <span class="menu-item">球场动态</span>
+            </a>
+        </li>
+        <li>
+            <a href="/manual.html">
+                <i class="icon-droplet"></i>
+                <span class="menu-item">手动灌溉</span>
+            </a>
+        </li>
+        <li>
+            <a href="/plan.html">
+                <i class="icon-calendar2"></i>
+                <span class="menu-item">洒水计划</span>
+            </a>
+        </li>
+        <li class="active selected">
+            <a href="#">
+                <i class="icon-tools2"></i>
+                <span class="menu-item">高级设置</span>
+                <span class="down-arrow"></span>
+            </a>
+            <ul>
+                <li>
+                    <a href='/course.html'>球场设置</a>
+                </li>
+                <li>
+                    <a href='/controlbox.html'>控制系统</a>
+                </li>
+                <li>
+                    <a href='/pipe.html' class="current">管网设置</a>
+                </li>
+                <li>
+                    <a href='/map.html'>球场地图</a>
+                </li>
+                <li>
+                    <a href='/controlbox_model.html'>设备型号</a>
+                </li>
+                <li>
+                    <a href='/nozzle_model.html'>喷嘴型号</a>
+                </li>
+                <li>
+                    <a href='/nozzle_shape.html'>喷头形状</a>
+                </li>
+                <li>
+                    <a href='/turf.html'>湿度调整</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <!-- Sidebar menu ends -->
+</div>
+<!-- Left sidebar end -->
+
+<!-- Dashboard Wrapper Start -->
+<div class='dashboard-wrapper{@eq key=click_count value="1" type="number"} dashboard-wrapper-lg{/eq}'>
+
+    <!-- Container fluid Starts -->
+    <div class="container-fluid" id="dongytForm">
+
+        <!-- Top Bar Starts -->
+        <div class="top-bar clearfix">
+            <div class="row gutter">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-title">
+                        <h3>管网设置</h3>
+                        <p>对水源及管网进行管理 / 高级设置 / <a href="/dynamics.html">首页</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Top Bar Ends -->
+
+        <!-- Row starts -->
+        <div class="row gutter">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel dongyk">
+
+                    <a href="#" class="btn btn-success" id="save_pipe">保存管网设置</a>
+
+                </div>
+            </div>
+        </div>
+        <!-- Row Ends -->
+
+        <!-- Row starts -->
+        <div class="row gutter">
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                <div class="panel">
+
+                    <ul id="pipetree" class="ztree"></ul>
+
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <div class="panel center-text">
+
+                    <a href="#" class="btn btn-info" id="connect_nozzle_pipe"><i class="icon-chevron-left"></i> </a>
+
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                <div class="panel">
+
+                    <ul id="nozzletree" class="ztree"></ul>
+
+                </div>
+            </div>
+        </div>
+        <!-- Row Ends -->
+
+    </div>
+    <!-- Container fluid ends -->
+
+</div>
+<!-- Dashboard Wrapper End -->
+
+<!-- Footer Start -->
+<footer>
+    Copyright <a href="http://www.rouben.com/">若本机器人</a> <span>2020</span>
+</footer>
+<!-- Footer end -->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- jquery ScrollUp JS -->
+<script src="js/scrollup/jquery.scrollUp.js"></script>
+
+<!-- Notifications JS -->
+<script src="js/alertify/alertify.js"></script>
+<script src="js/alertify/alertify-custom.js"></script>
+
+<!-- Custom JS -->
+<script src="js/custom.js"></script>
+
+<script type="text/javascript" src="js/ztree/jquery.ztree.core.min.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.exedit.min.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.excheck.min.js"></script>
+
+<script type="text/javascript">
+    var setting = {
+        view: {
+            addHoverDom: addHoverDom,
+            removeHoverDom: removeHoverDom,
+            dblClickExpand: dblClickExpand,
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "parent_id",
+                rootPId: -1
+            }
+        },
+        edit: {
+            enable: true,
+            removeTitle: '删除',
+            renameTitle: '修改名称',
+            showRemoveBtn: showRemoveBtn,
+            showRenameBtn: showRenameBtn
+        },
+        callback: {
+            beforeDrag: beforeDrag,
+            beforeDrop: beforeDrop
+        }
+    };
+
+    var setting_1 = {
+        check: {
+            enable: true
+        },
+        view: {
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "parent_id",
+                rootPId: 0
+            }
+        },
+        edit: {
+            enable: true,
+            showRemoveBtn: showRemoveBtn_1,
+            showRenameBtn: showRenameBtn_1
+        },
+        callback: {
+            beforeDrag: beforeDrag_1,
+            beforeDrop: beforeDrop_1
+        }
+    };
+
+    var pipeNodes = [{#pipeNodes}{@eq key=$idx value=0 type="number"}
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/pipeNodes}
+    ];
+
+    var nozzleNodes = [{#nozzleNodes}{@eq key=$idx value=0 type="number"}
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/nozzleNodes}
+    ];
+
+    var max_pipe_id = {max_pipe_id};
+    function addHoverDom(treeId, treeNode) {
+        if (treeNode.id.substr(0, 1) !== 't') {
+            var sObj = $("#" + treeNode.tId + "_span");
+            if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
+            var addStr = "<span class='button add' id='addBtn_" + treeNode.tId + "' title='加管道' onfocus='this.blur();'></span>";
+            sObj.after(addStr);
+            var btn = $("#addBtn_" + treeNode.tId);
+            if (btn) btn.bind("click", function () {
+                max_pipe_id++;
+                $.fn.zTree.getZTreeObj("pipetree").addNodes(treeNode, {id: "" + max_pipe_id, parent_id: treeNode.id, name: "新管道" + (max_pipe_id - 1), open:true, icon:"/img/管道.png", iconOpen:"/img/管道.png", iconClose:"/img/管道.png"});
+                return false;
+            });
+        }
+    }
+
+    function removeHoverDom(treeId, treeNode) {
+        $("#addBtn_" + treeNode.tId).unbind().remove();
+    }
+
+    function dblClickExpand(treeId, treeNode) {
+        return treeNode.level > 0;
+    }
+
+    function showRemoveBtn(treeId, treeNode) {
+        return treeNode.getParentNode() !== null && treeNode.id.substr(0, 1) !== 't';
+    }
+
+    function showRenameBtn(treeId, treeNode) {
+        return treeNode.getParentNode() !== null && treeNode.id.substr(0, 1) !== 't';
+    }
+
+    function showRemoveBtn_1(treeId, treeNode) {
+        return false;
+    }
+
+    function showRenameBtn_1(treeId, treeNode) {
+        return false;
+    }
+
+    function beforeDrag(treeId, treeNodes) {
+        return true;
+    }
+
+    function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+        if (treeId === 'nozzletree' && treeNodes[0].id.substr(0, 1) !== 't') {
+            return false;
+        }
+        if (treeId === 'nozzletree' && (moveType === 'prev' || moveType === 'next')) {
+            return false;
+        }
+        if (treeId === 'nozzletree' && targetNode.level !== 2) {
+            return false;
+        }
+        if (treeId === 'pipetree' && targetNode.id.substr(0, 1) === 't') {
+            return false;
+        }
+        if (treeId === 'pipetree' && treeNodes[0].id.substr(0, 1) === 't' && (moveType === 'prev' || moveType === 'next')) {
+            return false;
+        }
+        return targetNode ? targetNode.drop !== false : true;
+    }
+
+    function beforeDrag_1(treeId, treeNodes) {
+        return treeNodes[0].id.substr(0, 1) === 't';
+    }
+
+    function beforeDrop_1(treeId, treeNodes, targetNode, moveType) {
+        if (treeId === 'nozzletree') {
+            return false;
+        }
+        if (moveType === 'prev' || moveType === 'next') {
+            return false;
+        }
+        if (!targetNode.parent_id) {
+            return false;
+        }
+        if (targetNode.id.substr(0, 1) === 't') {
+            return false;
+        }
+        return targetNode ? targetNode.drop !== false : true;
+    }
+
+    jQuery(function ($) {
+        $.fn.zTree.init($("#pipetree"), setting, pipeNodes);
+        $.fn.zTree.init($("#nozzletree"), setting_1, nozzleNodes);
+
+        /* 保存管网设置 */
+        $("#save_pipe").click(function() {
+            var pipe_nodes = $.fn.zTree.getZTreeObj("pipetree").getNodesByFilter(function(node) {
+                return node.id.substr(0, 1) !== 't';
+            });
+            var nozzle_nodes = $.fn.zTree.getZTreeObj("pipetree").getNodesByFilter(function(node) {
+                return node.id.substr(0, 1) === 't';
+            });
+            $.post("/save_pipe.do", {
+                pipe_nodes: JSON.stringify(pipe_nodes),
+                nozzle_nodes: JSON.stringify(nozzle_nodes)
+            }, function (result) {
+                if (result.success) {
+                    window.location.href = '/pipe.html';
+                }
+            });
+        });
+
+        /* 连接站点与管道 */
+        $("#connect_nozzle_pipe").click(function() {
+            var selected = $.fn.zTree.getZTreeObj("pipetree").getSelectedNodes();
+            if (selected.length === 0) {
+                alertify.error("请在左边选择一个管道");
+                return;
+            }
+            var targetNode = selected[0];
+            if (targetNode.id.substr(0, 1) === 't') {
+                alertify.error("请在左边选择一个管道");
+                return;
+            }
+            if (!targetNode.parent_id) {
+                alertify.error("请在左边选择一个管道");
+                return;
+            }
+            var nozzleNodes = [];
+            var srcNodes = $.fn.zTree.getZTreeObj("nozzletree").getCheckedNodes(true);
+            for (var i=0; i<srcNodes.length; i++) {
+                if (srcNodes[i].id.substr(0, 1) === 't') {
+                    nozzleNodes.push(srcNodes[i]);
+                }
+            }
+            if (nozzleNodes.length === 0) {
+                alertify.error("请在右边选择洒水站");
+                return;
+            }
+            for (var j=0; j<nozzleNodes.length; j++) {
+                $.fn.zTree.getZTreeObj("pipetree").addNodes(targetNode, {id: nozzleNodes[j].id, parent_id: targetNode.id, name: nozzleNodes[j].name, open:true, icon:nozzleNodes[j].icon, iconOpen:nozzleNodes[j].iconOpen, iconClose:nozzleNodes[j].iconClose});
+                $.fn.zTree.getZTreeObj("nozzletree").removeNode(nozzleNodes[j]);
+            }
+        });
+    });
+</script>
+</body>
+</html>

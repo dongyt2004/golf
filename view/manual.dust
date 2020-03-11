@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Arise Admin Panel"/>
+    <meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Themeforest, Bootstrap, C3 Graphs, D3 Graphs, NVD3 Graphs, Admin Skin, Black Admin Dashboard, Grey Admin Dashboard, Dark Admin Dashboard, Simple Admin Dashboard, Simple Admin Theme, Simple Bootstrap Dashboard, "/>
+    <meta name="author" content="dongyt"/>
+    <title>高尔夫球场中控管理系统</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+
+    <!-- Main CSS -->
+    <link href="css/main.css" rel="stylesheet" media="screen"/>
+
+    <!-- Ion Icons -->
+    <link href="fonts/font-awesome.css" rel="stylesheet"/>
+
+    <!-- Ion Icons -->
+    <link href="fonts/icomoon/icomoon.css" rel="stylesheet"/>
+
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Header starts -->
+<header>
+
+    <!-- Logo starts -->
+    <a href="/dynamics.html" class="logo">
+        <img src="/logo.png" alt="高尔夫球场中控管理系统"/>
+    </a>
+    <!-- Logo ends -->
+
+    <!-- Header actions starts -->
+    <ul id="header-actions" class="clearfix">
+        <li class="list-box user-admin hidden-xs dropdown">
+            <div class="admin-details">
+                <div class="name">{#user}{real_name}{/user}</div>
+                <div class="designation">操 作 员</div>
+            </div>
+            <a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-user"></i>
+            </a>
+            <ul class="dropdown-menu sm">
+                <li class="dropdown-content">
+                    <a href="/change_password.html">修改密码</a>
+                    <a href="/logout.do">退出系统</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <button type="button" id="toggleMenu" class="toggle-menu">
+                <i class="collapse-menu-icon"></i>
+            </button>
+        </li>
+    </ul>
+    <!-- Header actions ends -->
+
+</header>
+<!-- Header ends -->
+
+<!-- Left sidebar start -->
+<div class='vertical-nav{@eq key=click_count value="0" type="number"} vertical-nav-sm{/eq}'>
+
+    <!-- Collapse menu starts -->
+    <button class="collapse-menu">
+        <i class='{@eq key=click_count value="0" type="number"}icon-menu2{:else}icon-cross2{/eq}'></i>
+    </button>
+    <!-- Collapse menu ends -->
+
+    <!-- Sidebar menu starts -->
+    <ul class="menu clearfix">
+        <li>
+            <a href="/dynamics.html">
+                <i class="icon-golf"></i>
+                <span class="menu-item">球场动态</span>
+            </a>
+        </li>
+        <li class="active selected">
+            <a href="/manual.html">
+                <i class="icon-droplet"></i>
+                <span class="menu-item">手动灌溉</span>
+            </a>
+        </li>
+        <li>
+            <a href="/plan.html">
+                <i class="icon-calendar2"></i>
+                <span class="menu-item">洒水计划</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="icon-tools2"></i>
+                <span class="menu-item">高级设置</span>
+                <span class="down-arrow"></span>
+            </a>
+            <ul>
+                <li>
+                    <a href='/course.html'>球场设置</a>
+                </li>
+                <li>
+                    <a href='/controlbox.html'>控制系统</a>
+                </li>
+                <li>
+                    <a href='/pipe.html'>管网设置</a>
+                </li>
+                <li>
+                    <a href='/map.html'>球场地图</a>
+                </li>
+                <li>
+                    <a href='/controlbox_model.html'>设备型号</a>
+                </li>
+                <li>
+                    <a href='/nozzle_model.html'>喷嘴型号</a>
+                </li>
+                <li>
+                    <a href='/nozzle_shape.html'>喷头形状</a>
+                </li>
+                <li>
+                    <a href='/turf.html'>湿度调整</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <!-- Sidebar menu ends -->
+</div>
+<!-- Left sidebar end -->
+
+<!-- Dashboard Wrapper Start -->
+<div class='dashboard-wrapper{@eq key=click_count value="1" type="number"} dashboard-wrapper-lg{/eq}'>
+
+    <!-- Container fluid Starts -->
+    <div class="container-fluid">
+
+        <!-- Top Bar Starts -->
+        <div class="top-bar clearfix">
+            <div class="row gutter">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-title">
+                        <h3>手动灌溉</h3>
+                        <p>人工指定洒水站灌溉 / 高级设置 / <a href="/dynamics.html">首页</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Top Bar Ends -->
+
+        <!-- Row starts -->
+        <div class="row gutter">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel">
+
+                    <!-- Row starts -->
+                    <div class="row gutter">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="course">选择球场</label>
+                                <select class="form-control" id="course" name="course" onchange="change_course()">
+{#courses}
+                                    <option value="{id}">{name}</option>
+{/courses}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label>灌溉时长</label>
+                                <div class="row gutter" id="dongytForm">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input id="hour" class="form-control" name="hour" />
+                                                <span class="input-group-addon">小时</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input id="minute" class="form-control" name="minute" />
+                                                <span class="input-group-addon">分钟</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                        <div class="form-group" style="margin-top: 3px;">
+                                            <a href="#" class="btn btn-info" id="refresh">刷 新</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Row ends -->
+
+                </div>
+            </div>
+        </div>
+        <!-- Row Ends -->
+
+        <!-- Row starts -->
+        <div class="row gutter">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel">
+                    <div class="tabbable tabs-left clearfix">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#tabOne" data-toggle="tab">按分控箱选</a>
+                            </li>
+                            <li>
+                                <a href="#tabTwo" data-toggle="tab">按区域选</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabOne">
+                                <iframe id="myFrame_controlbox" src="/manual_controlbox.html?course_id={first_course_id}" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%" vspale="0" style="overflow:visible;"></iframe>
+                            </div>
+
+                            <div class="tab-pane" id="tabTwo">
+                                <iframe id="myFrame_area" src="/manual_area.html?course_id={first_course_id}" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%" vspale="0" style="overflow:visible;"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row Ends -->
+
+    </div>
+    <!-- Container fluid ends -->
+
+</div>
+<!-- Dashboard Wrapper End -->
+
+<!-- Footer Start -->
+<footer>
+    Copyright <a href="http://www.rouben.com/">若本机器人</a> <span>2020</span>
+</footer>
+<!-- Footer end -->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- jquery ScrollUp JS -->
+<script src="js/scrollup/jquery.scrollUp.js"></script>
+
+<!-- BS Validations -->
+<script src="js/bsvalidator/bootstrapValidator.js"></script>
+<script src="js/bsvalidator/custom-validations.js"></script>
+
+<!-- Custom JS -->
+<script src="js/custom.js"></script>
+
+<script type="text/javascript">
+    var c = $("#course");
+
+    function change_course() {
+        document.getElementById('myFrame_controlbox').contentWindow.location.reload(true);
+        $('#myFrame_controlbox').attr('src', '/manual_controlbox.html?course_id=' + c.val());
+        document.getElementById('myFrame_area').contentWindow.location.reload(true);
+        $('#myFrame_area').attr('src', '/manual_area.html?course_id=' + c.val());
+    }
+
+    /* 刷新 */
+    $("#refresh").click(function() {
+        change_course();
+    });
+</script>
+</body>
+</html>

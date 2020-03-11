@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Arise Admin Panel" />
+    <meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Themeforest, Bootstrap, C3 Graphs, D3 Graphs, NVD3 Graphs, Admin Skin, Black Admin Dashboard, Grey Admin Dashboard, Dark Admin Dashboard, Simple Admin Dashboard, Simple Admin Theme, Simple Bootstrap Dashboard, " />
+    <meta name="author" content="dongyt" />
+    <title>高尔夫球场中控管理系统</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+
+    <!-- Main CSS -->
+    <link href="css/main.css" rel="stylesheet" media="screen" />
+
+    <!-- Ion Icons -->
+    <link href="fonts/font-awesome.css" rel="stylesheet" />
+
+    <!-- Ion Icons -->
+    <link href="fonts/icomoon/icomoon.css" rel="stylesheet" />
+
+    <!-- Alertify CSS -->
+    <link href="css/alertify/core.css" rel="stylesheet">
+    <link href="css/alertify/default.css" rel="stylesheet">
+
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="css/datatables/dataTables.bs.min.css">
+
+    <!-- iCkeck CSS -->
+    <link href="css/icheck/custom.css" rel="stylesheet" />
+    <link href="css/icheck/skins/all.css" rel="stylesheet" />
+
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .dongyt {
+            margin-right: 10px;
+        }
+        .sunzhh {
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Header starts -->
+<header>
+
+    <!-- Logo starts -->
+    <a href="/dynamics.html" class="logo">
+        <img src="/logo.png" alt="高尔夫球场中控管理系统" />
+    </a>
+    <!-- Logo ends -->
+
+    <!-- Header actions starts -->
+    <ul id="header-actions" class="clearfix">
+        <li class="list-box user-admin hidden-xs dropdown">
+            <div class="admin-details">
+                <div class="name">{#user}{real_name}{/user}</div>
+                <div class="designation">操 作 员</div>
+            </div>
+            <a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-user"></i>
+            </a>
+            <ul class="dropdown-menu sm">
+                <li class="dropdown-content">
+                    <a href="/change_password.html">修改密码</a>
+                    <a href="/logout.do">退出系统</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <button type="button" id="toggleMenu" class="toggle-menu">
+                <i class="collapse-menu-icon"></i>
+            </button>
+        </li>
+    </ul>
+    <!-- Header actions ends -->
+
+</header>
+<!-- Header ends -->
+
+<!-- Left sidebar start -->
+<div class='vertical-nav{@eq key=click_count value="0" type="number"} vertical-nav-sm{/eq}'>
+
+    <!-- Collapse menu starts -->
+    <button class="collapse-menu">
+        <i class='{@eq key=click_count value="0" type="number"}icon-menu2{:else}icon-cross2{/eq}'></i>
+    </button>
+    <!-- Collapse menu ends -->
+
+    <!-- Sidebar menu starts -->
+    <ul class="menu clearfix">
+        <li>
+            <a href="/dynamics.html">
+                <i class="icon-golf"></i>
+                <span class="menu-item">球场动态</span>
+            </a>
+        </li>
+        <li>
+            <a href="/manual.html">
+                <i class="icon-droplet"></i>
+                <span class="menu-item">手动灌溉</span>
+            </a>
+        </li>
+        <li>
+            <a href="/plan.html">
+                <i class="icon-calendar2"></i>
+                <span class="menu-item">洒水计划</span>
+            </a>
+        </li>
+        <li class="active selected">
+            <a href="#">
+                <i class="icon-tools2"></i>
+                <span class="menu-item">高级设置</span>
+                <span class="down-arrow"></span>
+            </a>
+            <ul>
+                <li>
+                    <a href='/course.html'>球场设置</a>
+                </li>
+                <li>
+                    <a href='/controlbox.html' class="current">控制系统</a>
+                </li>
+                <li>
+                    <a href='/pipe.html'>管网设置</a>
+                </li>
+                <li>
+                    <a href='/map.html'>球场地图</a>
+                </li>
+                <li>
+                    <a href='/controlbox_model.html'>设备型号</a>
+                </li>
+                <li>
+                    <a href='/nozzle_model.html'>喷嘴型号</a>
+                </li>
+                <li>
+                    <a href='/nozzle_shape.html'>喷头形状</a>
+                </li>
+                <li>
+                    <a href='/turf.html'>湿度调整</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <!-- Sidebar menu ends -->
+</div>
+<!-- Left sidebar end -->
+
+<!-- Dashboard Wrapper Start -->
+<div class='dashboard-wrapper{@eq key=click_count value="1" type="number"} dashboard-wrapper-lg{/eq}'>
+
+    <!-- Container fluid Starts -->
+    <div class="container-fluid">
+
+        <!-- Top Bar Starts -->
+        <div class="top-bar clearfix">
+            <div class="row gutter">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="page-title">
+                        <h3>控制系统</h3>
+                        <p>对分控箱和洒水站进行管理 / 高级设置 / <a href="/dynamics.html">首页</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Top Bar Ends -->
+
+        <fieldset>
+            <legend style="color: #000;">分控箱</legend>
+
+            <!-- Row starts -->
+            <div class="row gutter">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel" id="dongytForm">
+
+                        <!-- Row starts -->
+                        <div class="row gutter">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="controlbox_no">设备编号</label>
+                                    <input id="controlbox_no" class="form-control" name="controlbox_no" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="controlbox_name">设备名称</label>
+                                    <input id="controlbox_name" class="form-control" name="controlbox_name" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="controlbox_model">设备型号</label>
+                                    <select class="form-control" id="controlbox_model" name="controlbox_model">
+{#controlbox_models}
+                                        <option value="{id}">{name}</option>
+{/controlbox_models}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="nozzle_count">最大站点数</label>
+                                    <input id="nozzle_count" class="form-control" name="nozzle_count" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row ends -->
+
+                        <div class="row gutter">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="demo-btn-group center-text">
+                                    <a href="#" class="btn btn-success dongyt" id="c_controlbox">新增设备</a>
+                                    <a href="#" class="btn btn-success dongyt" id="u_controlbox">修改设备</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Row Ends -->
+
+            <!-- Row starts -->
+            <div class="row gutter">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4>分控箱列表</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="scrollTable" class="display table table-striped table-bordered table-hover no-margin" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>删 除</th>
+                                            <th>设备编号</th>
+                                            <th>名 称</th>
+                                            <th>远程/本地控制</th>
+                                            <th>型 号</th>
+                                            <th style="display: none;"></th>
+                                            <th>最大站点数</th>
+                                            <th>设备状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="cursor: pointer;">
+{#controlboxes}
+                                        <tr onclick="transfer_controlbox({id});">
+                                            <td><a href="javascript:del_controlbox({id})" class="btn btn-danger btn-rounded btn-sm">删 除</a></td>
+                                            <td class="controlbox_no_{id}">{no}</td>
+                                            <td class="controlbox_name_{id}">{name}</td>
+                                            <td><a href="javascript:remote_control({id})" class="btn btn-success btn-rounded btn-sm dongyt">远 程</a><a href="javascript:local_control({id})" class="btn btn-info btn-rounded btn-sm">本 地</a></td>
+                                            <td class="controlbox_model_{id}">{controlbox_model}</td>
+                                            <td style="display: none;" class="model_id_{id}">{model_id}</td>
+                                            <td class="nozzle_count_{id}">{nozzle_count}</td>
+                                            <td class="skin skin-line">
+                                                <div class="row">
+                                                    {@eq key=use_state value="1" type="number"}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: #32AB52;">正常</div>{:else}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: red;">设备网络异常</div>{/eq}
+                                                    <div class="skin-section col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                        <input id="{id}" class="sunzhh" type="checkbox" {@eq key=use_state value="0" type="number"} checked{/eq}>
+                                                        <label>{@eq key=use_state value="1" type="number"}禁用{:else}重新启用{/eq}</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+{/controlboxes}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row Ends -->
+
+        </fieldset>
+
+        <!-- Row starts -->
+        <div class="row gutter">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <iframe id="myFrame" src="/nozzle.html?controlbox_id=null&controlbox_no=null" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%" vspale="0" style="overflow:visible;"></iframe>
+            </div>
+        </div>
+        <!-- Row Ends -->
+
+    </div>
+    <!-- Container fluid ends -->
+
+</div>
+<!-- Dashboard Wrapper End -->
+
+<!-- Footer Start -->
+<footer>
+    Copyright <a href="http://www.rouben.com/">若本机器人</a>  <span>2020</span>
+</footer>
+<!-- Footer end -->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- jquery ScrollUp JS -->
+<script src="js/scrollup/jquery.scrollUp.js"></script>
+
+<!-- BS Validations -->
+<script src="js/bsvalidator/bootstrapValidator.js"></script>
+<script src="js/bsvalidator/custom-validations.js"></script>
+
+<!-- Notifications JS -->
+<script src="js/alertify/alertify.js"></script>
+<script src="js/alertify/alertify-custom.js"></script>
+
+<!-- Data Tables -->
+<script src="js/datatables/dataTables.min.js"></script>
+<script src="js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="js/datatables/custom-datatables.js"></script>
+
+<!-- iCheck JS -->
+<script src="js/icheck/icheck.min.js"></script>
+<script src="js/icheck/custom.min.js"></script>
+<script src="js/icheck/custom.icheck.js"></script>
+
+<!-- Custom JS -->
+<script src="js/custom.js"></script>
+
+<script type="text/javascript">
+    var transfered_controlbox_id = null;
+    var transfered_controlbox_no = "";
+
+    /* 转移分控箱 */
+    function transfer_controlbox(id) {
+        transfered_controlbox_id = id;
+        var cb = $('td.controlbox_no_' + id);
+        transfered_controlbox_no = cb.html();
+        $('#controlbox_no').val(cb.html());
+        $('#controlbox_name').val($('td.controlbox_name_' + id).html());
+        $('#controlbox_model').val($('td.model_id_' + id).html());
+        $('#nozzle_count').val($('td.nozzle_count_' + id).html());
+        document.getElementById('myFrame').contentWindow.location.reload(true);
+        $('#myFrame').attr('src', '/nozzle.html?controlbox_id=' + id + '&controlbox_no=' + cb.html());
+    }
+
+    /* 远程控制 */
+    function remote_control(id) {
+        $.post("/remote_control.do", {
+            id: id
+        }, function (result) {
+            if (result.success) {
+                alertify.success("设置完成");
+            } else {
+                alertify.error("网络原因，设置失败");
+            }
+        });
+    }
+
+    /* 本地控制 */
+    function local_control(id) {
+        $.post("/local_control.do", {
+            id: id
+        }, function (result) {
+            if (result.success) {
+                alertify.success("设置完成");
+            } else {
+                alertify.error("设置失败");
+            }
+        });
+    }
+
+    /* 删除分控箱 */
+    function del_controlbox(id) {
+        reset();
+        alertify.confirm("删除后其控制的洒水站无法正常工作，应尽快重新指定分控箱，确定删除吗？", function (e) {
+            if (e) {
+                $.post("/del_controlbox.do", {
+                    id: id
+                }, function (result) {
+                    if (result.success) {
+                        window.location.href = '/controlbox.html';
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+    }
+
+    jQuery(function($) {
+        var c = $("#controlbox_no");
+        var n = $("#controlbox_name");
+        var nc = $("#nozzle_count");
+        /* 新增分控箱 */
+        $("#c_controlbox").click(function() {
+            if (c.val() === '') {
+                alertify.error("设备编号不能为空");
+                return;
+            }
+            if (n.val() === '') {
+                alertify.error("设备名称不能为空");
+                return;
+            }
+            if (nc.val() === '') {
+                alertify.error("最大站点数不能为空");
+                return;
+            }
+            $.post("/add_controlbox.do", {
+                no: c.val(),
+                name: n.val(),
+                model_id: $("#controlbox_model").val(),
+                nozzle_count: nc.val()
+            }, function (result) {
+                if (result.success) {
+                    window.location.href = '/controlbox.html';
+                } else {
+                    alertify.error("设备编号不能重复，请检查设备编号");
+                }
+            });
+        });
+
+        /* 修改分控箱 */
+        $("#u_controlbox").click(function() {
+            if (transfered_controlbox_id === null) {
+                alertify.error("请先单击行，选择要修改的分控箱");
+                return;
+            }
+            if (c.val() === '') {
+                alertify.error("设备编号不能为空");
+                return;
+            }
+            if (n.val() === '') {
+                alertify.error("设备名称不能为空");
+                return;
+            }
+            if (nc.val() === '') {
+                alertify.error("最大站点数不能为空");
+                return;
+            }
+            var update_no = false;
+            if (transfered_controlbox_no !== c.val()) {
+                update_no = true;
+            }
+            $.post("/update_controlbox.do", {
+                update_no: JSON.stringify(update_no),
+                id: transfered_controlbox_id,
+                no: c.val(),
+                name: n.val(),
+                model_id: $("#controlbox_model").val(),
+                nozzle_count: nc.val()
+            }, function (result) {
+                if (result.success) {
+                    window.location.href = '/controlbox.html';
+                } else {
+                    alertify.error("设备编号不能重复，请检查设备编号");
+                }
+            });
+        });
+
+        var ch = $('input.sunzhh');
+        /* 修改分控箱使用状态 */
+        ch.on('ifChecked', function(event){
+            $.post("/disable_controlbox.do", {
+                id: $(event.target).attr('id')
+            }, function (result) {
+                if (result.success) {
+                    window.location.href = '/controlbox.html';
+                }
+            });
+        });
+
+        ch.on('ifUnchecked', function(event){
+            $.post("/enable_controlbox.do", {
+                id: $(event.target).attr('id')
+            }, function (result) {
+                if (result.success) {
+                    window.location.href = '/controlbox.html';
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

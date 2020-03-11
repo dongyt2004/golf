@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Arise Admin Panel" />
+    <meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Themeforest, Bootstrap, C3 Graphs, D3 Graphs, NVD3 Graphs, Admin Skin, Black Admin Dashboard, Grey Admin Dashboard, Dark Admin Dashboard, Simple Admin Dashboard, Simple Admin Theme, Simple Bootstrap Dashboard, " />
+    <meta name="author" content="dongyt" />
+    <title>高尔夫球场中控管理系统</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+
+    <!-- Main CSS -->
+    <link href="css/main.css" rel="stylesheet" media="screen" />
+
+    <!-- Ion Icons -->
+    <link href="fonts/font-awesome.css" rel="stylesheet" />
+
+    <!-- Ion Icons -->
+    <link href="fonts/icomoon/icomoon.css" rel="stylesheet" />
+
+    <!-- Alertify CSS -->
+    <link href="css/alertify/core.css" rel="stylesheet"/>
+    <link href="css/alertify/default.css" rel="stylesheet"/>
+
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="css/datatables/dataTables.bs.min.css"/>
+
+    <!-- iCkeck CSS -->
+    <link href="css/icheck/custom.css" rel="stylesheet" />
+    <link href="css/icheck/skins/all.css" rel="stylesheet" />
+
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .dongyt {
+            margin-right: 10px;
+        }
+        .form-group {
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 定义这两个button不会报错了 -->
+<button class="collapse-menu" style="display: none;"></button>
+<button type="button" id="toggleMenu" class="toggle-menu" style="display: none;"></button>
+
+<fieldset>
+    <legend style="color: #000;">
+        {@ne key=controlbox_no value=""}<span style="color: #32AB52">{controlbox_no}号分控箱的洒水站</span>{:else}<span style="color: red">无分控箱的洒水站</span>{/ne}
+        <div class="btn-group">
+            <a href="#" class="btn btn-info" style="margin-left: 20px;" id="show_nozzle">显示无分控箱的洒水站</a>
+        </div>
+    </legend>
+
+    <!-- Row starts -->
+    <div class="row gutter">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel" id="dongytForm">
+
+                <!-- Row starts -->
+                <div class="row gutter">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="nozzle_no">分控箱编号及名称</label>
+                            <select class="form-control" id="controlbox" name="controlbox">
+{@eq key=controlbox_id value=""}
+{#controlboxes}
+                                <option value="{id}">{no} ({name})</option>
+{/controlboxes}
+{:else}
+                                <option value="{controlbox_id}">{controlbox_no} ({controlbox_name})</option>
+{/eq}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="nozzle_no">洒水站编号</label>
+                            <input id="nozzle_no" class="form-control" name="nozzle_no" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="nozzle_name">洒水站名称</label>
+                            <input id="nozzle_name" class="form-control" name="nozzle_name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="course">球 场</label>
+                            <select class="form-control" id="course" name="course">
+{#courses}
+                                <option value="{id}">{name}</option>
+{/courses}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="area">区 域</label>
+                            <select class="form-control" id="area" name="area">
+{#areas}
+                                <option value="{id}">{name}</option>
+{/areas}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="hole">球洞(0表示无球洞)</label>
+                            <input id="hole" class="form-control" name="hole" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="nozzle_model">型 号</label>
+                            <select class="form-control" id="nozzle_model" name="nozzle_model">
+ {#models}
+                                <option value="{id}">{name}</option>
+{/models}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="shape">形 状</label>
+                            <select class="form-control" id="shape" name="shape">
+{#shapes}
+                                <option value="{id}">{name}</option>
+{/shapes}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="angle">夹 角</label>
+                            <input id="angle" class="form-control" name="angle" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="shot_count">喷头数量</label>
+                            <input id="shot_count" class="form-control" name="shot_count" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="waterfall_rate">降水率</label>
+                            <input id="waterfall_rate" class="form-control" name="waterfall_rate" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="turf">湿度调整%</label>
+                            <select class="form-control" id="turf" name="turf">
+{#turfs}
+                                <option value="{id}">{name} {moisture}%</option>
+{/turfs}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row ends -->
+
+                <div class="row gutter">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="demo-btn-group center-text">
+                            <a href="#" class="btn btn-success dongyt" id="c_nozzle">新增洒水站</a>
+                            <a href="#" class="btn btn-success dongyt" id="u_nozzle">修改洒水站</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Row Ends -->
+
+    <!-- Row starts -->
+    <div class="row gutter">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h4>洒水站列表</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="scrollTable" class="display table table-striped table-bordered table-hover no-margin" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>删 除</th>
+                                <th style="display: none;"></th>
+                                <th>洒水站编号</th>
+                                <th>名 称</th>
+                                <th>球 场</th>
+                                <th style="display: none;"></th>
+                                <th>区 域</th>
+                                <th>球 洞</th>
+                                <th style="display: none;"></th>
+                                <th>型 号</th>
+                                <th style="display: none;"></th>
+                                <th>形 状</th>
+                                <th style="display: none;"></th>
+                                <th>夹 角</th>
+                                <th>喷头数量</th>
+                                <th>降水率</th>
+                                <th>湿度调整%</th>
+                                <th style="display: none;"></th>
+                                <th width="155">设备状态</th>
+                            </tr>
+                            </thead>
+                            <tbody style="cursor: pointer;">
+{#nozzles}
+                            <tr onclick="transfer_nozzle({id})">
+                                <td><a href="javascript:del_nozzle({id})" class="btn btn-danger btn-rounded btn-sm">删 除</a></td>
+                                <td style="display: none;" class="controlbox_id_{id}">{controlbox_id}</td>
+                                <td class="nozzle_no_{id}">{no}</td>
+                                <td class="nozzle_name_{id}">{name}</td>
+                                <td class="course_name_{id}">{course_name}</td>
+                                <td style="display: none;" class="course_id_{id}">{course_id}</td>
+                                <td class="area_name_{id}">{area_name}</td>
+                                <td style="display: none;" class="area_id_{id}">{area_id}</td>
+                                <td class="hole_{id}">{hole}</td>
+                                <td class="nozzle_model_{id}">{nozzle_model}</td>
+                                <td style="display: none;" class="model_id_{id}">{model_id}</td>
+                                <td class="nozzle_shape_{id}">{nozzle_shape}</td>
+                                <td style="display: none;" class="shape_id_{id}">{shape_id}</td>
+                                <td class="angle_{id}">{angle}</td>
+                                <td class="shot_count_{id}">{shot_count}</td>
+                                <td class="waterfall_rate_{id}">{waterfall_rate}</td>
+                                <td class="nozzle_turf_{id}">{nozzle_turf} {moisture}{@ne key=moisture value=""}%{/ne}</td>
+                                <td style="display: none;" class="turf_id_{id}">{turf_id}</td>
+                                <td class="skin skin-line" width="155">
+                                    {@eq key=use_state value="1" type="number"}<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color: #32AB52;">正常</div>{:else}<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color: red;">异常</div>{/eq}
+                                    <div class="skin-section col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <input id="{id}" type="checkbox" {@eq key=use_state value="0" type="number"} checked{/eq}>
+                                        <label>{@eq key=use_state value="1" type="number"}禁用{:else}启用{/eq}</label>
+                                    </div>
+                                </td>
+                            </tr>
+{/nozzles}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row Ends -->
+
+</fieldset>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- jquery ScrollUp JS -->
+<script src="js/scrollup/jquery.scrollUp.js"></script>
+
+<!-- BS Validations -->
+<script src="js/bsvalidator/bootstrapValidator.js"></script>
+<script src="js/bsvalidator/custom-validations.js"></script>
+
+<!-- Notifications JS -->
+<script src="js/alertify/alertify.js"></script>
+<script src="js/alertify/alertify-custom.js"></script>
+
+<!-- Data Tables -->
+<script src="js/datatables/dataTables.min.js"></script>
+<script src="js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="js/datatables/custom-datatables.js"></script>
+
+<!-- iCheck JS -->
+<script src="js/icheck/icheck.min.js"></script>
+<script src="js/icheck/custom.min.js"></script>
+<script src="js/icheck/custom.icheck.js"></script>
+
+<!-- Custom JS -->
+<script src="js/custom.js"></script>
+
+<script type="text/javascript">
+    var transfered_nozzle_id = null;
+    var transfered_nozzle_no = "";
+
+    /* 转移洒水站 */
+    function transfer_nozzle(id) {
+        transfered_nozzle_id = id;
+        transfered_nozzle_no = $('td.nozzle_no_' + id).html();
+        $('#controlbox').val($('td.controlbox_id_' + id).html());
+        $('#nozzle_no').val($('td.nozzle_no_' + id).html());
+        $('#nozzle_name').val($('td.nozzle_name_' + id).html());
+        $('#course').val($('td.course_id_' + id).html());
+        $('#hole').val($('td.hole_' + id).html());
+        $('#area').val($('td.area_id_' + id).html());
+        $('#nozzle_model').val($('td.model_id_' + id).html());
+        $('#shape').val($('td.shape_id_' + id).html());
+        $('#angle').val($('td.angle_' + id).html());
+        $('#shot_count').val($('td.shot_count_' + id).html());
+        $('#waterfall_rate').val($('td.waterfall_rate_' + id).html());
+        $('#turf').val($('td.turf_id_' + id).html());
+    }
+
+    /* 删除洒水站 */
+    function del_nozzle(id) {
+        reset();
+        alertify.confirm("肯定删除吗？", function (e) {
+            if (e) {
+                $.post("/del_nozzle.do", {
+                    id: id
+                }, function (result) {
+                    if (result.success) {
+{@eq key=controlbox_id value=""}
+                        window.location.href = '/nozzle.html?controlbox_id=null&controlbox_no=null';
+{:else}
+                        window.location.href = '/nozzle.html?controlbox_id={controlbox_id}&controlbox_no={controlbox_no}';
+{/eq}
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+    }
+
+    jQuery(function($) {
+        var cn = $("#c_nozzle");
+        var un = $("#u_nozzle");
+
+{@eq key=controlbox_id value=""}
+        cn.hide();
+        un.html("分配洒水站");
+{:else}
+        cn.show();
+        un.html("修改洒水站");
+{/eq}
+        /* 新增洒水站 */
+        cn.click(function() {
+            if ($("#nozzle_no").val() === '') {
+                alertify.error("洒水站编号不能为空");
+                return;
+            }
+            if ($("#nozzle_name").val() === '') {
+                alertify.error("洒水站名称不能为空");
+                return;
+            }
+            if ($("#hole").val() === '') {
+                alertify.error("球洞不能为空");
+                return;
+            }
+            if ($("#turf").val() === null) {
+                alertify.error("请选择湿度调整%");
+                return;
+            }
+            $.post("/add_nozzle.do", {
+                controlbox_id: $("#controlbox").val(),
+                no: $("#nozzle_no").val(),
+                name: $("#nozzle_name").val(),
+                course_id: $("#course").val(),
+                hole: $("#hole").val(),
+                area_id: $("#area").val(),
+                model_id: $("#nozzle_model").val(),
+                shape_id: $("#shape").val(),
+                angle: ($("#angle").val() === "") ? JSON.stringify(null) : $("#angle").val(),
+                shot_count: ($("#shot_count").val() === "") ? JSON.stringify(null) : $("#shot_count").val(),
+                waterfall_rate: ($("#waterfall_rate").val() === "") ? JSON.stringify(null) : $("#waterfall_rate").val(),
+                turf_id: $("#turf").val()
+            }, function (result) {
+                if (result.success) {
+{@eq key=controlbox_id value=""}
+                    window.location.href = '/nozzle.html?controlbox_id=null&controlbox_no=null';
+{:else}
+                    window.location.href = '/nozzle.html?controlbox_id={controlbox_id}&controlbox_no={controlbox_no}';
+{/eq}
+                } else {
+                    alertify.error("洒水站编号不能重复，请检查洒水站编号");
+                }
+            });
+        });
+
+        /* 修改洒水站 */
+        un.click(function() {
+            if (transfered_nozzle_id === null) {
+                alertify.error("请先单击行，选择要修改的洒水站");
+                return;
+            }
+            if ($("#controlbox").val() === null) {
+                alertify.error("请选择分控箱编号");
+                return;
+            }
+            if ($("#nozzle_no").val() === '') {
+                alertify.error("洒水站编号不能为空");
+                return;
+            }
+            if ($("#nozzle_name").val() === '') {
+                alertify.error("洒水站名称不能为空");
+                return;
+            }
+            if ($("#hole").val() === '') {
+                alertify.error("球洞不能为空");
+                return;
+            }
+            if ($("#turf").val() === null) {
+                alertify.error("请选择湿度调整%");
+                return;
+            }
+{@eq key=controlbox_id value=""}
+            $.post("/distribute_nozzle.do", {
+                id: transfered_nozzle_id,
+                controlbox_id: $("#controlbox").val(),
+                no: $("#nozzle_no").val(),
+                name: $("#nozzle_name").val(),
+                course_id: $("#course").val(),
+                hole: $("#hole").val(),
+                area_id: $("#area").val(),
+                model_id: $("#nozzle_model").val(),
+                shape_id: $("#shape").val(),
+                angle: ($("#angle").val() === "") ? JSON.stringify(null) : $("#angle").val(),
+                shot_count: ($("#shot_count").val() === "") ? JSON.stringify(null) : $("#shot_count").val(),
+                waterfall_rate: ($("#waterfall_rate").val() === "") ? JSON.stringify(null) : $("#waterfall_rate").val(),
+                turf_id: $("#turf").val()
+            }, function (result) {
+                if (result.success) {
+                    window.location.href = '/nozzle.html?controlbox_id=null&controlbox_no=null';
+                } else {
+                    alertify.error("洒水站编号不能重复，请检查洒水站编号");
+                }
+            });
+        });
+{:else}
+            var update_no = false;
+            if (transfered_nozzle_no !== $("#nozzle_no").val()) {
+                update_no = true;
+            }
+            $.post("/update_nozzle.do", {
+                update_no: JSON.stringify(update_no),
+                id: transfered_nozzle_id,
+                controlbox_id: $("#controlbox").val(),
+                no: $("#nozzle_no").val(),
+                name: $("#nozzle_name").val(),
+                course_id: $("#course").val(),
+                hole: $("#hole").val(),
+                area_id: $("#area").val(),
+                model_id: $("#nozzle_model").val(),
+                shape_id: $("#shape").val(),
+                angle: ($("#angle").val() === "") ? JSON.stringify(null) : $("#angle").val(),
+                shot_count: ($("#shot_count").val() === "") ? JSON.stringify(null) : $("#shot_count").val(),
+                waterfall_rate: ($("#waterfall_rate").val() === "") ? JSON.stringify(null) : $("#waterfall_rate").val(),
+                turf_id: $("#turf").val()
+            }, function (result) {
+                if (result.success) {
+                    window.location.href = '/nozzle.html?controlbox_id={controlbox_id}&controlbox_no={controlbox_no}';
+                } else {
+                    alertify.error("洒水站编号不能重复，请检查洒水站编号");
+                }
+            });
+        });
+{/eq}
+
+        /* 修改洒水站使用状态 */
+        $('input').on('ifChecked', function(event) {
+            $.post("/disable_nozzle.do", {
+                id: $(event.target).attr('id')
+            }, function (result) {
+                if (result.success) {
+{@eq key=controlbox_id value=""}
+                    window.location.href = '/nozzle.html?controlbox_id=null&controlbox_no=null';
+{:else}
+                    window.location.href = '/nozzle.html?controlbox_id={controlbox_id}&controlbox_no={controlbox_no}';
+{/eq}
+                }
+            });
+        });
+
+        $('input').on('ifUnchecked', function(event) {
+            $.post("/enable_nozzle.do", {
+                id: $(event.target).attr('id')
+            }, function (result) {
+                if (result.success) {
+{@eq key=controlbox_id value=""}
+                    window.location.href = '/nozzle.html?controlbox_id=null&controlbox_no=null';
+{:else}
+                    window.location.href = '/nozzle.html?controlbox_id={controlbox_id}&controlbox_no={controlbox_no}';
+{/eq}
+                }
+            });
+        });
+
+        /* 显示无分控箱控制的洒水站 */
+        $("#show_nozzle").click(function() {
+            window.location.href = '/nozzle.html?controlbox_id=null&controlbox_no=null';
+        });
+
+        reinitIframe();
+    });
+
+    window.onresize = function () {
+        reinitIframe();
+    };
+
+    function reinitIframe() {
+        parent.document.getElementById('myFrame').height = document.body.scrollHeight || document.documentElement.scrollHeight;
+    }
+</script>
+</body>
+</html>
