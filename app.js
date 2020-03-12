@@ -72,14 +72,14 @@ log4js.configure({
         access: {type: 'dateFile', filename: 'log/access.log', daysToKeep: 7, keepFileExt: true,
             layout: {
                 type: 'pattern',
-                pattern: '%d{yyyy-MM-dd hh:mm:ss} [%p] - %m'
+                pattern: '%d{yyyy-MM-dd hh:mm:ss} [%p] %h - %m'
             }
         },
         // 本地存储日志
         local: {type: 'dateFile', filename: 'log/app.log', daysToKeep: 7, keepFileExt: true,
             layout: {
                 type: 'pattern',
-                pattern: '%d{yyyy-MM-dd hh:mm:ss} [%p] %x{real_name} - %m',
+                pattern: '%d{yyyy-MM-dd hh:mm:ss} [%p] %h %x{real_name} - %m',
                 tokens: {
                     real_name: function(log_event) {
                         return real_name;
