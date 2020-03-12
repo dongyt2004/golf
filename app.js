@@ -1420,7 +1420,7 @@ app.use(function (req, res) {
 });
 
 var server = http.createServer(app);
-server.listen(8080, '0.0.0.0');
+server.listen(6000, '0.0.0.0');
 process.on('SIGINT', function() {
     log4js.shutdown(function() {
         clearInterval(myInterval);
