@@ -454,7 +454,7 @@ app.post("/save_plan.do", function (req, res) {
                                 plugin: 'urlplug',
                                 params: {
                                     method: 'post',
-                                    url: 'http://' + process.env.SCHEDULED_SERVICE_ID + '/irrigate/' + plans[0].id + '/' + req.body.involved_nozzle + '/' + howlong,
+                                    url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/irrigate/' + plans[0].id + '/' + req.body.involved_nozzle + '/' + howlong,
                                     success_match: '1',
                                     error_match: '0'
                                 },
@@ -497,7 +497,7 @@ app.post("/save_plan.do", function (req, res) {
                             plugin: 'urlplug',
                             params: {
                                 method: 'post',
-                                url: 'http://' + process.env.SCHEDULED_SERVICE_ID + '/irrigate/' + plans[0].id + '/' + req.body.involved_nozzle + '/' + howlong,
+                                url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/irrigate/' + plans[0].id + '/' + req.body.involved_nozzle + '/' + howlong,
                                 success_match: '1',
                                 error_match: '0'
                             },

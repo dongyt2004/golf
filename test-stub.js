@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './app.env' });
+require('dotenv').config({ path: './test-stub.env' });
 const db = require('./db');
 const mqtt = require('mqtt');
 const numeral = require('numeral');
