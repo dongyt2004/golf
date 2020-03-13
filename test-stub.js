@@ -10,7 +10,7 @@ var interval_handles = {};
 var nozzle_state_dict = {};
 var mqtt_clients = {};
 // 模拟所有分控箱
-db.exec("select distinct(no) from controlbox where no<>1 order by no", [], function (controlboxes) {
+db.exec("select distinct(no) from controlbox order by no", [], function (controlboxes) {
     controlboxes.forEach(function (controlbox, index, arr) {
         var controlbox_no = numeral(controlbox.no).format('000');
         nozzle_state_dict[controlbox_no] = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
@@ -39,7 +39,7 @@ function random(lowerValue, upperValue) {
     return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
 }
 var myInterval = setInterval(function() {
-    db.exec("select distinct(no) from controlbox where no<>1 order by no", [], function (controlboxes) {
+    db.exec("select distinct(no) from controlbox order by no", [], function (controlboxes) {
         controlboxes.forEach(function (controlbox, index, arr) {
             var controlbox_no = numeral(controlbox.no).format('000');
             if (!(controlbox_no in nozzle_state_dict)) {
