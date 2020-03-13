@@ -145,7 +145,8 @@ mqtt_client.on("message", function (topic, message) {
     if (check_crc(msg)) {
         var commands = msg.split("|");
         if (commands[0] === process.env.COMMAND_NOZZLE_STATE) {
-            if (commands[3] === "1") {  // 远程控制模式，本地控制模式下忽略次命令
+            if (commands[3] === "1") {  // 远程控制模式，本地控制模式下忽略此命令
+                // 必须是幂等操作
                 var controlbox_no = parseInt(commands[1]);
                 db.exec("update controlbox set use_state=1,last_recv_time=? where no=?", [current_time, controlbox_no], function (results) {
                     var up_states = [];
