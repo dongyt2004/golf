@@ -182,20 +182,6 @@ function check_crc(message) {
     var crc = message.substring(message.length - 4);
     return left_pad(crc16(str).toString(16), 4) === crc.toUpperCase();
 }
-var myInterval = setInterval(function() {
-    db.exec("select id,last_recv_time from controlbox", [], function (controlboxes) {
-        for(var i=0; i<controlboxes.length; i++) {
-            if (controlboxes[i].last_recv_time !== null) {
-                var diff = moment().diff(moment(controlboxes[i].last_recv_time), 'minute');
-                if (diff >= 5) {
-                    db.exec("update controlbox set use_state=0 where id=?", [controlboxes[i].id]);
-                } else {
-                    db.exec("update controlbox set use_state=1 where id=?", [controlboxes[i].id]);
-                }
-            }
-        }
-    });
-}, 60000);
 /** ----------------------------------------------------------------------------- 供 Cronicle HTTP Request 插 件 调 用 的 操 作 ----------------------------------------------------------------------------------------------- **/
 // 转储2天前的task的操作
 app.get("/dump_task", function (req, res) {
@@ -1424,7 +1410,6 @@ var server = http.createServer(app);
 server.listen(6000, '0.0.0.0');
 process.on('SIGINT', function() {
     log4js.shutdown(function() {
-        clearInterval(myInterval);
         mqtt_client.end();
         console.log('%s 应用退出', moment().format("YYYY-MM-DD HH:mm:ss"));
         process.exit();
