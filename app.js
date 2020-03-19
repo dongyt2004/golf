@@ -262,7 +262,7 @@ function left_pad(num, n) {
 app.post("/login.do", function (req, res) {
     db.exec("select id,name,password,real_name from user where name=? and password=?", [req.body.username, req.body.password], function (users) {
         if (users.length === 1) {  // 登陆成功
-            var fromIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip;
+            var fromIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip || req.connection.socket.remoteAddress;
             db.exec("update user set login_time=?, from_ip=? where name=? and password=?", [moment().format("YYYY-MM-DD HH:mm:ss"), fromIp, req.body.username, req.body.password], function () {
                 req.session.click_count = 0;
                 req.session.user = users[0];

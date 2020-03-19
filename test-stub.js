@@ -106,13 +106,13 @@ function recv_msg(client_id, message) {
                         setTimeout(function (controlbox_no, nozzle_no) {
                             var pos = (nozzle_no - 1) * 2;
                             var state = replacepos(nozzle_state_dict[controlbox_no], pos, '00');
+                            nozzle_state_dict[controlbox_no] = state;
                             var command = process.env.COMMAND_NOZZLE_STATE + "|" + controlbox_no + "|" + state + "|1|";
                             command = command + left_pad(crc16(command).toString(16), 4);
                             mqtt_clients[controlbox_no].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: 1}, function (err) {
                                 if (err) {
                                     console.log("[" + current_time + "] " + controlbox_no + "号箱上送状态指令出错，连接broker失败");
                                 } else {
-                                    nozzle_state_dict[controlbox_no] = state;
                                     console.log("[" + current_time + "] " + controlbox_no + "号箱洒完水上送状态");
                                 }
                             });
