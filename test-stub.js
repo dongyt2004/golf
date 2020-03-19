@@ -4,7 +4,7 @@ const mqtt = require('mqtt');
 const numeral = require('numeral');
 const moment = require("moment");
 const crc16 = require('crc').crc16modbus;
-const MQTT_BOTTOMUP_TOPIC = process.env.MQTT_BOTTOMUP_TOPIC.substring(process.env.MQTT_BOTTOMUP_TOPIC.indexOf("/") + 1);
+const MQTT_BOTTOMUP_TOPIC = process.env.MQTT_BOTTOMUP_TOPIC;
 
 var interval_handles = {};
 var nozzle_state_dict = {};
