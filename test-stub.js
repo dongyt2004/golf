@@ -14,7 +14,7 @@ db.exec("select distinct(no) from controlbox order by no", [], function (control
     controlboxes.forEach(function (controlbox, index, arr) {
         var controlbox_no = numeral(controlbox.no).format('000');
         nozzle_state_dict[controlbox_no] = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-        var mqtt_client = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: controlbox_no, clean: false});
+        var mqtt_client = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER + "-" + controlbox_no, clean: false});
         mqtt_client.subscribe(process.env.MQTT_TOPDOWN_TOPIC, {qos: 1});
         mqtt_client.on("message", function (topic, message) {
             recv_msg(controlbox_no, message);

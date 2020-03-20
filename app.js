@@ -13,7 +13,7 @@ const moment = require("moment");
 const methodOverride = require('method-override');
 const session = require('express-session');
 const mqtt = require('mqtt');
-const mqtt_client  = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_CLIENT_ID, clean: false});
+const mqtt_client  = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER, clean: false});
 mqtt_client.on('connect', function () {
     mqtt_client.subscribe(process.env.MQTT_BOTTOMUP_TOPIC, {qos: 1});
 });
