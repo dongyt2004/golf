@@ -124,6 +124,9 @@
                     <a href='/controlbox.html'>控制系统</a>
                 </li>
                 <li>
+                    <a href='/task.html'>洒水任务</a>
+                </li>
+                <li>
                     <a href='/pipe.html'>管网设置</a>
                 </li>
                 <li>
@@ -187,7 +190,7 @@
 
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 panel" style="box-shadow: 0 0 0 rgba(0,0,0,.2), 0 0 0 rgba(0,0,0,.1); webkit-box-shadow: 0 0 0 rgba(0,0,0,.2), 0 0 0 rgba(0,0,0,.1); margin-bottom: 0px; padding-bottom: 0px;">
                             <div class="panel form-group dongyk" style="box-shadow: 0 0 0 rgba(0,0,0,.2), 0 0 0 rgba(0,0,0,.1); webkit-box-shadow: 0 0 0 rgba(0,0,0,.2), 0 0 0 rgba(0,0,0,.1);">
-                                <a href="#" class="btn btn-warning dongyt" id="stop_all">全部停止</a>
+                                <a href="#" class="btn btn-warning dongyt" id="stop_all" style="color: red;">全部停止</a>
                                 <a href="#" class="btn btn-info dongyt" id="refresh">刷 新</a>
                             </div>
                         </div>

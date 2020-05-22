@@ -20,10 +20,6 @@
     <!-- Ion Icons -->
     <link href="fonts/icomoon/icomoon.css" rel="stylesheet" />
 
-    <!-- Alertify CSS -->
-    <link href="css/alertify/core.css" rel="stylesheet"/>
-    <link href="css/alertify/default.css" rel="stylesheet"/>
-
     <link href="css/metroStyle/metroStyle.css" rel="stylesheet" type="text/css"/>
 
     <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -65,8 +61,11 @@
 <!-- Row Ends -->
 
 <div class="row gutter">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="panel">
+            <div class="panel-heading">
+                <h4>待选洒水站</h4>
+            </div>
             <ul id="nozzletree" class="ztree"></ul>
         </div>
     </div>
@@ -100,10 +99,6 @@
 <!-- jquery ScrollUp JS -->
 <script src="js/scrollup/jquery.scrollUp.js"></script>
 
-<!-- Notifications JS -->
-<script src="js/alertify/alertify.js"></script>
-<script src="js/alertify/alertify-custom.js"></script>
-
 <!-- Custom JS -->
 <script src="js/custom.js"></script>
 
@@ -136,8 +131,8 @@
             onDrop: onDrop,
             beforeDrag: beforeDrag,
             beforeDrop: beforeDrop,
-            beforeCollapse: beforeCollapse,
-            beforeExpand: beforeExpand
+            onCollapse: onCollapse,
+            onExpand: onExpand
         }
     };
 
@@ -155,7 +150,7 @@
     }
 
     function beforeDrag(treeId, treeNodes) {
-        return
+        return treeNodes[0].id.substr(0, 1) === 't';
     }
 
     function beforeDrop(treeId, treeNodes, targetNode, moveType) {
@@ -172,11 +167,11 @@
         }
     }
 
-    function beforeCollapse(event, treeId, treeNode) {
+    function onCollapse(event, treeId, treeNode) {
         reinitIframe();
     }
 
-    function beforeExpand(event, treeId, treeNode) {
+    function onExpand(event, treeId, treeNode) {
         reinitIframe();
     }
 
@@ -197,19 +192,20 @@
                 }
             }
             if (nozzleNodes.length === 0) {
-                alertify.error("请从左边选择合适的洒水站");
+                parent.alertify.error("请从左边选择合适的洒水站");
                 return;
             }
             for (var j=0; j<nozzleNodes.length; j++) {
                 $('#selected_nozzle').append('<a onclick="click_selected_nozzle(\'' + nozzleNodes[j].id + '\')" id="' + nozzleNodes[j].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + nozzleNodes[j].parent_id + '" data-icon="' + nozzleNodes[j].icon + '">' + nozzleNodes[j].name + '</a>');
                 $.fn.zTree.getZTreeObj("nozzletree").removeNode(nozzleNodes[j]);
             }
+            $.fn.zTree.getZTreeObj("nozzletree").checkAllNodes(false);
             reinitIframe();
         });
 
         $("#to_tree").click(function() {
             if (selected_nozzle_id === '') {
-                alertify.error("请从右边选择一个洒水站");
+                parent.alertify.error("请从右边选择一个洒水站");
                 return;
             }
             var selectedElement = $("#" + selected_nozzle_id);
@@ -224,15 +220,15 @@
 
         $("#send").click(function() {
             if ($("#hour", window.parent.document).val() === '') {
-                alertify.error("灌溉时长不能为空");
+                parent.alertify.error("灌溉时长不能为空");
                 return;
             }
             if ($("#minute", window.parent.document).val() === '') {
-                alertify.error("灌溉时长不能为空");
+                parent.alertify.error("灌溉时长不能为空");
                 return;
             }
             if ($("#selected_nozzle").children("a").length === 0) {
-                alertify.error("请选择洒水站");
+                parent.alertify.error("请选择洒水站");
                 return;
             }
             var arr = document.getElementById("selected_nozzle").childNodes;
@@ -249,7 +245,7 @@
                     location.reload(true);
                     window.parent.document.getElementById('myFrame_controlbox').contentWindow.location.reload(true);
                 } else {
-                    alertify.error("网络原因，发送失败");
+                    parent.alertify.error("网络原因，发送失败");
                 }
             });
         });
@@ -262,7 +258,7 @@
     };
 
     function reinitIframe() {
-        setTimeout("parent.document.getElementById('myFrame_area').height = document.body.scrollHeight || document.documentElement.scrollHeight;", 100);
+        parent.document.getElementById('myFrame_area').height = document.body.scrollHeight || document.documentElement.scrollHeight;
     }
 </script>
 </body>

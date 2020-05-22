@@ -20,6 +20,14 @@
     <!-- Ion Icons -->
     <link href="fonts/icomoon/icomoon.css" rel="stylesheet"/>
 
+    <!-- Calendar CSS -->
+    <link href="css/calendar/fullcalendar.min.css" rel="stylesheet" />
+    <link href="css/calendar/custom-calendar.css" rel="stylesheet" />
+
+    <!-- Alertify CSS -->
+    <link href="css/alertify/core.css" rel="stylesheet">
+    <link href="css/alertify/default.css" rel="stylesheet">
+
     <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -30,10 +38,21 @@
         .dongyt {
             margin-right: 10px;
         }
-        @media(max-width:767px) {
-            .dongyk {
-                text-align: center;
-            }
+        .info-label {
+            position: absolute;
+            top: -9px;
+            right: -9px;
+            color: #fff;
+            font-size: 9px;
+            text-align: center;
+            line-height: 14px;
+            width: 18px;
+            height: 18px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            border: 2px solid #FFF;
+            z-index: 9999;
         }
     </style>
 </head>
@@ -120,6 +139,9 @@
                     <a href='/controlbox.html'>控制系统</a>
                 </li>
                 <li>
+                    <a href='/task.html'>洒水任务</a>
+                </li>
+                <li>
                     <a href='/pipe.html'>管网设置</a>
                 </li>
                 <li>
@@ -167,29 +189,8 @@
         <div class="row gutter">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="panel">
-
-                    <!-- Row starts -->
-                    <div class="row gutter">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="form-group">
-                                <label for="course">选择球场</label>
-                                <select class="form-control" id="course" name="course" onchange="change_course()">
-{#courses}
-                                    <option value="{id}">{name}</option>
-{/courses}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 panel" style="box-shadow: 0 0 0 rgba(0,0,0,.2), 0 0 0 rgba(0,0,0,.1); webkit-box-shadow: 0 0 0 rgba(0,0,0,.2), 0 0 0 rgba(0,0,0,.1); margin-bottom: 0px; padding-bottom: 0px;">
-                            <div class="panel form-group dongyk" style="box-shadow: 0 0 0 rgba(0,0,0,.2), 0 0 0 rgba(0,0,0,.1); webkit-box-shadow: 0 0 0 rgba(0,0,0,.2), 0 0 0 rgba(0,0,0,.1);">
-                                <a href="#" class="btn btn-warning dongyt" id="cancel_all">取消所有洒水计划</a>
-                                <a href="#" class="btn btn-info dongyt" id="refresh">刷 新</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Row ends -->
-
+                    <a href="#" class="btn btn-warning dongyt" id="cancel_all" style="color: red;">取消所有洒水计划</a>
+                    <a href="#" class="btn btn-success dongyt" id="save">保 存</a>
                 </div>
             </div>
         </div>
@@ -197,8 +198,19 @@
 
         <!-- Row starts -->
         <div class="row gutter">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <iframe id="myFrame" src="/plan_detail.html?course_id={first_course_id}" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%"  vspale="0" style="overflow:visible;"></iframe>
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <div id="external-events" class="external-events">
+                    <div class="created-events">
+                        <h4 class="event-title">洒水任务：</h4>
+{#tasks}
+                        <div class="fc-event {bg-color}" data-task_id="{id}" data-bg="{bg-color}" data-how_long="{how_long}">{name}<span class="icon-eye" onclick="view_task({id});" style="float: right; cursor: pointer; margin-right: 10px;"></span></div>
+{/tasks}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
+                <div id="calendar" class="fc-calendar"></div>
             </div>
         </div>
         <!-- Row Ends -->
@@ -224,16 +236,58 @@
 <!-- jquery ScrollUp JS -->
 <script src="js/scrollup/jquery.scrollUp.js"></script>
 
+<!-- Moment JS -->
+<script src="js/moment.min.js"></script>
+
+<!--Full Calendar-->
+<script src="js/calendar/fullcalendar.min.js"></script>
+<script src="js/calendar/custom-calendar.js"></script>
+<script src="js/calendar/zh-cn.js"></script>
+
+<!-- jQuery UI JS -->
+<script src="js/jquery-ui.min.js"></script>
+
+<!-- Notifications JS -->
+<script src="js/alertify/alertify.js"></script>
+<script src="js/alertify/alertify-custom.js"></script>
+
 <!-- Custom JS -->
 <script src="js/custom.js"></script>
 
 <script type="text/javascript">
-    function change_course() {
-        document.getElementById('myFrame').contentWindow.location.reload(true);
-        $('#myFrame').attr('src', '/plan_detail.html?course_id=' + $("#course").val());
+    var delExistingPlanIds = [];
+
+    /* 查看洒水任务 */
+    function view_task(task_id) {
+        window.open("/task.html?focus=" + task_id);
+    }
+
+    /* 删除洒水计划 */
+    function del_plan(plan_id) {
+        if (plan_id.indexOf('-') < 0) { /* 是已有计划 */
+            delExistingPlanIds.push(plan_id);
+        }
+        $('#calendar').fullCalendar("removeEvents", plan_id);
     }
 
     jQuery(function($) {
+        var date;
+        var plan;
+{#plans}
+        date = new Date("{start_time}");
+        plan = {
+            id: '{id}',
+            task_id: '{task_id}',
+            durationEditable: false,
+            title: '{name}',
+            start: date,
+            end: new Date(date.getTime() + {how_long} * 1000),
+            className: '{bg-color}',
+            stick: true
+        };
+        $('#calendar').fullCalendar('renderEvent', plan, true);
+{/plans}
+
         /* 取消所有洒水计划 */
         $("#cancel_all").click(function() {
             $.post("/cancel_all.do", {
@@ -244,9 +298,25 @@
             });
         });
 
-        /* 刷新 */
-        $("#refresh").click(function() {
-            document.getElementById('myFrame').contentWindow.location.reload(true);
+        /* 保存洒水计划 */
+        $("#save").click(function () {
+            var plans = $('#calendar').fullCalendar('clientEvents');
+            var plan_ids = [], task_ids = [], start_times = [];
+            for(var i=0; i<plans.length; i++) {
+                plan_ids.push(plans[i].id);
+                task_ids.push(plans[i].task_id);
+                start_times.push(plans[i].start.format("YYYY-MM-DD HH:mm:ss"));
+            }
+            $.post("/save_plan.do", {
+                plan_ids: JSON.stringify(plan_ids),
+                task_ids: JSON.stringify(task_ids),
+                start_times: JSON.stringify(start_times),
+                delExistingPlanIds: JSON.stringify(delExistingPlanIds)
+            }, function (result) {
+                if (result.success) {
+                    location.reload(true);
+                }
+            });
         });
     });
 </script>

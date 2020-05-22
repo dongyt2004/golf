@@ -20,10 +20,6 @@
     <!-- Ion Icons -->
     <link href="fonts/icomoon/icomoon.css" rel="stylesheet" />
 
-    <!-- Alertify CSS -->
-    <link href="css/alertify/core.css" rel="stylesheet"/>
-    <link href="css/alertify/default.css" rel="stylesheet"/>
-
     <!-- Data Tables -->
     <link rel="stylesheet" href="css/datatables/dataTables.bs.min.css"/>
 
@@ -272,10 +268,6 @@
 <script src="js/bsvalidator/bootstrapValidator.js"></script>
 <script src="js/bsvalidator/custom-validations.js"></script>
 
-<!-- Notifications JS -->
-<script src="js/alertify/alertify.js"></script>
-<script src="js/alertify/alertify-custom.js"></script>
-
 <!-- Data Tables -->
 <script src="js/datatables/dataTables.min.js"></script>
 <script src="js/datatables/dataTables.bootstrap.min.js"></script>
@@ -313,8 +305,8 @@
 
     /* 删除洒水站 */
     function del_nozzle(id) {
-        reset();
-        alertify.confirm("肯定删除吗？", function (e) {
+        parent.reset();
+        parent.alertify.confirm("肯定删除吗？", function (e) {
             if (e) {
                 $.post("/del_nozzle.do", {
                     id: id
@@ -347,19 +339,19 @@
         /* 新增洒水站 */
         cn.click(function() {
             if ($("#nozzle_no").val() === '') {
-                alertify.error("洒水站编号不能为空");
+                parent.alertify.error("洒水站编号不能为空");
                 return;
             }
             if ($("#nozzle_name").val() === '') {
-                alertify.error("洒水站名称不能为空");
+                parent.alertify.error("洒水站名称不能为空");
                 return;
             }
             if ($("#hole").val() === '') {
-                alertify.error("球洞不能为空");
+                parent.alertify.error("球洞不能为空");
                 return;
             }
             if ($("#turf").val() === null) {
-                alertify.error("请选择湿度调整%");
+                parent.alertify.error("请选择湿度调整%");
                 return;
             }
             $.post("/add_nozzle.do", {
@@ -383,7 +375,7 @@
                     window.location.href = '/nozzle.html?controlbox_id={controlbox_id}&controlbox_no={controlbox_no}';
 {/eq}
                 } else {
-                    alertify.error("洒水站编号不能重复，请检查洒水站编号");
+                    parent.alertify.error("洒水站编号不能重复，请检查洒水站编号");
                 }
             });
         });
@@ -391,27 +383,27 @@
         /* 修改洒水站 */
         un.click(function() {
             if (transfered_nozzle_id === null) {
-                alertify.error("请先单击行，选择要修改的洒水站");
+                parent.alertify.error("请先单击行，选择要修改的洒水站");
                 return;
             }
             if ($("#controlbox").val() === null) {
-                alertify.error("请选择分控箱编号");
+                parent.alertify.error("请选择分控箱编号");
                 return;
             }
             if ($("#nozzle_no").val() === '') {
-                alertify.error("洒水站编号不能为空");
+                parent.alertify.error("洒水站编号不能为空");
                 return;
             }
             if ($("#nozzle_name").val() === '') {
-                alertify.error("洒水站名称不能为空");
+                parent.alertify.error("洒水站名称不能为空");
                 return;
             }
             if ($("#hole").val() === '') {
-                alertify.error("球洞不能为空");
+                parent.alertify.error("球洞不能为空");
                 return;
             }
             if ($("#turf").val() === null) {
-                alertify.error("请选择湿度调整%");
+                parent.alertify.error("请选择湿度调整%");
                 return;
             }
 {@eq key=controlbox_id value=""}
@@ -433,7 +425,7 @@
                 if (result.success) {
                     window.location.href = '/nozzle.html?controlbox_id=null&controlbox_no=null';
                 } else {
-                    alertify.error("洒水站编号不能重复，请检查洒水站编号");
+                    parent.alertify.error("洒水站编号不能重复，请检查洒水站编号");
                 }
             });
         });
@@ -461,7 +453,7 @@
                 if (result.success) {
                     window.location.href = '/nozzle.html?controlbox_id={controlbox_id}&controlbox_no={controlbox_no}';
                 } else {
-                    alertify.error("洒水站编号不能重复，请检查洒水站编号");
+                    parent.alertify.error("洒水站编号不能重复，请检查洒水站编号");
                 }
             });
         });

@@ -158,7 +158,7 @@ mqtt_client.on("message", function (topic, message) {
                             if (up_states[nozzles[i].no] !== nozzles[i].state) {
                                 if (up_states[nozzles[i].no] === 0) {
                                     db.exec("update nozzle set state=0 where id=?", [nozzles[i].id]);
-                                    db.exec("update task set end_time=? where nozzle_id=? and start_time<? and end_time is null", [current_time, nozzles[i].id, current_time]);
+                                    db.exec("update job set end_time=? where nozzle_id=? and start_time<? and end_time is null", [current_time, nozzles[i].id, current_time]);
                                 } else {
                                     db.exec("update nozzle set state=1,use_state=1 where id=?", [nozzles[i].id]);
                                 }
@@ -183,16 +183,96 @@ function check_crc(message) {
     return left_pad(crc16(str).toString(16), 4) === crc.toUpperCase();
 }
 /** ----------------------------------------------------------------------------- 供 Cronicle HTTP Request 插 件 调 用 的 操 作 ----------------------------------------------------------------------------------------------- **/
-// 转储2天前的task的操作
-app.get("/dump_task", function (req, res) {
+// 转储2天前的job的操作
+app.get("/dump_job", function (req, res) {
     var time = moment().subtract(2, 'days').format("YYYY-MM-DD HH:mm:ss");
-    db.exec("insert into task_dump select * from task where start_time<=?", [time], function (results) {
-        db.exec("delete from task where start_time<=?", [time], function (results) {
+    db.exec("insert into job_dump select * from job where start_time<=?", [time], function (results) {
+        db.exec("delete from job where start_time<=?", [time], function (results) {
             if (logger.isInfoEnabled()) {
                 logger.addContext('real_name', real_name);
-                logger.info("每天一次，转储%s之前的任务", time);
+                logger.info("每天一次，转储%s之前的job", time);
             }
             res.end("1");
+        });
+    });
+});
+// 洒水计划预处理操作
+app.post("/preprocess/:plan_id", function (req, res) {
+    db.exec("select p.start_time,s.how_long,s.involved_nozzle from plan p join task t on p.task_id=t.id join step s on s.task_id=t.id and p.id=? order by s.id", [req.params.plan_id], function (steps) {
+        if (steps.length > 0) {
+            steps[0].start_time = moment(steps[0].start_time).format("YYYY-MM-DD HH:mm:ss");
+        }
+        for(var i=1; i<steps.length; i++) {
+            steps[i].start_time = moment(steps[i-1].start_time).clone().add(steps[i-1].how_long, "seconds").add(process.env.EVENT_STEP_INTERVAL_SECONDS, "seconds").format("YYYY-MM-DD HH:mm:ss");
+        }
+        eachAsync(steps, function(step, index, done) {
+            var step_no = index + 1;
+            scheduler.getEvent({
+                title: "plan" + req.params.plan_id + "-step" + step_no
+            }).then(function(data) { // 有这个job，则删除
+                scheduler.deleteEvent({
+                    id: data.event.id
+                }).then(function() {
+                    scheduler.createEvent({
+                        title: "plan" + req.params.plan_id + "-step" + step_no,
+                        catch_up: 1,
+                        enabled: 1,
+                        category: 'general',
+                        target: 'allgrp',
+                        algo: 'round_robin',
+                        plugin: 'urlplug',
+                        params: {
+                            method: 'post',
+                            url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/irrigate/' + req.params.plan_id + '/' + step.involved_nozzle + '/' + step.how_long,
+                            success_match: '1',
+                            error_match: '0'
+                        },
+                        retries: 3,
+                        retry_delay: 30,
+                        timing: getFutureTiming(step.start_time),
+                        timezone: 'Asia/Shanghai'
+                    }).then(function() {
+                        done();
+                    }).catch(function(err) {
+                        console.log(err.code + ":" + err.message);
+                        done(err.code + ":" + err.message);
+                    });
+                }).catch(function(err) {
+                    console.log(err.code + ":" + err.message);
+                    done(err.code + ":" + err.message);
+                });
+            }).catch(function(err) {
+                scheduler.createEvent({
+                    title: "plan" + req.params.plan_id + "-step" + step_no,
+                    catch_up: 1,
+                    enabled: 1,
+                    category: 'general',
+                    target: 'allgrp',
+                    algo: 'round_robin',
+                    plugin: 'urlplug',
+                    params: {
+                        method: 'post',
+                        url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/irrigate/' + req.params.plan_id + '/' + step.involved_nozzle + '/' + step.how_long,
+                        success_match: '1',
+                        error_match: '0'
+                    },
+                    retries: 3,
+                    retry_delay: 30,
+                    timing: getFutureTiming(step.start_time),
+                    timezone: 'Asia/Shanghai'
+                }).then(function() {
+                    done();
+                }).catch(function(err) {
+                    console.log(err.code + ":" + err.message);
+                    done(err.code + ":" + err.message);
+                });
+            });
+        }, function(error) {
+            if (error) {
+                res.end("0");
+            } else {
+                res.end("1");
+            }
         });
     });
 });
@@ -223,7 +303,7 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
                     if (!err) {
-                        db.exec("insert into task(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
+                        db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
                     } else {
                         res.end("0");
                     }
@@ -240,7 +320,7 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
         command = command + left_pad(crc16(command).toString(16), 4);
         mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
             if (!err) {
-                db.exec("insert into task(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function(results) {
+                db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function(results) {
                     res.end("1");
                 });
             } else {
@@ -339,7 +419,7 @@ app.post("/send.do", function (req, res) {
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
                     if (!err) {
-                        db.exec("insert into task(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
+                        db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
                     } else {
                         res.json({failure: true});
                     }
@@ -356,7 +436,7 @@ app.post("/send.do", function (req, res) {
         command = command + left_pad(crc16(command).toString(16), 4);
         mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
             if (!err) {
-                db.exec("insert into task(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
+                db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
                     res.json({success: true});
                 });
             } else {
@@ -365,19 +445,20 @@ app.post("/send.do", function (req, res) {
         });
     });
 });
-// 取消所有洒水计划的操作
+// 取消所有洒水计划的操作（删除Cronicle中除了dump_job以外的所有事件）
 app.post("/cancel_all.do", function (req, res) {
     scheduler.getSchedule({
         limit: 1000
     }).then(function (data) {  // 取出所有job
-        eachAsync(data.rows, function(job, index, done) {
-            if (job.title !== 'dump_task') {
+        eachAsync(data.rows, function(plan_or_step, index, done) {
+            var timing = plan_or_step.timing.years[0] + "-" + plan_or_step.timing.months[0] + "-" + plan_or_step.timing.days[0] + " " + plan_or_step.timing.hours[0] + ":" + plan_or_step.timing.minutes[0] + ":00";
+            if (plan_or_step.title !== 'dump_job' && moment(timing).isAfter(moment())) {
                 scheduler.deleteEvent({
-                    id: job.id
+                    id: plan_or_step.id
                 }).then(function() {
                     if (logger.isDebugEnabled()) {
                         logger.addContext('real_name', real_name);
-                        logger.debug("在取消所有洒水计划操作中，取消洒水计划%s，调度时间%s", job.title, job.timing.years[0] + "-" + job.timing.months[0] + "-" + job.timing.days[0] + " " + job.timing.hours[0] + ":" + job.timing.minutes[0] + ":00");
+                        logger.debug("在取消所有洒水计划时，取消%s，其调度时间为%s", plan_or_step.title, timing);
                     }
                     done();
                 }).catch(function(err) {
@@ -388,7 +469,7 @@ app.post("/cancel_all.do", function (req, res) {
                 done();
             }
         }, function() {
-            db.exec("delete from plan", [], function (results) {
+            db.exec("delete from plan where start_time>=?", [moment().format("YYYY-MM-DD HH:mm:ss")], function (results) {
                 if (logger.isInfoEnabled()) {
                     logger.addContext('real_name', real_name);
                     logger.info("%s于%s取消所有洒水计划", req.session.user.name, moment().format("YYYY-MM-DD HH:mm:ss"));
@@ -403,115 +484,95 @@ app.post("/cancel_all.do", function (req, res) {
 });
 // 保存洒水计划的操作
 app.post("/save_plan.do", function (req, res) {
-    var howlong = parseInt(req.body.hour) * 3600 + parseInt(req.body.minute) * 60;  //秒
-    db.exec("select id,cover_date from plan where course_id=? and area_id=?", [req.body.course_id, req.body.area_id], function (plans) {
-        if (plans.length > 0) {  // 已有该计划
-            var cover_dates = plans[0].cover_date.split(",");
-            eachAsync(cover_dates, function(cover_date, index, done) {  // 删除所有老洒水计划
-                scheduler.getEvent({
-                    title: plans[0].id + "-" + index
-                }).then(function(data) { // 有这个job，则删除
-                    scheduler.deleteEvent({
-                        id: data.event.id
-                    }).then(function() {
-                        if (logger.isDebugEnabled()) {
-                            logger.addContext('real_name', real_name);
-                            logger.debug("保存新洒水计划，取消之前计划%s", data.event.title);
-                        }
-                        done();
-                    }).catch(function(err) {
-                        console.log(err.code + ":" + err.message);
-                        done(err.code + ":" + err.message);
-                    });
-                }).catch(function(err) {
-                    done();
-                });
-            }, function() {  // 添加新洒水计划
-                db.exec("update plan set cover_date=?,start_time=?,how_long=?,involved_nozzle=? where course_id=? and area_id=?", [req.body.cover_date, req.body.start_time, howlong, req.body.involved_nozzle, req.body.course_id, req.body.area_id], function (results) {
-                    db.exec("select id, start_time from plan where course_id=? and area_id=?", [req.body.course_id, req.body.area_id], function (plans) {
-                        var cover_dates = req.body.cover_date.split(",");
-                        eachAsync(cover_dates, function(cover_date, i, done) {
-                            scheduler.createEvent({
-                                title: plans[0].id + "-" + i,
-                                catch_up: 1,
-                                enabled: 1,
-                                category: 'general',
-                                target: 'allgrp',
-                                algo: 'round_robin',
-                                plugin: 'urlplug',
-                                params: {
-                                    method: 'post',
-                                    url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/irrigate/' + plans[0].id + '/' + req.body.involved_nozzle + '/' + howlong,
-                                    success_match: '1',
-                                    error_match: '0'
-                                },
-                                retries: 3,
-                                retry_delay: 30,
-                                timing: getFutureTiming(cover_date + " " + plans[0].start_time),
-                                timezone: 'Asia/Shanghai'
+    var plan_ids = JSON.parse(req.body.plan_ids);
+    var task_ids = JSON.parse(req.body.task_ids);
+    var start_times = JSON.parse(req.body.start_times);
+    var delExistingPlanIds = JSON.parse(req.body.delExistingPlanIds);
+
+    plan_ids.forEach(function (plan_id, i, array) {
+        if (plan_id.indexOf('-') < 0) {  // 已有该计划
+            db.exec("select task_id,start_time from plan where id=?", [plan_id], function (plans) {
+                if (moment(plans[0].start_time).format("YYYY-MM-DD HH:mm:ss") !== start_times[i]) {
+                    db.exec("update plan set start_time=? where id=?", [start_times[i], plan_id], function (results) {
+                        scheduler.getEvent({
+                            title: "plan" + plan_id
+                        }).then(function(data) { // 有这个job，则删除
+                            scheduler.updateEvent({
+                                id: data.event.id,
+                                timing: getFutureTiming(moment(start_times[i]).subtract(10, 'seconds'))
                             }).then(function() {
                                 if (logger.isDebugEnabled()) {
                                     logger.addContext('real_name', real_name);
-                                    logger.debug("保存洒水计划：%s球场%s区域洒水计划%s，调度时间%s", req.body.course_id, req.body.area_id, plans[0].id + "-" + i, cover_date + " " + plans[0].start_time);
+                                    logger.debug("保存洒水计划%s，任务%s, 调度时间为%s", "plan" + plan_id, plans[0].task_id, start_times[i]);
                                 }
-                                done();
                             }).catch(function(err) {
                                 console.log(err.code + ":" + err.message);
-                                done(err.code + ":" + err.message);
+                                throw err;
                             });
-                        }, function() {
-                            if (logger.isInfoEnabled()) {
-                                logger.addContext('real_name', real_name);
-                                logger.info("更新%s球场%s区域洒水计划plan_id=%d", req.body.course_id, req.body.area_id, plans[0].id);
-                            }
-                            res.json({success: true});
+                        }).catch(function(err) {
                         });
                     });
-                });
+                }
             });
         } else {  // 原先没有该计划
-            db.exec("insert into plan(course_id,area_id,cover_date,start_time,how_long,involved_nozzle) values(?,?,?,?,?,?)", [req.body.course_id, req.body.area_id, req.body.cover_date, req.body.start_time, howlong, req.body.involved_nozzle], function (results) {
-                db.exec("select id, start_time from plan where course_id=? and area_id=?", [req.body.course_id, req.body.area_id], function (plans) {
-                    var cover_dates = req.body.cover_date.split(",");
-                    eachAsync(cover_dates, function(cover_date, i, done) {
-                        scheduler.createEvent({
-                            title: plans[0].id + "-" + i,
-                            catch_up: 1,
-                            enabled: 1,
-                            category: 'general',
-                            target: 'allgrp',
-                            algo: 'round_robin',
-                            plugin: 'urlplug',
-                            params: {
-                                method: 'post',
-                                url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/irrigate/' + plans[0].id + '/' + req.body.involved_nozzle + '/' + howlong,
-                                success_match: '1',
-                                error_match: '0'
-                            },
-                            retries: 3,
-                            retry_delay: 30,
-                            timing: getFutureTiming(cover_date + " " + plans[0].start_time),
-                            timezone: 'Asia/Shanghai'
-                        }).then(function() {
-                            if (logger.isDebugEnabled()) {
-                                logger.addContext('real_name', real_name);
-                                logger.debug("保存洒水计划：%s球场%s区域洒水计划%s，调度时间%s", req.body.course_id, req.body.area_id, plans[0].id + "-" + i, cover_date + " " + plans[0].start_time);
-                            }
-                            done();
-                        }).catch(function(err) {
-                            console.log(err.code + ":" + err.message);
-                            done(err.code + ":" + err.message);
-                        });
-                    }, function() {
-                        if (logger.isInfoEnabled()) {
+            db.exec("insert into plan(task_id,start_time) values(?,?)", [task_ids[i], start_times[i]], function (results) {
+                db.exec("select id from plan where task_id=? and start_time=?", [task_ids[i], start_times[i]], function (plans) {
+                    scheduler.createEvent({
+                        title: "plan" + plans[0].id,
+                        catch_up: 1,
+                        enabled: 1,
+                        category: 'general',
+                        target: 'allgrp',
+                        algo: 'round_robin',
+                        plugin: 'urlplug',
+                        params: {
+                            method: 'post',
+                            url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/preprocess/' + plans[0].id,
+                            success_match: '1',
+                            error_match: '0'
+                        },
+                        retries: 3,
+                        retry_delay: 30,
+                        timing: getFutureTiming(moment(start_times[i]).subtract(10, 'seconds')),
+                        timezone: 'Asia/Shanghai'
+                    }).then(function() {
+                        if (logger.isDebugEnabled()) {
                             logger.addContext('real_name', real_name);
-                            logger.info("新增%s球场%s区域洒水计划plan_id=%d", req.body.course_id, req.body.area_id, plans[0].id);
+                            logger.debug("保存洒水计划%s，任务%s, 调度时间为%s", "plan" + plans[0].id, task_ids[i], start_times[i]);
                         }
-                        res.json({success: true});
+                    }).catch(function(err) {
+                        console.log(err.code + ":" + err.message);
+                        throw err;
                     });
                 });
             });
         }
+    });
+    // 删除已有计划
+    eachAsync(delExistingPlanIds, function(delExistingPlanId, i, done) {
+        scheduler.getEvent({
+            title: "plan" + delExistingPlanId
+        }).then(function(data) { // 有这个job，则删除
+            scheduler.deleteEvent({
+                id: data.event.id
+            }).then(function() {
+                if (logger.isDebugEnabled()) {
+                    logger.addContext('real_name', real_name);
+                    logger.debug("取消洒水计划%s", data.event.title);
+                }
+                // 删除已有的洒水计划
+                db.exec("delete from plan where id=?", [delExistingPlanId], function () {
+                    done();
+                });
+            }).catch(function(err) {
+                console.log(err.code + ":" + err.message);
+                done(err.code + ":" + err.message);
+            });
+        }).catch(function(err) {
+            done();
+        });
+    }, function() {
+        res.json({success: true});
     });
 });
 // 新增球场操作
@@ -701,6 +762,45 @@ app.post("/enable_nozzle.do", function (req, res) {
         res.json({success: true});
     });
 });
+// 新增洒水任务操作
+app.post("/add_task.do", function (req, res) {
+    db.exec("select id from task where name=?", [req.body.name], function (result) {
+        if (result.length > 0) {
+            res.json({failure: true});
+        } else {
+            db.exec("insert into task(name,`desc`) values(?,?)", [req.body.name, req.body.desc], function () {
+                db.exec("select id from task where name=?", [req.body.name], function (tasks) {
+                    var steps = JSON.parse(req.body.step);
+                    eachAsync(steps, function(step, index, done) {
+                        db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [tasks[0].id, step.s, step.n]);
+                    }, function() {
+                        res.json({success: true});
+                    });
+                });
+            });
+        }
+    });
+});
+// 修改洒水任务操作
+app.post("/update_task.do", function (req, res) {
+    var steps = JSON.parse(req.body.step);
+    db.exec("update task set name=?,`desc`=? where id=?", [req.body.name, req.body.desc, req.body.id], function () {
+        db.exec("delete from step where task_id=?", [req.body.id], function () {
+            var steps = JSON.parse(req.body.step);
+            eachAsync(steps, function(step, index, done) {
+                db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [req.body.id, step.s, step.n]);
+            }, function() {
+                res.json({success: true});
+            });
+        });
+    });
+});
+// 删除洒水任务
+app.post("/del_task.do", function (req, res) {
+    db.exec("delete from task where id=?", [req.body.id], function () {
+        res.json({success: true});
+    });
+});
 // 重写管网操作
 app.post("/save_pipe.do", function (req, res) {
     var pipe_nodes = JSON.parse(req.body.pipe_nodes);
@@ -864,7 +964,7 @@ app.get("/dynamics.html", function (req, res) {
 // 打开球场动态子页面
 app.get("/dynamics_detail.html", function (req, res) {
     var start_of_day = moment().startOf("day").format("YYYY-MM-DD HH:mm:ss");
-    db.exec("select distinct(area_id) from nozzle a join task b on a.id=b.nozzle_id where a.course_id=? and b.start_time>=?", [req.query.course_id, start_of_day], function (area_ids) {
+    db.exec("select distinct(area_id) from nozzle a join job b on a.id=b.nozzle_id where a.course_id=? and b.start_time>=?", [req.query.course_id, start_of_day], function (area_ids) {
         var where = "";
         for(var i=0; i< area_ids.length; i++) {
             where += "id=" + area_ids[i].area_id + " or ";
@@ -876,16 +976,16 @@ app.get("/dynamics_detail.html", function (req, res) {
                 var areaRow = {id:area.id,name:area.name,parent_id:0,icon:"/img/区域.png",type:"area",rows:[]};
                 rows.push(areaRow);
                 var area_auto_run = 0, area_auto_end = 0, area_manual_run = 0, area_manual_end = 0;
-                db.exec("select distinct(hole) from nozzle a join task b on a.id=b.nozzle_id where a.course_id=? and a.area_id=? and b.start_time>=? order by hole", [req.query.course_id, area.id, start_of_day], function (holes) {
+                db.exec("select distinct(hole) from nozzle a join job b on a.id=b.nozzle_id where a.course_id=? and a.area_id=? and b.start_time>=? order by hole", [req.query.course_id, area.id, start_of_day], function (holes) {
                     eachAsync(holes, function(hole, index, done) {
                         // 只考虑end_time，不考虑state的作用，因为一个洒水站同一天有可能执行多次任务
-                        db.exec("select count(a.id) as count from task a join nozzle b on a.nozzle_id=b.id where b.course_id=? and b.area_id=? and b.hole=? and a.plan_id is not null and a.end_time is null and b.state=1 and a.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (results) {
+                        db.exec("select count(a.id) as count from job a join nozzle b on a.nozzle_id=b.id where b.course_id=? and b.area_id=? and b.hole=? and a.plan_id is not null and a.end_time is null and b.state=1 and a.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (results) {
                             var auto_run = results[0].count;  // 自动+运行中
-                            db.exec("select count(a.id) as count from task a join nozzle b on a.nozzle_id=b.id where b.course_id=? and b.area_id=? and b.hole=? and a.plan_id is not null and a.end_time is not null and a.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (results) {
+                            db.exec("select count(a.id) as count from job a join nozzle b on a.nozzle_id=b.id where b.course_id=? and b.area_id=? and b.hole=? and a.plan_id is not null and a.end_time is not null and a.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (results) {
                                 var auto_end = results[0].count;  // 自动+已完成
-                                db.exec("select count(a.id) as count from task a join nozzle b on a.nozzle_id=b.id where b.course_id=? and b.area_id=? and b.hole=? and a.plan_id is null and a.end_time is null and b.state=1 and a.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (results) {
+                                db.exec("select count(a.id) as count from job a join nozzle b on a.nozzle_id=b.id where b.course_id=? and b.area_id=? and b.hole=? and a.plan_id is null and a.end_time is null and b.state=1 and a.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (results) {
                                     var manual_run = results[0].count;  // 手动+运行中
-                                    db.exec("select count(a.id) as count from task a join nozzle b on a.nozzle_id=b.id where b.course_id=? and b.area_id=? and b.hole=? and a.plan_id is null and a.end_time is not null and a.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (results) {
+                                    db.exec("select count(a.id) as count from job a join nozzle b on a.nozzle_id=b.id where b.course_id=? and b.area_id=? and b.hole=? and a.plan_id is null and a.end_time is not null and a.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (results) {
                                         var manual_end = results[0].count;  // 手动+已完成
                                         var holeRow = {id:area.id + "-" + hole.hole,name:hole.hole + "洞",parent_id:area.id,icon:"/img/球洞.png",auto_run:auto_run,auto_end:auto_end,manual_run:manual_run,manual_end:manual_end,type:"hole",rows:[]};
                                         areaRow.rows.push(holeRow);
@@ -893,7 +993,7 @@ app.get("/dynamics_detail.html", function (req, res) {
                                         area_auto_end += auto_end;
                                         area_manual_run += manual_run;
                                         area_manual_end += manual_end;
-                                        db.exec("select a.*,b.no as controlbox_no,c.start_time,c.plan_id,c.how_long,c.end_time from nozzle a left join controlbox b on a.controlbox_id=b.id join task c on c.nozzle_id=a.id where a.course_id=? and a.area_id=? and a.hole=? and c.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (nozzles) {
+                                        db.exec("select a.*,b.no as controlbox_no,c.start_time,c.plan_id,c.how_long,c.end_time from nozzle a left join controlbox b on a.controlbox_id=b.id join job c on c.nozzle_id=a.id where a.course_id=? and a.area_id=? and a.hole=? and c.start_time>=?", [req.query.course_id, area.id, hole.hole, start_of_day], function (nozzles) {
                                             for(var i=0; i<nozzles.length; i++) {
                                                 if (nozzles[i].end_time === null && nozzles[i].state === 1) {
                                                     nozzles[i].end_time = moment(nozzles[i].start_time).add(nozzles[i].how_long, 'seconds').format("YYYY-MM-DD HH:mm:ss");
@@ -1077,102 +1177,38 @@ app.get("/manual_area.html", function (req, res) {
         });
     });
 });
+const colors = ['red-bg', 'green-bg', 'blue-bg', 'yellow-bg', 'pink-bg', 'purple-bg', 'brown-bg', 'teal-bg', 'dark-green-bg', 'fb-bg', 'tw-bg', 'lk-bg', 'gplus-bg'];
+const colors2 = ['#E84234', '#32ab52', '#4286F7', '#F9BB06', '#F782AA', '#6a55c2', '#ab7967', '#47BCC7', '#007368', '#3B5998', '#55ACEE', '#007BB5', '#DD4C3B'];
 // 打开洒水计划页面
 app.get("/plan.html", function (req, res) {
-    db.exec("select * from course order by id", [], function (courses) {
-        var first_course_id = -1;
-        if (courses.length > 0) {
-            first_course_id = courses[0].id;
-        }
-        res.render('plan', {
-            courses: courses,
-            first_course_id: first_course_id,
-            user: req.session.user,
-            click_count: req.session.click_count % 2
-        });
-    });
-});
-// 打开洒水计划子页面
-app.get("/plan_detail.html", function (req, res) {
-    db.exec("select distinct(area_id) from nozzle where course_id=?", [req.query.course_id], function (area_ids) {
-        var where = "";
-        for(var i=0; i< area_ids.length; i++) {
-            where += "id=" + area_ids[i].area_id + " or ";
-        }
-        where += "1=0";
-        db.exec("select * from area where (" + where + ") order by id", [], function (areas) {
-            var nozzleNodes = [];
-            for(var i=0; i<areas.length; i++) {
-                nozzleNodes.push({id:areas[i].id,name:areas[i].name,parent_id:0,icon:"/img/区域.png"});
+    // 取洒水任务
+    db.exec("select t.id,t.name,sum(s.how_long) as how_long,count(s.id) as c from task t join step s on t.id=s.task_id group by t.id order by id", [], function (tasks) {
+        var last_index = -1;
+        for (var i = 0; i < tasks.length; i++) {
+            var index = parseInt(Math.random() * colors.length);
+            while(index === last_index) {
+                index = parseInt(Math.random() * colors.length);
             }
-            var area_init_values = [];
-            eachAsync(area_ids, function(area_id, index, done) {
-                db.exec("select distinct(hole) from nozzle where course_id=? and area_id=? order by hole", [req.query.course_id, area_id.area_id], function (holes) {
-                    for(var i=0; i<holes.length; i++) {
-                        nozzleNodes.push({id:area_id.area_id + "-" + holes[i].hole,name:holes[i].hole + "洞",parent_id:area_id.area_id,icon:"/img/球洞.png"});
+            tasks[i]["bg-color"] = colors[index];
+            last_index = index;
+            tasks[i].how_long += (tasks[i].c - 1) * process.env.EVENT_STEP_INTERVAL_SECONDS;
+        }
+        // 取洒水计划
+        db.exec("select p.id,p.task_id,p.start_time,t.name,sum(s.how_long) as how_long,count(s.id) as c from plan p join task t on p.task_id=t.id join step s on t.id=s.task_id and p.start_time>=? group by p.id order by p.id", [moment().format("YYYY-MM-DD HH:mm:ss")], function (plans) {
+            for (var i = 0; i < plans.length; i++) {
+                plans[i].how_long += (plans[i].c - 1) * process.env.EVENT_STEP_INTERVAL_SECONDS;
+                for (var j = 0; j < tasks.length; j++) {
+                    if (plans[i].task_id === tasks[j].id) {
+                        plans[i]['bg-color'] = tasks[j]['bg-color'];
+                        break;
                     }
-                    var hash = {area_id: area_id.area_id, cover_dates: []};
-                    db.exec("select * from plan where course_id=? and area_id=?", [req.query.course_id, area_id.area_id], function (plans) {
-                        if (plans.length > 0 && plans[0].cover_date !== null) {
-                            var cover_dates = plans[0].cover_date.split(",");
-                            for(var j=cover_dates.length - 1; j>=0; j--) {
-                                if (moment().isBefore(moment(cover_dates[j] + " " + plans[0].start_time, "YYYY-MM-DD HH:mm:ss"))) {
-                                    hash["cover_dates"].push(cover_dates[j]);
-                                } else {
-                                    break;
-                                }
-                            }
-                            if (hash["cover_dates"].length > 0) {
-                                var arr = plans[0].start_time.split(":");
-                                hash["start_hour"] = arr[0];
-                                hash["start_minute"] = arr[1];
-                                hash["howlong_hour"] = parseInt(plans[0].how_long / 3600);
-                                hash["howlong_minute"] = plans[0].how_long / 60 % 60;
-                                hash["involved_nozzle"] = [];
-                                arr = plans[0].involved_nozzle.split(",");
-                                for(var k=0; k<arr.length; k++) {
-                                    hash["involved_nozzle"].push(arr[k]);
-                                }
-                            }
-                        }
-                        area_init_values.push(hash);
-                        done();
-                    });
-                });
-            }, function() {
-                db.exec("select a.*,b.no as controlbox_no from nozzle a left join controlbox b on a.controlbox_id=b.id where a.course_id=? order by b.no, a.no", [req.query.course_id], function (nozzles) {
-                    for(var i=0; i<nozzles.length; i++) {
-                        var controlbox_no = "无分控箱";
-                        if (nozzles[i].controlbox_no !== null) {
-                            controlbox_no = nozzles[i].controlbox_no;
-                        }
-                        nozzleNodes.push({id:"t" + nozzles[i].id,name:controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name,parent_id:nozzles[i].area_id + "-" + nozzles[i].hole,icon:"/img/喷头.png"});
-                    }
-                    var dates = [];
-                    var days = [];
-                    dates[0] = moment().format("YYYY-MM-DD");
-                    days[0] = moment().format("D");
-                    dates[1] = moment().add(1, "days").format("YYYY-MM-DD");
-                    days[1] = moment().add(1, "days").format("D");
-                    dates[2] = moment().add(2, "days").format("YYYY-MM-DD");
-                    days[2] = moment().add(2, "days").format("D");
-                    dates[3] = moment().add(3, "days").format("YYYY-MM-DD");
-                    days[3] = moment().add(3, "days").format("D");
-                    dates[4] = moment().add(4, "days").format("YYYY-MM-DD");
-                    days[4] = moment().add(4, "days").format("D");
-                    dates[5] = moment().add(5, "days").format("YYYY-MM-DD");
-                    days[5] = moment().add(5, "days").format("D");
-                    dates[6] = moment().add(6, "days").format("YYYY-MM-DD");
-                    days[6] = moment().add(6, "days").format("D");
-                    res.render('plan_detail', {
-                        nozzleNodes: nozzleNodes,
-                        dates: dates,
-                        days: days,
-                        area_init_values: area_init_values,
-                        user: req.session.user,
-                        click_count: req.session.click_count % 2
-                    });
-                });
+                }
+            }
+            res.render('plan', {
+                tasks: tasks,
+                plans: plans,
+                user: req.session.user,
+                click_count: req.session.click_count % 2
             });
         });
     });
@@ -1254,6 +1290,96 @@ app.get("/nozzle.html", function (req, res) {
                                     });
                                 });
                             });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+// 打开洒水任务页面
+app.get("/task.html", function (req, res) {
+    var focus = -1;
+    if (req.query.focus) {
+        focus = parseInt(req.query.focus);
+    }
+    db.exec("select * from task order by id", [], function (tasks) {
+        res.render('task', {
+            tasks: tasks,
+            focus: focus,
+            user: req.session.user,
+            click_count: req.session.click_count % 2
+        });
+    });
+});
+// 打开洒水步骤子页面
+app.get("/task_step.html", function (req, res) {
+    db.exec("select * from step where task_id=" + JSON.parse(req.query.task_id), [], function (steps) {
+        var last_index = -1;
+        for (var i = 0; i < steps.length; i++) {
+            steps[i].hour = steps[i].how_long % 3600;
+            steps[i].minute = steps[i].how_long % 60;
+            var index = parseInt(Math.random() * colors.length);
+            while(index === last_index) {
+                index = parseInt(Math.random() * colors.length);
+            }
+            steps[i]["icon-color"] = colors[index];
+            steps[i]["bg-color"] = colors2[index];
+            steps[i].involved_nozzle = steps[i].involved_nozzle.split(",");
+            last_index = index;
+        }
+        db.exec("select distinct(course_id) from nozzle", [], function (course_ids) {
+            var where = "";
+            for(var i=0; i< course_ids.length; i++) {
+                where += "id=" + course_ids[i].course_id + " or ";
+            }
+            where += "1=0";
+            db.exec("select * from course where (" + where + ") order by id", [], function (courses) {
+                var nozzleNodes = [];
+                for(var i=0; i<courses.length; i++) {
+                    nozzleNodes.push({id:courses[i].id,name:courses[i].name,parent_id:-1,icon:"/img/球场.png"});
+                }
+                eachAsync(course_ids, function(course_id, index, done) {
+                    db.exec("select distinct(area_id) from nozzle where course_id=?", [course_id.course_id], function (area_ids) {
+                        var where = "";
+                        for(var i=0; i< area_ids.length; i++) {
+                            where += "id=" + area_ids[i].area_id + " or ";
+                        }
+                        where += "1=0";
+                        db.exec("select * from area where (" + where + ") order by id", [], function (areas) {
+                            for(var i=0; i<areas.length; i++) {
+                                nozzleNodes.push({id:course_id.course_id + "-" + areas[i].id,name:areas[i].name,parent_id:course_id.course_id,icon:"/img/区域.png"});
+                            }
+                            eachAsync(area_ids, function(area_id, index, done) {
+                                db.exec("select distinct(hole) from nozzle where course_id=? and area_id=? order by hole", [course_id.course_id, area_id.area_id], function (holes) {
+                                    for(var i=0; i<holes.length; i++) {
+                                        nozzleNodes.push({id:course_id.course_id + "-" + area_id.area_id + "-" + holes[i].hole,name:holes[i].hole + "洞",parent_id:course_id.course_id + "-" + area_id.area_id,icon:"/img/球洞.png"});
+                                    }
+                                    done();
+                                });
+                            }, function() {
+                                done();
+                            });
+                        });
+                    });
+                }, function() {
+                    db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id order by b.no, a.no", [], function (nozzles) {
+                        for(var i=0; i<nozzles.length; i++) {
+                            var str = "";
+                            if (nozzles[i].use_state === 0) {
+                                str = "[正在维修]";
+                            } else {
+                                if (nozzles[i].state === 1) {
+                                    str = "[正在洒水]";
+                                }
+                            }
+                            nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].course_id + "-" + nozzles[i].area_id + "-" + nozzles[i].hole,icon:"/img/喷头.png"});
+                        }
+                        res.render('task_step', {
+                            nozzleNodes: nozzleNodes,
+                            steps: steps,
+                            step_count: steps.length,
+                            last_index: last_index
                         });
                     });
                 });

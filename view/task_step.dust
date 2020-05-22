@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Arise Admin Panel" />
+    <meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Themeforest, Bootstrap, C3 Graphs, D3 Graphs, NVD3 Graphs, Admin Skin, Black Admin Dashboard, Grey Admin Dashboard, Dark Admin Dashboard, Simple Admin Dashboard, Simple Admin Theme, Simple Bootstrap Dashboard, " />
+    <meta name="author" content="dongyt" />
+    <title>高尔夫球场中控管理系统</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+
+    <!-- Main CSS -->
+    <link href="css/main.css" rel="stylesheet" media="screen" />
+
+    <link href="css/timeline.css" rel="stylesheet">
+
+    <!-- Ion Icons -->
+    <link href="fonts/font-awesome.css" rel="stylesheet" />
+
+    <!-- Ion Icons -->
+    <link href="fonts/icomoon/icomoon.css" rel="stylesheet" />
+
+    <link href="css/metroStyle/metroStyle.css" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .dongyt {
+            margin-right: 10px;
+        }
+        .info-label {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            color: #fff;
+            font-size: 9px;
+            text-align: center;
+            line-height: 14px;
+            width: 18px;
+            height: 18px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            border: 2px solid #FFF;
+        }
+        .main {
+            border:5px solid white;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 定义这两个button不会报错了 -->
+<button class="collapse-menu" style="display: none;"></button>
+<button type="button" id="toggleMenu" class="toggle-menu" style="display: none;"></button>
+
+<fieldset>
+    <legend style="color: #000;">任务明细</legend>
+
+    <!-- Row starts -->
+    <div class="row gutter">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h4>待选洒水站</h4>
+                </div>
+                <ul id="nozzletree" class="ztree"></ul>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            <div class="panel center-text">
+
+                <a href="#" class="btn btn-info dongyt" id="to_tree"><i class="icon-chevron-left"></i> </a>
+                <a href="#" class="btn btn-info dongyt" id="to_list"><i class="icon-chevron-right"></i> </a>
+
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="center-text" style="margin-bottom: 15px;">
+                <a href="#" class="btn btn-info" id="add_step">为任务添加步骤</a>
+            </div>
+            <div id="step" class="timeline animated">
+{#steps}
+                <div id="step_{$idx}" class="timeline-row active">
+                    <div class="timeline-time">
+                        <small>灌溉时长：<input class="hour" style="width: 30px; text-align: center;" placeholder="0" value="{hour}"/>小时 <input class="minute" style="width: 30px; text-align: center;" placeholder="0" value="{minute}"/>分钟</small>
+                    </div>
+                    <div class="timeline-icon" style="overflow: visible;">
+                        <div class="{icon-color}" style="border-radius: 12px;"><i class="icon-droplet" style="color: white;"></i></div>
+                        <span onclick=del_step({$idx}) class="info-label fa fa-close red-bg" style="cursor: pointer;"></span>
+                    </div>
+                    <div id="step_nozzle_{$idx}" class="timeline-content text-center" style="background-color: {bg-color}; color: white; min-height: 80px; cursor: pointer;" onclick="pick_step('step_nozzle_{$idx}')">
+                        <h4>由以下洒水站负责喷灌</h4>
+                        <div class="list-group no-margin">
+                        </div>
+                    </div>
+                </div>
+{/steps}
+            </div>
+        </div>
+    </div>
+    <!-- Row ends -->
+
+</fieldset>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- jquery ScrollUp JS -->
+<script src="js/scrollup/jquery.scrollUp.js"></script>
+
+<!-- Custom JS -->
+<script src="js/custom.js"></script>
+
+<script type="text/javascript" src="js/ztree/jquery.ztree.core.min.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.exedit.min.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.excheck.min.js"></script>
+
+<script type="text/javascript">
+    var setting = {
+        check: {
+            enable: true
+        },
+        view: {
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "parent_id",
+                rootPId: -1
+            }
+        },
+        edit: {
+            enable: true,
+            showRemoveBtn: showRemoveBtn,
+            showRenameBtn: showRenameBtn
+        },
+        callback: {
+            onDrop: onDrop,
+            beforeDrag: beforeDrag,
+            beforeDrop: beforeDrop,
+            onCollapse: onCollapse,
+            onExpand: onExpand
+        }
+    };
+
+    var nozzleNodes = [{#nozzleNodes}{@eq key=$idx value=0 type="number"}
+    {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
+    {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/nozzleNodes}
+    ];
+
+    function showRemoveBtn(treeId, treeNode) {
+        return false;
+    }
+
+    function showRenameBtn(treeId, treeNode) {
+        return false;
+    }
+
+    function beforeDrag(treeId, treeNodes) {
+        return treeNodes[0].id.substr(0, 1) === 't';
+    }
+
+    function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+        if (treeId === 'nozzletree') {
+            return false;
+        }
+    }
+
+    function onDrop(e, treeId, treeNodes, targetNode, moveType) {
+        if (moveType === null && treeNodes[0].name.indexOf('[正在维修]') < 0 && treeNodes[0].name.indexOf('[正在洒水]') < 0) {
+            var elem = null;
+            if ($(e.target).parents(".timeline-content").length > 0) {
+                elem = $(e.target).parents(".timeline-content").first();
+            } else if ($(e.target).hasClass("timeline-content")) {
+                elem = $(e.target);
+            }
+            if (elem === null) {
+                return false;
+            }
+            pick_step(elem.attr("id"));
+            $('#' + elem.attr("id") + ' .list-group').append('<a onclick="click_selected_nozzle(\'' + treeNodes[0].id + '\')" id="' + treeNodes[0].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + treeNodes[0].parent_id + '" data-icon="' + treeNodes[0].icon + '">' + treeNodes[0].name + '</a>');
+            $.fn.zTree.getZTreeObj("nozzletree").removeNode(treeNodes[0]);
+            reinitIframe();
+        }
+    }
+
+    function onCollapse(event, treeId, treeNode) {
+        reinitIframe();
+    }
+
+    function onExpand(event, treeId, treeNode) {
+        reinitIframe();
+    }
+
+    var selected_nozzle_id = "";
+    function click_selected_nozzle(nozzle_id) {
+        selected_nozzle_id = nozzle_id;
+    }
+
+    var picked_step_id = "";
+    
+    function del_step(index) {
+        $('#step_nozzle_' + index + ' .list-group').children().each(function(index, element) {
+            element.click();
+            $("#to_tree").click();
+        });
+        $("#step_" + index).remove();
+        picked_step_id = "";
+        reinitIframe();
+    }
+
+    function pick_step(step_nozzle_id) {
+        $("#step .timeline-content").removeClass("main");
+        $("#" + step_nozzle_id).addClass("main");
+        picked_step_id = step_nozzle_id;
+    }
+
+    function step() {
+        var blank_how_long = false;
+        $("#step input").each(function() {
+            if ($(this).val() === '') {
+                blank_how_long = true;
+                return false;
+            }
+        });
+        if (blank_how_long) {
+            parent.alertify.error("灌溉时长不能为空");
+            return false;
+        }
+        var blank_step_nozzle = false;
+        if ($(".list-group").length > $('.list-group').has("a").length) {
+            blank_step_nozzle = true;
+        }
+        if (blank_step_nozzle) {
+            parent.alertify.error("有步骤尚未添加洒水站");
+            return false;
+        }
+        var steps = [];
+        $(".timeline-row").each(function () {
+            var h = parseInt($(this).find("input.hour").first().val());
+            var m = parseInt($(this).find("input.minute").first().val());
+            var s = h * 3600 + m * 60;
+            var step_item = {s: s, n: ""};
+            $(this).find('.list-group a').each(function () {
+                step_item['n'] += parseInt($(this).attr('id').slice(1)) + ",";
+            });
+            if (step_item['n'].length > 0) {
+                step_item['n'] = step_item['n'].substr(0, step_item['n'].length - 1);
+            }
+            steps.push(step_item);
+        });
+        return JSON.stringify(steps);
+    }
+    
+    jQuery(function ($) {
+        $.fn.zTree.init($("#nozzletree"), setting, nozzleNodes);
+        var colors = ['red-bg', 'green-bg', 'blue-bg', 'yellow-bg', 'pink-bg', 'purple-bg', 'brown-bg', 'teal-bg', 'dark-green-bg', 'fb-bg', 'tw-bg', 'lk-bg', 'gplus-bg'];
+        var colors2 = ['#E84234', '#32ab52', '#4286F7', '#F9BB06', '#F782AA', '#6a55c2', '#ab7967', '#47BCC7', '#007368', '#3B5998', '#55ACEE', '#007BB5', '#DD4C3B'];
+        var step_count = {step_count};
+        var last_index = {last_index};
+        $("#add_step").click(function () {
+            var index = parseInt(Math.random() * colors.length);
+            while(index === last_index) {
+                index = parseInt(Math.random() * colors.length);
+            }
+            last_index = index;
+            $("#step").append($('<div id="step_' + step_count + '" class="timeline-row active">\n' +
+                '    <div class="timeline-time">\n' +
+                '        <small>灌溉时长：<input class="hour" style="width: 30px; text-align: center;" placeholder="0"/>小时 <input class="minute" style="width: 30px; text-align: center;" placeholder="0"/>分钟</small>' +
+                '    </div>\n' +
+                '    <div class="timeline-icon" style="overflow: visible;">\n' +
+                '        <div class="' + colors[index] + '" style="border-radius: 12px;"><i class="icon-droplet" style="color: white;"></i></div><span onclick=del_step(' + step_count + ') class="info-label fa fa-close red-bg" style="cursor: pointer;"></span>\n' +
+                '    </div>\n' +
+                '    <div id="step_nozzle_' + step_count + '" class="timeline-content text-center" style="background-color: ' + colors2[index] + '; color: white; min-height: 80px; cursor: pointer;" onclick="pick_step(\'step_nozzle_' + step_count + '\')">\n' +
+                '        <h4>本步骤选中的洒水站</h4>\n' +
+                '        <div class="list-group no-margin"></div>\n' +
+                '    </div>\n' +
+                '</div>'));
+            step_count++;
+            reinitIframe();
+        });
+
+        $("#to_list").click(function() {
+            var nozzleNodes = [];
+            var srcNodes = $.fn.zTree.getZTreeObj("nozzletree").getCheckedNodes(true);
+            for (var i=0; i<srcNodes.length; i++) {
+                if (srcNodes[i].id.substr(0, 1) === 't' && srcNodes[i].name.indexOf('[正在维修]') < 0 && srcNodes[i].name.indexOf('[正在洒水]') < 0) {
+                    nozzleNodes.push(srcNodes[i]);
+                }
+            }
+            if (nozzleNodes.length === 0) {
+                parent.alertify.error("请从左边选择合适的洒水站");
+                return;
+            }
+            if (picked_step_id === '') {
+                parent.alertify.error("请单击选择一个步骤");
+                return;
+            }
+            for (var j=0; j<nozzleNodes.length; j++) {
+                $('#' + picked_step_id + ' .list-group').append('<a onclick="click_selected_nozzle(\'' + nozzleNodes[j].id + '\')" id="' + nozzleNodes[j].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + nozzleNodes[j].parent_id + '" data-icon="' + nozzleNodes[j].icon + '">' + nozzleNodes[j].name + '</a>');
+                $.fn.zTree.getZTreeObj("nozzletree").removeNode(nozzleNodes[j]);
+            }
+            $.fn.zTree.getZTreeObj("nozzletree").checkAllNodes(false);
+            reinitIframe();
+        });
+
+        $("#to_tree").click(function() {
+            if (selected_nozzle_id === '') {
+                parent.alertify.error("请从右边选择一个洒水站");
+                return;
+            }
+            var selectedElement = $("#" + selected_nozzle_id);
+            var targetNodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
+                return node.id === "" + selectedElement.data("parent_id");
+            });
+            $.fn.zTree.getZTreeObj("nozzletree").addNodes(targetNodes[0], {id: selectedElement.attr("id"), parent_id: targetNodes[0].id, name: selectedElement.html(), open:true, icon:selectedElement.data("icon"), iconOpen:selectedElement.data("icon"), iconClose:selectedElement.data("icon")});
+            selectedElement.remove();
+            selected_nozzle_id = "";
+            reinitIframe();
+        });
+
+{#steps}
+        picked_step_id = "step_nozzle_{$idx}";
+{#involved_nozzle}
+        $.fn.zTree.getZTreeObj("nozzletree").checkNode($.fn.zTree.getZTreeObj("nozzletree").getNodeByParam("id", "t{.}"), true, true, false);
+{/involved_nozzle}
+        $("#to_list").click();
+{/steps}
+        picked_step_id = "";
+
+        reinitIframe();
+    });
+
+    window.onresize = function () {
+        reinitIframe();
+    };
+
+    function reinitIframe() {
+        parent.document.getElementById('myFrame').height = document.body.scrollHeight || document.documentElement.scrollHeight;
+    }
+</script>
+</body>
+</html>

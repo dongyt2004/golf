@@ -221,9 +221,6 @@ $(document).ready(function () {
             },
             hour: {
                 validators: {
-                    notEmpty: {
-                        message: '小时不能为空'
-                    },
                     greaterThan: {
                         value: 0,
                         inclusive: true,
@@ -233,9 +230,6 @@ $(document).ready(function () {
             },
             minute: {
                 validators: {
-                    notEmpty: {
-                        message: '分钟不能为空'
-                    },
                     lessThan: {
                         value: 59,
                         inclusive: true,
@@ -244,7 +238,7 @@ $(document).ready(function () {
                     greaterThan: {
                         value: 0,
                         inclusive: true,
-                        message: '分钟要大于0'
+                        message: '分钟要大于或等于0'
                     }
                 }
             }
