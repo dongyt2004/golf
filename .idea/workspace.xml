@@ -34,8 +34,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="1320" column="54" lean-forward="false" selection-start-line="1320" selection-start-column="54" selection-end-line="1320" selection-end-column="54" />
+            <state relative-caret-position="243">
+              <caret line="1319" column="63" lean-forward="true" selection-start-line="1319" selection-start-column="63" selection-end-line="1319" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -44,7 +44,7 @@
       <file leaf-file-name="task_step.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/task_step.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
+            <state relative-caret-position="3384">
               <caret line="254" column="71" lean-forward="true" selection-start-line="254" selection-start-column="71" selection-end-line="254" selection-end-column="71" />
               <folding>
                 <marker date="1590134622183" expanded="true" signature="10753:10785" ph="..." />
@@ -467,14 +467,7 @@
       <workItem from="1589804876370" duration="31336000" />
       <workItem from="1589937891518" duration="39323000" />
       <workItem from="1590047161758" duration="5500000" />
-      <workItem from="1590069611141" duration="31693000" />
-    </task>
-    <task id="LOCAL-00003" summary="3rd commit">
-      <created>1583913873974</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1583913873974</updated>
+      <workItem from="1590069611141" duration="33098000" />
     </task>
     <task id="LOCAL-00004" summary="4rd commit">
       <created>1583916990715</created>
@@ -812,11 +805,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590152633142</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="5th commit">
+      <created>1590152831369</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1590152831369</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1398540000" />
+    <option name="totallyTimeSpent" value="1399945000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1362,7 +1362,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/task_step.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
+        <state relative-caret-position="3384">
           <caret line="254" column="71" lean-forward="true" selection-start-line="254" selection-start-column="71" selection-end-line="254" selection-end-column="71" />
           <folding>
             <marker date="1590134622183" expanded="true" signature="10753:10785" ph="..." />
@@ -1378,8 +1378,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="1320" column="54" lean-forward="false" selection-start-line="1320" selection-start-column="54" selection-end-line="1320" selection-end-column="54" />
+        <state relative-caret-position="243">
+          <caret line="1319" column="63" lean-forward="true" selection-start-line="1319" selection-start-column="63" selection-end-line="1319" selection-end-column="63" />
           <folding />
         </state>
       </provider>
