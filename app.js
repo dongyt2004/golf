@@ -1317,8 +1317,8 @@ app.get("/task_step.html", function (req, res) {
     db.exec("select * from step where task_id=" + JSON.parse(req.query.task_id), [], function (steps) {
         var last_index = -1;
         for (var i = 0; i < steps.length; i++) {
-            steps[i].hour = steps[i].how_long % 3600;
-            steps[i].minute = steps[i].how_long % 60;
+            steps[i].hour = steps[i].how_long / 3600;
+            steps[i].minute = steps[i].how_long / 60;
             var index = parseInt(Math.random() * colors.length);
             while(index === last_index) {
                 index = parseInt(Math.random() * colors.length);
