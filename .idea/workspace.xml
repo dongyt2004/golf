@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
-    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="5th commit">
+    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
@@ -35,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="281">
-              <caret line="1320" column="49" lean-forward="false" selection-start-line="1320" selection-start-column="49" selection-end-line="1320" selection-end-column="49" />
+              <caret line="1320" column="54" lean-forward="false" selection-start-line="1320" selection-start-column="54" selection-end-line="1320" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -467,14 +467,7 @@
       <workItem from="1589804876370" duration="31336000" />
       <workItem from="1589937891518" duration="39323000" />
       <workItem from="1590047161758" duration="5500000" />
-      <workItem from="1590069611141" duration="31486000" />
-    </task>
-    <task id="LOCAL-00002" summary="2nd commit">
-      <created>1583851806825</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1583851806825</updated>
+      <workItem from="1590069611141" duration="31693000" />
     </task>
     <task id="LOCAL-00003" summary="3rd commit">
       <created>1583913873974</created>
@@ -812,11 +805,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590149455745</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="5th commit">
+      <created>1590152633142</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1590152633142</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1398333000" />
+    <option name="totallyTimeSpent" value="1398540000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1379,7 +1379,7 @@
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
-          <caret line="1320" column="49" lean-forward="false" selection-start-line="1320" selection-start-column="49" selection-end-line="1320" selection-end-column="49" />
+          <caret line="1320" column="54" lean-forward="false" selection-start-line="1320" selection-start-column="54" selection-end-line="1320" selection-end-column="54" />
           <folding />
         </state>
       </provider>
