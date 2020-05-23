@@ -1,6 +1,8 @@
 require('dotenv').config({ path: './app.env' });
 process.env.TZ = "Asia/Shanghai";
 const http = require('http');
+const https = require('https');
+const fs = require('fs');
 const db = require('./db');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -826,7 +828,7 @@ app.post("/del_task.do", function (req, res) {
                         db.exec("delete from task where id=?", [req.body.id], function () {
                             if (logger.isInfoEnabled()) {
                                 logger.addContext('real_name', real_name);
-                                logger.info("删除洒水任务%s", tasks[0].name);
+                                logger.info("删除洒水任务：%s", tasks[0].name);
                             }
                             res.json({success: true});
                         });
@@ -1561,6 +1563,10 @@ app.get("/turf.html", function (req, res) {
         });
     });
 });
+// 打开定位灌溉页面
+app.get("/locate.html", function (req, res) {
+    res.render('locate');
+});
 /** ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- **/
 // catch 404 and forward to error handler
 app.use(function (req, res) {
@@ -1569,6 +1575,12 @@ app.use(function (req, res) {
 
 var server = http.createServer(app);
 server.listen(process.env.SCHEDULED_SERVICE_PORT, '0.0.0.0');
+var credentials = {
+    key: fs.readFileSync(path.join(__dirname, 'ssl/privkey.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'ssl/cert.pem'))
+};
+var https_server = https.createServer(credentials, app);
+https_server.listen(process.env.HTTPS_SERVICE_PORT, '0.0.0.0');
 process.on('SIGINT', function() {
     log4js.shutdown(function() {
         mqtt_client.end();

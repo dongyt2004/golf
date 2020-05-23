@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+</head>
+<body>
+    <div id="baidu_geo"></div>
+    <div class="content">
+        <div id="allmap"></div>
+    </div>
+    
+    <script type="text/javascript">
+        function getLocation(){
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition, showError, {
+						/* 指示浏览器获取高精度的位置，默认为false */
+						enableHighAccuracy: true,
+						/* 指定获取地理位置的超时时间，默认不限时，单位为毫秒 */
+						timeout: 5000,
+						/* 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。 */
+						maximumAge: 3000
+				});
+			}
+        }
+		
+        getLocation();
+        
+		function showError(error){   
+            switch(error.code) {   
+                case error.PERMISSION_DENIED:   
+                    alert("定位失败,用户拒绝请求地理定位");   
+                    break;   
+                case error.POSITION_UNAVAILABLE:   
+                    alert("定位失败,位置信息是不可用");   
+                    break;   
+                case error.TIMEOUT:   
+                    alert("定位失败,请求获取用户位置超时");   
+                    break;   
+                case error.UNKNOWN_ERROR:   
+                    alert("定位失败,定位系统失效");   
+                    break;   
+            }   
+        }
+        
+        function showPosition(position) {   
+            var latlon = position.coords.latitude + ', ' + position.coords.longitude;   
+            console.log(latlon);
+            console.log("原始位置精度：" + position.coords.accuracy);
+        }
+    </script>
+</body>
+</html>
