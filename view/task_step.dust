@@ -284,7 +284,7 @@
             last_index = index;
             $("#step").append($('<div id="step_' + step_count + '" class="timeline-row active">\n' +
                 '    <div class="timeline-time">\n' +
-                '        <small>灌溉时长：<input class="hour" style="width: 30px; text-align: center;" placeholder="0"/>小时 <input class="minute" style="width: 30px; text-align: center;" placeholder="0"/>分钟</small>' +
+                '        <small>灌溉时长：<input class="hour" style="width: 30px; text-align: center;"/>小时 <input class="minute" style="width: 30px; text-align: center;"/>分钟</small>' +
                 '    </div>\n' +
                 '    <div class="timeline-icon" style="overflow: visible;">\n' +
                 '        <div class="' + colors[index] + '" style="border-radius: 12px;"><i class="icon-droplet" style="color: white;"></i></div><span onclick=del_step(' + step_count + ') class="info-label fa fa-close red-bg" style="cursor: pointer;"></span>\n' +
