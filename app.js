@@ -203,7 +203,7 @@ app.post("/preprocess/:plan_id", function (req, res) {
             steps[0].start_time = moment(steps[0].start_time).format("YYYY-MM-DD HH:mm:ss");
         }
         for(var i=1; i<steps.length; i++) {
-            steps[i].start_time = moment(steps[i-1].start_time).clone().add(steps[i-1].how_long, "seconds").add(process.env.EVENT_STEP_INTERVAL_SECONDS, "seconds").format("YYYY-MM-DD HH:mm:ss");
+            steps[i].start_time = moment(steps[i-1].start_time).clone().add(steps[i-1].how_long, "seconds").add(process.env.TASK_STEP_INTERVAL_SECONDS, "seconds").format("YYYY-MM-DD HH:mm:ss");
         }
         eachAsync(steps, function(step, index, done) {
             var step_no = index + 1;
@@ -1224,12 +1224,12 @@ app.get("/plan.html", function (req, res) {
             }
             tasks[i]["bg-color"] = colors[index];
             last_index = index;
-            tasks[i].how_long += (tasks[i].c - 1) * process.env.EVENT_STEP_INTERVAL_SECONDS;
+            tasks[i].how_long += (tasks[i].c - 1) * process.env.TASK_STEP_INTERVAL_SECONDS;
         }
         // 取洒水计划
         db.exec("select p.id,p.task_id,p.start_time,t.name,sum(s.how_long) as how_long,count(s.id) as c from plan p join task t on p.task_id=t.id join step s on t.id=s.task_id and p.start_time>=? group by p.id order by p.id", [moment().format("YYYY-MM-DD HH:mm:ss")], function (plans) {
             for (var i = 0; i < plans.length; i++) {
-                plans[i].how_long += (plans[i].c - 1) * process.env.EVENT_STEP_INTERVAL_SECONDS;
+                plans[i].how_long += (plans[i].c - 1) * process.env.TASK_STEP_INTERVAL_SECONDS;
                 for (var j = 0; j < tasks.length; j++) {
                     if (plans[i].task_id === tasks[j].id) {
                         plans[i]['bg-color'] = tasks[j]['bg-color'];
