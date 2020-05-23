@@ -5,7 +5,6 @@
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/task.dust" afterPath="$PROJECT_DIR$/view/task.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,8 +34,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="821" column="23" lean-forward="true" selection-start-line="821" selection-start-column="23" selection-end-line="821" selection-end-column="23" />
+            <state relative-caret-position="250">
+              <caret line="808" column="50" lean-forward="true" selection-start-line="808" selection-start-column="50" selection-end-line="808" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -91,10 +90,10 @@
       <find>.fc-event.red</find>
       <find>red-bg</find>
       <find>placeholder</find>
-      <find>save_pla</find>
       <find>del_task</find>
       <find>deleteEvent</find>
       <find>eachAsy</find>
+      <find>save_pla</find>
     </findStrings>
     <replaceStrings>
       <replace>col-lg-3</replace>
@@ -454,14 +453,7 @@
       <workItem from="1589804876370" duration="31336000" />
       <workItem from="1589937891518" duration="39323000" />
       <workItem from="1590047161758" duration="5500000" />
-      <workItem from="1590069611141" duration="46919000" />
-    </task>
-    <task id="LOCAL-00008" summary="4rd commit">
-      <created>1583928257224</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1583928257224</updated>
+      <workItem from="1590069611141" duration="47412000" />
     </task>
     <task id="LOCAL-00009" summary="4rd commit">
       <created>1584000780622</created>
@@ -799,11 +791,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590207457059</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="5th commit">
+      <created>1590212978951</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1590212978951</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1413766000" />
+    <option name="totallyTimeSpent" value="1414259000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1325,8 +1324,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="821" column="23" lean-forward="true" selection-start-line="821" selection-start-column="23" selection-end-line="821" selection-end-column="23" />
+        <state relative-caret-position="250">
+          <caret line="808" column="50" lean-forward="true" selection-start-line="808" selection-start-column="50" selection-end-line="808" selection-end-column="50" />
           <folding />
         </state>
       </provider>

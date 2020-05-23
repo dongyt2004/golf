@@ -806,6 +806,10 @@ app.post("/del_task.do", function (req, res) {
                 scheduler.deleteEvent({
                     id: data.event.id
                 }).then(function() {
+                    if (logger.isDebugEnabled()) {
+                        logger.addContext('real_name', real_name);
+                        logger.debug("删除洒水任务时，删除与该任务关联的洒水计划%s", data.event.title);
+                    }
                     done();
                 }).catch(function(err) {
                     console.log(err.code + ":" + err.message);
@@ -817,8 +821,14 @@ app.post("/del_task.do", function (req, res) {
         }, function(err) {
             db.exec("delete from plan where task_id=?", [req.body.id], function () {
                 db.exec("delete from step where task_id=?", [req.body.id], function () {
-                    db.exec("delete from task where id=?", [req.body.id], function () {
-                        res.json({success: true});
+                    db.exec("select name from task where id=?", [req.body.id], function (tasks) {
+                        db.exec("delete from task where id=?", [req.body.id], function () {
+                            if (logger.isInfoEnabled()) {
+                                logger.addContext('real_name', real_name);
+                                logger.info("删除洒水任务%s", tasks[0].name);
+                            }
+                            res.json({success: true});
+                        });
                     });
                 });
             });
