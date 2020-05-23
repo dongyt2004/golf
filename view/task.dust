@@ -288,7 +288,7 @@
 
     /* 删除任务 */
     function del_task(id) {
-        alertify.confirm("确定删除吗？", function (e) {
+        alertify.confirm("如果有洒水计划要执行这项任务，会被删除，确定删除这个任务吗？", function (e) {
             if (e) {
                 $.post("/del_task.do", {
                     id: id

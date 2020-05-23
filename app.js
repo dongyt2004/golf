@@ -492,7 +492,7 @@ app.post("/save_plan.do", function (req, res) {
     plan_ids.forEach(function (plan_id, i, array) {
         if (plan_id.indexOf('-') < 0) {  // 已有该计划
             db.exec("select task_id,start_time from plan where id=?", [plan_id], function (plans) {
-                if (moment(plans[0].start_time).format("YYYY-MM-DD HH:mm:ss") !== start_times[i]) {
+                if (moment(plans[0].start_time).format("YYYY-MM-DD HH:mm:ss") !== start_times[i]) {  // 如果开始时间变了，修改开始时间
                     db.exec("update plan set start_time=? where id=?", [start_times[i], plan_id], function (results) {
                         scheduler.getEvent({
                             title: "plan" + plan_id
@@ -798,9 +798,30 @@ app.post("/update_task.do", function (req, res) {
 });
 // 删除洒水任务
 app.post("/del_task.do", function (req, res) {
-    db.exec("delete from step where task_id=?", [req.body.id], function () {
-        db.exec("delete from task where id=?", [req.body.id], function () {
-            res.json({success: true});
+    db.exec("select distinct(id) from plan where task_id=?", [req.body.id], function (plans) {
+        eachAsync(plans, function(plan, index, done) {
+            scheduler.getEvent({
+                title: "plan" + plan.id
+            }).then(function(data) { // 有这个job，则删除
+                scheduler.deleteEvent({
+                    id: data.event.id
+                }).then(function() {
+                    done();
+                }).catch(function(err) {
+                    console.log(err.code + ":" + err.message);
+                    done(err.code + ":" + err.message);
+                });
+            }).catch(function(err) {
+                done();
+            });
+        }, function(err) {
+            db.exec("delete from plan where task_id=?", [req.body.id], function () {
+                db.exec("delete from step where task_id=?", [req.body.id], function () {
+                    db.exec("delete from task where id=?", [req.body.id], function () {
+                        res.json({success: true});
+                    });
+                });
+            });
         });
     });
 });

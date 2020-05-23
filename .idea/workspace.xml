@@ -4,7 +4,8 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/task_step.dust" afterPath="$PROJECT_DIR$/view/task_step.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/task.dust" afterPath="$PROJECT_DIR$/view/task.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,27 +25,19 @@
       <file leaf-file-name="test-stub.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test-stub.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="29" column="28" lean-forward="true" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+            <state relative-caret-position="323">
+              <caret line="35" column="7" lean-forward="true" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="task_step.dust" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/view/task_step.dust">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="92" column="66" lean-forward="true" selection-start-line="92" selection-start-column="66" selection-end-line="92" selection-end-column="66" />
-              <folding>
-                <marker date="1590207431361" expanded="true" signature="10688:10720" ph="..." />
-                <marker date="1590207431361" expanded="true" signature="10755:10787" ph="..." />
-                <marker date="1590207431361" expanded="true" signature="10892:10910" ph="..." />
-                <marker date="1590207431361" expanded="true" signature="10985:11005" ph="..." />
-                <marker date="1590207431361" expanded="true" signature="11038:11051" ph="..." />
-                <marker date="1590207431361" expanded="true" signature="11151:11167" ph="..." />
-                <marker date="1590207431361" expanded="true" signature="11321:11411" ph="..." />
-              </folding>
+            <state relative-caret-position="497">
+              <caret line="821" column="23" lean-forward="true" selection-start-line="821" selection-start-column="23" selection-end-line="821" selection-end-column="23" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -72,12 +65,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>seconds</find>
-      <find>eachA</find>
       <find>format</find>
       <find>preprocess</find>
       <find>createEvent</find>
-      <find>deleteEvent</find>
       <find>plan</find>
       <find>irrigate</find>
       <find>start_time</find>
@@ -97,11 +87,14 @@
       <find>% 3600</find>
       <find>add_task</find>
       <find>SCHEDULED_SERVICE_PORT</find>
-      <find>save_pla</find>
       <find>dump_job</find>
       <find>.fc-event.red</find>
       <find>red-bg</find>
       <find>placeholder</find>
+      <find>save_pla</find>
+      <find>del_task</find>
+      <find>deleteEvent</find>
+      <find>eachAsy</find>
     </findStrings>
     <replaceStrings>
       <replace>col-lg-3</replace>
@@ -188,12 +181,12 @@
         <option value="$PROJECT_DIR$/static/js/calendar/zh-cn.js" />
         <option value="$PROJECT_DIR$/view/plan.dust" />
         <option value="$PROJECT_DIR$/static/js/calendar/custom-calendar.js" />
-        <option value="$PROJECT_DIR$/view/task.dust" />
         <option value="$PROJECT_DIR$/../golf-schedule/scheduler.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/static/css/calendar/custom-calendar.css" />
         <option value="$PROJECT_DIR$/app.env" />
         <option value="$PROJECT_DIR$/view/task_step.dust" />
+        <option value="$PROJECT_DIR$/view/task.dust" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
@@ -271,12 +264,6 @@
               <item name="golf-project" type="b2602c69:ProjectViewProjectNode" />
               <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
               <item name="golf" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="golf-project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="golf" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -467,14 +454,7 @@
       <workItem from="1589804876370" duration="31336000" />
       <workItem from="1589937891518" duration="39323000" />
       <workItem from="1590047161758" duration="5500000" />
-      <workItem from="1590069611141" duration="44863000" />
-    </task>
-    <task id="LOCAL-00007" summary="4rd commit">
-      <created>1583927762825</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1583927762825</updated>
+      <workItem from="1590069611141" duration="46919000" />
     </task>
     <task id="LOCAL-00008" summary="4rd commit">
       <created>1583928257224</created>
@@ -812,11 +792,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590205263393</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="5th commit">
+      <created>1590207457059</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1590207457059</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1411710000" />
+    <option name="totallyTimeSpent" value="1413766000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -839,7 +826,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24907063" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21269841" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17174721" sideWeight="0.5068226" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22751322" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.789418" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1264,14 +1251,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/task.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="316" column="33" lean-forward="true" selection-start-line="316" selection-start-column="33" selection-end-line="316" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../golf-schedule/app.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -1304,14 +1283,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="649">
-          <caret line="1538" column="37" lean-forward="true" selection-start-line="1538" selection-start-column="37" selection-end-line="1538" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test-stub.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -1320,17 +1291,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test-stub.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="29" column="28" lean-forward="true" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/task_step.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
+        <state relative-caret-position="224">
           <caret line="92" column="66" lean-forward="true" selection-start-line="92" selection-start-column="66" selection-end-line="92" selection-end-column="66" />
           <folding>
             <marker date="1590207431361" expanded="true" signature="10688:10720" ph="..." />
@@ -1341,6 +1304,30 @@
             <marker date="1590207431361" expanded="true" signature="11151:11167" ph="..." />
             <marker date="1590207431361" expanded="true" signature="11321:11411" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-stub.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="35" column="7" lean-forward="true" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/task.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="289" column="27" lean-forward="true" selection-start-line="289" selection-start-column="27" selection-end-line="289" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="497">
+          <caret line="821" column="23" lean-forward="true" selection-start-line="821" selection-start-column="23" selection-end-line="821" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
