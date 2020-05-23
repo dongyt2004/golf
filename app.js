@@ -451,14 +451,13 @@ app.post("/cancel_all.do", function (req, res) {
         limit: 1000
     }).then(function (data) {  // 取出所有job
         eachAsync(data.rows, function(plan_or_step, index, done) {
-            var timing = plan_or_step.timing.years[0] + "-" + plan_or_step.timing.months[0] + "-" + plan_or_step.timing.days[0] + " " + plan_or_step.timing.hours[0] + ":" + plan_or_step.timing.minutes[0] + ":00";
-            if (plan_or_step.title !== 'dump_job' && moment(timing).isAfter(moment())) {
+            if (plan_or_step.title !== 'dump_job') {
                 scheduler.deleteEvent({
                     id: plan_or_step.id
                 }).then(function() {
                     if (logger.isDebugEnabled()) {
                         logger.addContext('real_name', real_name);
-                        logger.debug("在取消所有洒水计划时，取消%s，其调度时间为%s", plan_or_step.title, timing);
+                        logger.debug("在取消所有洒水计划时，取消%s，其调度时间为%s", plan_or_step.title, plan_or_step.timing.years[0] + "-" + plan_or_step.timing.months[0] + "-" + plan_or_step.timing.days[0] + " " + plan_or_step.timing.hours[0] + ":" + plan_or_step.timing.minutes[0] + ":00");
                     }
                     done();
                 }).catch(function(err) {
@@ -469,7 +468,7 @@ app.post("/cancel_all.do", function (req, res) {
                 done();
             }
         }, function() {
-            db.exec("delete from plan where start_time>=?", [moment().format("YYYY-MM-DD HH:mm:ss")], function (results) {
+            db.exec("delete from plan", [], function (results) {
                 if (logger.isInfoEnabled()) {
                     logger.addContext('real_name', real_name);
                     logger.info("%s于%s取消所有洒水计划", req.session.user.name, moment().format("YYYY-MM-DD HH:mm:ss"));
