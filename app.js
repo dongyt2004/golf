@@ -488,14 +488,14 @@ app.post("/save_plan.do", function (req, res) {
     var start_times = JSON.parse(req.body.start_times);
     var delExistingPlanIds = JSON.parse(req.body.delExistingPlanIds);
 
-    plan_ids.forEach(function (plan_id, i, array) {
+    eachAsync(plan_ids, function(plan_id, i, done) {
         if (plan_id.indexOf('-') < 0) {  // 已有该计划
             db.exec("select task_id,start_time from plan where id=?", [plan_id], function (plans) {
                 if (moment(plans[0].start_time).format("YYYY-MM-DD HH:mm:ss") !== start_times[i]) {  // 如果开始时间变了，修改开始时间
                     db.exec("update plan set start_time=? where id=?", [start_times[i], plan_id], function (results) {
                         scheduler.getEvent({
                             title: "plan" + plan_id
-                        }).then(function(data) { // 有这个job，则删除
+                        }).then(function(data) { // 有这个job，则修改
                             scheduler.updateEvent({
                                 id: data.event.id,
                                 timing: getFutureTiming(moment(start_times[i]).subtract(10, 'seconds'))
@@ -504,13 +504,17 @@ app.post("/save_plan.do", function (req, res) {
                                     logger.addContext('real_name', real_name);
                                     logger.debug("保存洒水计划%s，任务%s, 调度时间为%s", "plan" + plan_id, plans[0].task_id, start_times[i]);
                                 }
+                                done();
                             }).catch(function(err) {
                                 console.log(err.code + ":" + err.message);
-                                throw err;
+                                done(err.code + ":" + err.message);
                             });
                         }).catch(function(err) {
+                            done();
                         });
                     });
+                } else {
+                    done();
                 }
             });
         } else {  // 原先没有该计划
@@ -539,39 +543,41 @@ app.post("/save_plan.do", function (req, res) {
                             logger.addContext('real_name', real_name);
                             logger.debug("保存洒水计划%s，任务%s, 调度时间为%s", "plan" + plans[0].id, task_ids[i], start_times[i]);
                         }
+                        done();
                     }).catch(function(err) {
                         console.log(err.code + ":" + err.message);
-                        throw err;
+                        done(err.code + ":" + err.message);
                     });
                 });
             });
         }
-    });
-    // 删除已有计划
-    eachAsync(delExistingPlanIds, function(delExistingPlanId, i, done) {
-        scheduler.getEvent({
-            title: "plan" + delExistingPlanId
-        }).then(function(data) { // 有这个job，则删除
-            scheduler.deleteEvent({
-                id: data.event.id
-            }).then(function() {
-                if (logger.isDebugEnabled()) {
-                    logger.addContext('real_name', real_name);
-                    logger.debug("取消洒水计划%s", data.event.title);
-                }
-                // 删除已有的洒水计划
-                db.exec("delete from plan where id=?", [delExistingPlanId], function () {
-                    done();
+    }, function(err) {
+        // 删除已有计划
+        eachAsync(delExistingPlanIds, function(delExistingPlanId, i, done) {
+            scheduler.getEvent({
+                title: "plan" + delExistingPlanId
+            }).then(function(data) { // 有这个job，则删除
+                scheduler.deleteEvent({
+                    id: data.event.id
+                }).then(function() {
+                    if (logger.isDebugEnabled()) {
+                        logger.addContext('real_name', real_name);
+                        logger.debug("取消洒水计划%s", data.event.title);
+                    }
+                    // 删除已有的洒水计划
+                    db.exec("delete from plan where id=?", [delExistingPlanId], function () {
+                        done();
+                    });
+                }).catch(function(err) {
+                    console.log(err.code + ":" + err.message);
+                    done(err.code + ":" + err.message);
                 });
             }).catch(function(err) {
-                console.log(err.code + ":" + err.message);
-                done(err.code + ":" + err.message);
+                done();
             });
-        }).catch(function(err) {
-            done();
+        }, function() {
+            res.json({success: true});
         });
-    }, function() {
-        res.json({success: true});
     });
 });
 // 新增球场操作
@@ -770,12 +776,10 @@ app.post("/add_task.do", function (req, res) {
             db.exec("insert into task(name,`desc`) values(?,?)", [req.body.name, req.body.desc], function () {
                 db.exec("select id from task where name=?", [req.body.name], function (tasks) {
                     var steps = JSON.parse(req.body.step);
-                    eachAsync(steps, function(step, index, done) {
+                    steps.forEach(function (step, i, array) {
                         db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [tasks[0].id, step.s, step.n]);
-                        done();
-                    }, function() {
-                        res.json({success: true});
                     });
+                    res.json({success: true});
                 });
             });
         }
@@ -786,12 +790,10 @@ app.post("/update_task.do", function (req, res) {
     db.exec("update task set name=?,`desc`=? where id=?", [req.body.name, req.body.desc, req.body.id], function () {
         db.exec("delete from step where task_id=?", [req.body.id], function () {
             var steps = JSON.parse(req.body.step);
-            eachAsync(steps, function(step, index, done) {
+            steps.forEach(function (step, i, array) {
                 db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [req.body.id, step.s, step.n]);
-                done();
-            }, function(err) {
-                res.json({success: true});
             });
+            res.json({success: true});
         });
     });
 });
