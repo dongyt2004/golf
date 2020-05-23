@@ -99,7 +99,7 @@
                         <span onclick=del_step({$idx}) class="info-label fa fa-close red-bg" style="cursor: pointer;"></span>
                     </div>
                     <div id="step_nozzle_{$idx}" class="timeline-content text-center" style="background-color: {bg-color}; color: white; min-height: 80px; cursor: pointer;" onclick="pick_step('step_nozzle_{$idx}')">
-                        <h4>由以下洒水站负责喷灌</h4>
+                        <h4>负责灌溉的洒水站</h4>
                         <div class="list-group no-margin">
                         </div>
                     </div>
@@ -255,24 +255,27 @@
             var h = parseInt($(this).find("input.hour").first().val());
             var m = parseInt($(this).find("input.minute").first().val());
             var s = h * 3600 + m * 60;
-            var step_item = {s: s, n: ""};
+            var step = {s: s, n: ""};
             $(this).find('.list-group a').each(function () {
-                step_item['n'] += parseInt($(this).attr('id').slice(1)) + ",";
+                step['n'] += parseInt($(this).attr('id').slice(1)) + ",";
             });
-            if (step_item['n'].length > 0) {
-                step_item['n'] = step_item['n'].substr(0, step_item['n'].length - 1);
+            if (step['n'].length > 0) {
+                step['n'] = step['n'].substr(0, step['n'].length - 1);
             }
-            steps.push(step_item);
+            steps.push(step);
         });
         return JSON.stringify(steps);
     }
-    
+
+    var colors = ['red-bg', 'green-bg', 'blue-bg', 'yellow-bg', 'pink-bg', 'purple-bg', 'brown-bg', 'teal-bg', 'dark-green-bg', 'fb-bg', 'tw-bg', 'orange-bg'];
+    var colors2 = ['#E84234', '#32ab52', '#4286F7', '#F9BB06', '#F782AA', '#6a55c2', '#ab7967', '#47BCC7', '#007368', '#3B5998', '#55ACEE', '#FF7B00'];
+
     jQuery(function ($) {
         $.fn.zTree.init($("#nozzletree"), setting, nozzleNodes);
-        var colors = ['red-bg', 'green-bg', 'blue-bg', 'yellow-bg', 'pink-bg', 'purple-bg', 'brown-bg', 'teal-bg', 'dark-green-bg', 'fb-bg', 'tw-bg', 'lk-bg', 'gplus-bg'];
-        var colors2 = ['#E84234', '#32ab52', '#4286F7', '#F9BB06', '#F782AA', '#6a55c2', '#ab7967', '#47BCC7', '#007368', '#3B5998', '#55ACEE', '#007BB5', '#DD4C3B'];
+
         var step_count = {step_count};
         var last_index = {last_index};
+
         $("#add_step").click(function () {
             var index = parseInt(Math.random() * colors.length);
             while(index === last_index) {
@@ -287,7 +290,7 @@
                 '        <div class="' + colors[index] + '" style="border-radius: 12px;"><i class="icon-droplet" style="color: white;"></i></div><span onclick=del_step(' + step_count + ') class="info-label fa fa-close red-bg" style="cursor: pointer;"></span>\n' +
                 '    </div>\n' +
                 '    <div id="step_nozzle_' + step_count + '" class="timeline-content text-center" style="background-color: ' + colors2[index] + '; color: white; min-height: 80px; cursor: pointer;" onclick="pick_step(\'step_nozzle_' + step_count + '\')">\n' +
-                '        <h4>本步骤选中的洒水站</h4>\n' +
+                '        <h4>负责灌溉的洒水站</h4>\n' +
                 '        <div class="list-group no-margin"></div>\n' +
                 '    </div>\n' +
                 '</div>'));

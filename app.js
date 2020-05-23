@@ -773,6 +773,7 @@ app.post("/add_task.do", function (req, res) {
                     var steps = JSON.parse(req.body.step);
                     eachAsync(steps, function(step, index, done) {
                         db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [tasks[0].id, step.s, step.n]);
+                        done();
                     }, function() {
                         res.json({success: true});
                     });
@@ -783,13 +784,13 @@ app.post("/add_task.do", function (req, res) {
 });
 // 修改洒水任务操作
 app.post("/update_task.do", function (req, res) {
-    var steps = JSON.parse(req.body.step);
     db.exec("update task set name=?,`desc`=? where id=?", [req.body.name, req.body.desc, req.body.id], function () {
         db.exec("delete from step where task_id=?", [req.body.id], function () {
             var steps = JSON.parse(req.body.step);
             eachAsync(steps, function(step, index, done) {
                 db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [req.body.id, step.s, step.n]);
-            }, function() {
+                done();
+            }, function(err) {
                 res.json({success: true});
             });
         });
@@ -797,8 +798,10 @@ app.post("/update_task.do", function (req, res) {
 });
 // 删除洒水任务
 app.post("/del_task.do", function (req, res) {
-    db.exec("delete from task where id=?", [req.body.id], function () {
-        res.json({success: true});
+    db.exec("delete from step where task_id=?", [req.body.id], function () {
+        db.exec("delete from task where id=?", [req.body.id], function () {
+            res.json({success: true});
+        });
     });
 });
 // 重写管网操作
@@ -1177,8 +1180,8 @@ app.get("/manual_area.html", function (req, res) {
         });
     });
 });
-const colors = ['red-bg', 'green-bg', 'blue-bg', 'yellow-bg', 'pink-bg', 'purple-bg', 'brown-bg', 'teal-bg', 'dark-green-bg', 'fb-bg', 'tw-bg', 'lk-bg', 'gplus-bg'];
-const colors2 = ['#E84234', '#32ab52', '#4286F7', '#F9BB06', '#F782AA', '#6a55c2', '#ab7967', '#47BCC7', '#007368', '#3B5998', '#55ACEE', '#007BB5', '#DD4C3B'];
+const colors = ['red-bg', 'green-bg', 'blue-bg', 'yellow-bg', 'pink-bg', 'purple-bg', 'brown-bg', 'teal-bg', 'dark-green-bg', 'fb-bg', 'tw-bg', 'orange-bg'];
+const colors2 = ['#E84234', '#32ab52', '#4286F7', '#F9BB06', '#F782AA', '#6a55c2', '#ab7967', '#47BCC7', '#007368', '#3B5998', '#55ACEE', '#FF7B00'];
 // 打开洒水计划页面
 app.get("/plan.html", function (req, res) {
     // 取洒水任务
@@ -1533,7 +1536,7 @@ app.use(function (req, res) {
 });
 
 var server = http.createServer(app);
-server.listen(6000, '0.0.0.0');
+server.listen(process.env.SCHEDULED_SERVICE_PORT, '0.0.0.0');
 process.on('SIGINT', function() {
     log4js.shutdown(function() {
         mqtt_client.end();

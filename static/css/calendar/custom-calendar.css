@@ -447,6 +447,18 @@ a.fc-more:after {
     background: #FF7B00
 }
 
+.fc-event.brown-bg {
+    background: #ab7967
+}
+
+.fc-event.teal-bg {
+    background: #47BCC7
+}
+
+.fc-event.dark-green-bg {
+    background: #007368
+}
+
 .fc-event.purple-bg {
     background: #AF58D8
 }
