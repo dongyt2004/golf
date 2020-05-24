@@ -4,7 +4,7 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.env" afterPath="$PROJECT_DIR$/app.env" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox.dust" afterPath="$PROJECT_DIR$/view/controlbox.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -53,11 +53,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
-              <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+            <state relative-caret-position="418">
+              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="controlbox.dust" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="329">
+              <caret line="379" column="38" lean-forward="true" selection-start-line="379" selection-start-column="38" selection-end-line="379" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -203,11 +213,11 @@
         <option value="$PROJECT_DIR$/view/1.dust" />
         <option value="$PROJECT_DIR$/static/js/bsvalidator/custom-validations.js" />
         <option value="$PROJECT_DIR$/view/locate.dust" />
-        <option value="$PROJECT_DIR$/view/controlbox.dust" />
         <option value="$PROJECT_DIR$/view/manual.dust" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/view/manual_location.dust" />
         <option value="$PROJECT_DIR$/app.env" />
+        <option value="$PROJECT_DIR$/view/controlbox.dust" />
       </list>
     </option>
   </component>
@@ -285,6 +295,12 @@
               <item name="golf-project" type="b2602c69:ProjectViewProjectNode" />
               <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
               <item name="golf" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="golf-project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="golf" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -475,14 +491,7 @@
       <workItem from="1589804876370" duration="31336000" />
       <workItem from="1589937891518" duration="39323000" />
       <workItem from="1590047161758" duration="5500000" />
-      <workItem from="1590069611141" duration="86627000" />
-    </task>
-    <task id="LOCAL-00019" summary="5th commit">
-      <created>1584277679437</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1584277679437</updated>
+      <workItem from="1590069611141" duration="87486000" />
     </task>
     <task id="LOCAL-00020" summary="5th commit">
       <created>1584280119316</created>
@@ -820,11 +829,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590315535095</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="5th commit">
+      <created>1590315982971</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1590315982971</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1453474000" />
+    <option name="totallyTimeSpent" value="1454333000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1300,14 +1316,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1907">
-          <caret line="364" column="0" lean-forward="true" selection-start-line="364" selection-start-column="0" selection-end-line="364" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/manual.dust">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="277">
@@ -1362,8 +1370,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+        <state relative-caret-position="418">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="379" column="38" lean-forward="true" selection-start-line="379" selection-start-column="38" selection-end-line="379" selection-end-column="38" />
           <folding />
         </state>
       </provider>

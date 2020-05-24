@@ -184,19 +184,19 @@
 
                         <!-- Row starts -->
                         <div class="row gutter">
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="controlbox_no">设备编号</label>
                                     <input id="controlbox_no" class="form-control" name="controlbox_no" />
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="controlbox_name">设备名称</label>
                                     <input id="controlbox_name" class="form-control" name="controlbox_name" />
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="controlbox_model">设备型号</label>
                                     <select class="form-control" id="controlbox_model" name="controlbox_model">
@@ -206,19 +206,19 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="nozzle_count">最大站点数</label>
                                     <input id="nozzle_count" class="form-control" name="nozzle_count" />
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="lon">经度</label>
                                     <input id="lon" class="form-control" name="lon" />
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="lat">纬度</label>
                                     <input id="lat" class="form-control" name="lat" />
@@ -385,11 +385,11 @@
         $('#controlbox_name').val($('td.controlbox_name_' + id).html());
         $('#controlbox_model').val($('td.model_id_' + id).html());
         $('#nozzle_count').val($('td.nozzle_count_' + id).html());
-        if ($('td.lon' + id).html() === '') {
+        if ($('td.lon_' + id).html() === '') {
             getLocation();
         } else {
-            $('#lon').val($('td.lon' + id).html());
-            $('#lat').val($('td.lat' + id).html());
+            $('#lon').val($('td.lon_' + id).html());
+            $('#lat').val($('td.lat_' + id).html());
         }
         document.getElementById('myFrame').contentWindow.location.reload(true);
         $('#myFrame').attr('src', '/nozzle.html?controlbox_id=' + id + '&controlbox_no=' + cb.html());
