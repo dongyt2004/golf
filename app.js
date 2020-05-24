@@ -1153,16 +1153,19 @@ function distance(lng1, lat1, lng2, lat2) {
 app.get("/manual_location.html", function (req, res) {
     db.exec("select * from controlbox where use_state=1 order by id", [], function (controlboxes) {
         var boxes = [];
+        var where = "";
         for(var i=0; i<controlboxes.length; i++) {
             if (distance(req.query.lon, req.query.lat, controlboxes[i].lon, controlboxes[i].lat) <= process.env.LOCATION_CONTROL_DISTANCE) {
                 boxes.push(controlboxes[i]);
+                where += "b.id=" + controlboxes[i].id + " or ";
             }
         }
+        where += "1=0";
         var nozzleNodes = [];
         for(var i=0; i<boxes.length; i++) {
-            nozzleNodes.push({id:boxes[i].id,name:boxes[i].no + "：" + boxes[i].name,parent_id:0,icon:"/img/分控箱.png"});
+            nozzleNodes.push({id:boxes[i].id,name:boxes[i].no + "：" + boxes[i].name,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
         }
-        db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id order by b.no, a.no", [], function (nozzles) {
+        db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id where (" + where + ") order by b.no, a.no", [], function (nozzles) {
             for(var i=0; i<nozzles.length; i++) {
                 var str = "";
                 if (nozzles[i].use_state === 0) {
@@ -1175,7 +1178,10 @@ app.get("/manual_location.html", function (req, res) {
                 nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
             }
             res.render('manual_location', {
-                nozzleNodes: nozzleNodes
+                controlboxes: boxes,
+                nozzleNodes: nozzleNodes,
+                lon: parseFloat(req.query.lon),
+                lat: parseFloat(req.query.lat)
             });
         });
     });
