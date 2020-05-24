@@ -634,7 +634,7 @@ app.post("/add_controlbox.do", function (req, res) {
 app.post("/update_controlbox.do", function (req, res) {
     var update_no = JSON.parse(req.body.update_no);
     if (!update_no) {
-        db.exec("update controlbox set name=?,model_id=?,nozzle_count=? where id=?", [req.body.name, req.body.model_id, req.body.nozzle_count, req.body.id], function () {
+        db.exec("update controlbox set name=?,model_id=?,nozzle_count=?,lon=?,lat=? where id=?", [req.body.name, req.body.model_id, req.body.nozzle_count, req.body.lon, req.body.lat, req.body.id], function () {
             res.json({success: true});
         });
     } else {

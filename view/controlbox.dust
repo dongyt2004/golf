@@ -313,6 +313,15 @@
 </div>
 <!-- Dashboard Wrapper End -->
 
+<div class="modal" id="loadingModal" data-backdrop="static" data-keyboard="false">
+    <div style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50%; margin-left:-100px; margin-top:-10px">
+        <div class="progress progress-striped active" style="margin-bottom: 0;">
+            <div class="progress-bar" style="width: 100%;"></div>
+        </div>
+        <h5 style="color:white"> <strong>正在获取经纬度，请稍等...</strong> </h5>
+    </div>
+</div>
+
 <!-- Footer Start -->
 <footer>
     Copyright <a href="http://www.rouben.com/">若本机器人</a>  <span>2020</span>
@@ -352,13 +361,14 @@
 <script type="text/javascript">
     function getLocation(){
         if (navigator.geolocation) {
+            $("#loadingModal").modal('show');
             navigator.geolocation.getCurrentPosition(setPosition, error, {
                 /* 指示浏览器获取高精度的位置，默认为false */
                 enableHighAccuracy: true,
                 /* 指定获取地理位置的超时时间，默认不限时，单位为毫秒 */
-                timeout: 5000,
+                timeout: 15000,
                 /* 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。 */
-                maximumAge: 3000
+                maximumAge: 30000
             });
         }
     }
@@ -366,11 +376,13 @@
     function setPosition(position) {
         $('#lon').val(position.coords.longitude);
         $('#lat').val(position.coords.latitude);
+        $('#loadingModal').modal('hide');
     }
 
     function error(err){
         $('#lon').val('');
         $('#lat').val('');
+        $('#loadingModal').modal('hide');
     }
 
     var transfered_controlbox_id = null;
@@ -440,6 +452,7 @@
     }
 
     jQuery(function($) {
+        $('#loadingModal').modal('hide');
         var c = $("#controlbox_no");
         var n = $("#controlbox_name");
         var nc = $("#nozzle_count");
