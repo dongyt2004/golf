@@ -1575,12 +1575,12 @@ app.use(function (req, res) {
 
 var server = http.createServer(app);
 server.listen(process.env.SCHEDULED_SERVICE_PORT, '0.0.0.0');
-var credentials = {
+/*var credentials = {
     key: fs.readFileSync(path.join(__dirname, 'ssl/privkey.pem')),
     cert: fs.readFileSync(path.join(__dirname, 'ssl/cert.pem'))
 };
 var https_server = https.createServer(credentials, app);
-https_server.listen(process.env.HTTPS_SERVICE_PORT, '0.0.0.0');
+https_server.listen(process.env.HTTPS_SERVICE_PORT, '0.0.0.0');*/
 process.on('SIGINT', function() {
     log4js.shutdown(function() {
         mqtt_client.end();
