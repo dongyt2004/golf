@@ -4,7 +4,7 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/locate.dust" afterPath="$PROJECT_DIR$/view/locate.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,17 +35,27 @@
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="282">
-              <caret line="1576" column="39" lean-forward="true" selection-start-line="1576" selection-start-column="39" selection-end-line="1576" selection-end-column="39" />
+              <caret line="1576" column="35" lean-forward="true" selection-start-line="1576" selection-start-column="35" selection-end-line="1576" selection-end-column="35" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="41" column="24" lean-forward="true" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
+            <state relative-caret-position="221">
+              <caret line="14" column="27" lean-forward="true" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="locate.dust" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/view/locate.dust">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="675">
+              <caret line="48" column="26" lean-forward="true" selection-start-line="48" selection-start-column="26" selection-end-line="48" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -135,7 +145,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/node_modules/log4js/lib/appenders/tcp.js" />
         <option value="$PROJECT_DIR$/../golf-log-server/server.log" />
         <option value="$PROJECT_DIR$/../golf-schedule-plugin/db.js" />
         <option value="$PROJECT_DIR$/../golf-schedule-plugin/dump_task.js" />
@@ -186,6 +195,7 @@
         <option value="$PROJECT_DIR$/view/1.dust" />
         <option value="$PROJECT_DIR$/app.env" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/view/locate.dust" />
       </list>
     </option>
   </component>
@@ -459,14 +469,7 @@
       <workItem from="1589804876370" duration="31336000" />
       <workItem from="1589937891518" duration="39323000" />
       <workItem from="1590047161758" duration="5500000" />
-      <workItem from="1590069611141" duration="65376000" />
-    </task>
-    <task id="LOCAL-00015" summary="5th commit">
-      <created>1584201204626</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1584201204626</updated>
+      <workItem from="1590069611141" duration="66547000" />
     </task>
     <task id="LOCAL-00016" summary="5th commit">
       <created>1584202560249</created>
@@ -804,11 +807,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590283167229</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="5th commit">
+      <created>1590283513391</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1590283513391</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1432223000" />
+    <option name="totallyTimeSpent" value="1433394000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1313,14 +1323,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/locate.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test-stub.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="494">
@@ -1332,15 +1334,23 @@
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
-          <caret line="1576" column="39" lean-forward="true" selection-start-line="1576" selection-start-column="39" selection-end-line="1576" selection-end-column="39" />
+          <caret line="1576" column="35" lean-forward="true" selection-start-line="1576" selection-start-column="35" selection-end-line="1576" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="41" column="24" lean-forward="true" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
+        <state relative-caret-position="221">
+          <caret line="14" column="27" lean-forward="true" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/locate.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="48" column="26" lean-forward="true" selection-start-line="48" selection-start-column="26" selection-end-line="48" selection-end-column="26" />
           <folding />
         </state>
       </provider>

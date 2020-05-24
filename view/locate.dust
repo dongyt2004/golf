@@ -46,8 +46,8 @@
         
         function showPosition(position) {   
             var latlon = position.coords.latitude + ', ' + position.coords.longitude;   
-            console.log(latlon);
-            console.log("原始位置精度：" + position.coords.accuracy);
+            alert(latlon);
+            alert("原始位置精度：" + position.coords.accuracy);
         }
     </script>
 </body>
