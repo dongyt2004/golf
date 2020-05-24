@@ -3,13 +3,8 @@
   <component name="ChangeListManager">
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/access.2020-05-23.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/app.2020-05-23.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/access.log" afterPath="$PROJECT_DIR$/log/access.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/app.log" afterPath="$PROJECT_DIR$/log/app.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox.dust" afterPath="$PROJECT_DIR$/view/controlbox.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/bsvalidator/custom-validations.js" afterPath="$PROJECT_DIR$/static/js/bsvalidator/custom-validations.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -48,21 +43,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom-validations.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="custom-validations.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/bsvalidator/custom-validations.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="163" column="31" lean-forward="true" selection-start-line="163" selection-start-column="31" selection-end-line="163" selection-end-column="31" />
+            <state relative-caret-position="491">
+              <caret line="173" column="29" lean-forward="true" selection-start-line="173" selection-start-column="29" selection-end-line="173" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state relative-caret-position="608">
+              <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -221,13 +216,13 @@
         <option value="$PROJECT_DIR$/view/task.dust" />
         <option value="$PROJECT_DIR$/view/task_step.dust" />
         <option value="$PROJECT_DIR$/view/1.dust" />
-        <option value="$PROJECT_DIR$/static/js/bsvalidator/custom-validations.js" />
         <option value="$PROJECT_DIR$/view/locate.dust" />
         <option value="$PROJECT_DIR$/view/manual.dust" />
         <option value="$PROJECT_DIR$/view/manual_location.dust" />
         <option value="$PROJECT_DIR$/view/controlbox.dust" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/app.env" />
+        <option value="$PROJECT_DIR$/static/js/bsvalidator/custom-validations.js" />
       </list>
     </option>
   </component>
@@ -305,12 +300,6 @@
               <item name="golf-project" type="b2602c69:ProjectViewProjectNode" />
               <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
               <item name="golf" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="golf-project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="golf" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -501,14 +490,7 @@
       <workItem from="1589804876370" duration="31336000" />
       <workItem from="1589937891518" duration="39323000" />
       <workItem from="1590047161758" duration="5500000" />
-      <workItem from="1590069611141" duration="89636000" />
-    </task>
-    <task id="LOCAL-00021" summary="5th commit">
-      <created>1584285072876</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1584285072876</updated>
+      <workItem from="1590069611141" duration="90297000" />
     </task>
     <task id="LOCAL-00022" summary="5th commit">
       <created>1584580354821</created>
@@ -846,11 +828,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590316851732</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="5th commit">
+      <created>1590321097845</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1590321097845</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1456483000" />
+    <option name="totallyTimeSpent" value="1457144000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -873,7 +862,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24907063" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21269841" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17174721" sideWeight="0.5068226" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21798941" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2021164" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1344,14 +1333,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/bsvalidator/custom-validations.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="163" column="31" lean-forward="true" selection-start-line="163" selection-start-column="31" selection-end-line="163" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/manual_location.dust">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="98">
@@ -1393,8 +1374,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        <state relative-caret-position="608">
+          <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/bsvalidator/custom-validations.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="491">
+          <caret line="173" column="29" lean-forward="true" selection-start-line="173" selection-start-column="29" selection-end-line="173" selection-end-column="29" />
           <folding />
         </state>
       </provider>

@@ -158,9 +158,6 @@ $(document).ready(function () {
             },
             lon: {
                 validators: {
-                    notEmpty: {
-                        message: '经度不能为空'
-                    },
                     lessThan: {
                         value: 180,
                         inclusive: true,
@@ -175,9 +172,6 @@ $(document).ready(function () {
             },
             lat: {
                 validators: {
-                    notEmpty: {
-                        message: '纬度不能为空'
-                    },
                     lessThan: {
                         value: 90,
                         inclusive: true,
