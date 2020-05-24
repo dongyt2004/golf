@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Arise Admin Panel" />
+    <meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Themeforest, Bootstrap, C3 Graphs, D3 Graphs, NVD3 Graphs, Admin Skin, Black Admin Dashboard, Grey Admin Dashboard, Dark Admin Dashboard, Simple Admin Dashboard, Simple Admin Theme, Simple Bootstrap Dashboard, " />
+    <meta name="author" content="dongyt" />
+    <title>高尔夫球场中控管理系统</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+
+    <!-- Main CSS -->
+    <link href="css/main.css" rel="stylesheet" media="screen" />
+
+    <!-- Ion Icons -->
+    <link href="fonts/font-awesome.css" rel="stylesheet" />
+
+    <!-- Ion Icons -->
+    <link href="fonts/icomoon/icomoon.css" rel="stylesheet" />
+
+    <link href="css/metroStyle/metroStyle.css" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .dongyt {
+            margin-right: 10px;
+        }
+        .sunzhh{
+        }
+        @media(max-width:619px) {
+            .dongyk {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 定义这两个button不会报错了 -->
+<button class="collapse-menu" style="display: none;"></button>
+<button type="button" id="toggleMenu" class="toggle-menu" style="display: none;"></button>
+
+<!-- Row starts -->
+<div class="row gutter">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel dongyk">
+
+            <a href="#" class="btn btn-success dongyt" id="send">发 送</a>
+
+        </div>
+    </div>
+</div>
+<!-- Row Ends -->
+
+<div class="row gutter">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h4>待选洒水站</h4>
+            </div>
+            <ul id="nozzletree" class="ztree"></ul>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        <div class="panel center-text">
+
+            <a href="#" class="btn btn-info dongyt" id="to_tree"><i class="icon-chevron-left"></i> </a>
+            <a href="#" class="btn btn-info dongyt" id="to_list"><i class="icon-chevron-right"></i> </a>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 sunzhh">
+        <div class="panel">
+            <div class="panel-heading">
+                <h4>选中的洒水站</h4>
+            </div>
+            <div class="list-group no-margin" id="selected_nozzle">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div style="width:100%; height:250px; border:#ccc solid 1px; font-size:12px" id="map"></div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- jquery ScrollUp JS -->
+<script src="js/scrollup/jquery.scrollUp.js"></script>
+
+<!-- Custom JS -->
+<script src="js/custom.js"></script>
+
+<script type="text/javascript" src="js/ztree/jquery.ztree.core.min.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.exedit.min.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.excheck.min.js"></script>
+
+<!--引用百度地图API-->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=jDFwTVOf78ilWOUthg3Pexm3RmCmSLRl"></script>
+
+<script type="text/javascript">
+    var map;
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+        addMapOverlay();//向地图添加覆盖物
+    }
+
+    function createMap(){
+        map = new BMap.Map("map");
+        map.centerAndZoom(new BMap.Point(117.192891,39.130213), 19);
+    }
+
+    function setMapEvent(){
+        map.enableScrollWheelZoom();
+        map.enableKeyboard();
+        map.enableDragging();
+        map.enableDoubleClickZoom()
+    }
+
+    function addClickHandler(target,window){
+        target.addEventListener("click",function(){
+            target.openInfoWindow(window);
+        });
+    }
+
+    function addMapOverlay() {
+        var markers = [];
+        for(var index = 0; index < markers.length; index++ ){
+            var point = new BMap.Point(markers[index].position.lng,markers[index].position.lat);
+            var marker = new BMap.Marker(point,{icon:new BMap.Icon("http://api.map.baidu.com/lbsapi/createmap/images/icon.png",new BMap.Size(20,25),{
+                imageOffset: new BMap.Size(markers[index].imageOffset.width,markers[index].imageOffset.height)
+            })});
+            var label = new BMap.Label(markers[index].title,{offset: new BMap.Size(25,5)});
+            var opts = {
+                width: 200,
+                title: markers[index].title,
+                enableMessage: false
+            };
+            var infoWindow = new BMap.InfoWindow(markers[index].content,opts);
+            marker.setLabel(label);
+            addClickHandler(marker,infoWindow);
+            map.addOverlay(marker);
+        }
+        var labels = [
+            {position:{lng:117.192824,lat:39.130283},content:"天津市和平区甘肃路17号"}
+        ];
+        for(var index = 0; index < labels.length; index++){
+            var opt = { position: new BMap.Point(labels[index].position.lng,labels[index].position.lat )};
+            var label = new BMap.Label(labels[index].content,opt);
+            map.addOverlay(label);
+        }
+    }
+
+    //向地图添加控件
+    function addMapControl(){
+        var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+        scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+        map.addControl(scaleControl);
+        var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+        map.addControl(navControl);
+    }
+
+    initMap();
+
+
+
+    var setting = {
+        check: {
+            enable: true
+        },
+        view: {
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "parent_id",
+                rootPId: 0
+            }
+        },
+        edit: {
+            enable: true,
+            showRemoveBtn: showRemoveBtn,
+            showRenameBtn: showRenameBtn
+        },
+        callback: {
+            onDrop: onDrop,
+            beforeDrag: beforeDrag,
+            beforeDrop: beforeDrop,
+            onCollapse: onCollapse,
+            onExpand: onExpand
+        }
+    };
+
+    var nozzleNodes = [{#nozzleNodes}{@eq key=$idx value=0 type="number"}
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/nozzleNodes}
+    ];
+
+    function showRemoveBtn(treeId, treeNode) {
+        return false;
+    }
+
+    function showRenameBtn(treeId, treeNode) {
+        return false;
+    }
+
+    function beforeDrag(treeId, treeNodes) {
+        return treeNodes[0].id.substr(0, 1) === 't';
+    }
+
+    function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+        if (treeId === 'nozzletree') {
+            return false;
+        }
+    }
+
+    function onDrop(e, treeId, treeNodes, targetNode, moveType) {
+        if (moveType === null && $(e.target).parents(".sunzhh").length > 0 && treeNodes[0].name.indexOf('[正在维修]') < 0 && treeNodes[0].name.indexOf('[正在洒水]') < 0) {
+            $('#selected_nozzle').append('<a onclick="click_selected_nozzle(\'' + treeNodes[0].id + '\')" id="' + treeNodes[0].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + treeNodes[0].parent_id + '" data-icon="' + treeNodes[0].icon + '">' + treeNodes[0].name + '</a>');
+            $.fn.zTree.getZTreeObj("nozzletree").removeNode(treeNodes[0]);
+            reinitIframe();
+        }
+    }
+
+    function onCollapse(event, treeId, treeNode) {
+        reinitIframe();
+    }
+
+    function onExpand(event, treeId, treeNode) {
+        reinitIframe();
+    }
+
+    var selected_nozzle_id = "";
+    function click_selected_nozzle(nozzle_id) {
+        selected_nozzle_id = nozzle_id;
+    }
+
+    jQuery(function ($) {
+        $.fn.zTree.init($("#nozzletree"), setting, nozzleNodes);
+
+        $("#to_list").click(function() {
+            var nozzleNodes = [];
+            var srcNodes = $.fn.zTree.getZTreeObj("nozzletree").getCheckedNodes(true);
+            for (var i=0; i<srcNodes.length; i++) {
+                if (srcNodes[i].id.substr(0, 1) === 't' && srcNodes[i].name.indexOf('[正在维修]') < 0 && srcNodes[i].name.indexOf('[正在洒水]') < 0) {
+                    nozzleNodes.push(srcNodes[i]);
+                }
+            }
+            if (nozzleNodes.length === 0) {
+                parent.alertify.error("请从左边选择合适的洒水站");
+                return;
+            }
+            for (var j=0; j<nozzleNodes.length; j++) {
+                $('#selected_nozzle').append('<a onclick="click_selected_nozzle(\'' + nozzleNodes[j].id + '\')" id="' + nozzleNodes[j].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + nozzleNodes[j].parent_id + '" data-icon="' + nozzleNodes[j].icon + '">' + nozzleNodes[j].name + '</a>');
+                $.fn.zTree.getZTreeObj("nozzletree").removeNode(nozzleNodes[j]);
+            }
+            $.fn.zTree.getZTreeObj("nozzletree").checkAllNodes(false);
+            reinitIframe();
+        });
+
+        $("#to_tree").click(function() {
+            if (selected_nozzle_id === '') {
+                parent.alertify.error("请从右边选择一个洒水站");
+                return;
+            }
+            var selectedElement = $("#" + selected_nozzle_id);
+            var targetNodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
+                return node.id === "" + selectedElement.data("parent_id");
+            });
+            $.fn.zTree.getZTreeObj("nozzletree").addNodes(targetNodes[0], {id: selectedElement.attr("id"), parent_id: targetNodes[0].id, name: selectedElement.html(), open:true, icon:selectedElement.data("icon"), iconOpen:selectedElement.data("icon"), iconClose:selectedElement.data("icon")});
+            selectedElement.remove();
+            selected_nozzle_id = "";
+            reinitIframe();
+        });
+
+        $("#send").click(function() {
+            if ($("#hour", parent.document).val() === '') {
+                parent.alertify.error("灌溉时长不能为空");
+                return;
+            }
+            if ($("#minute", parent.document).val() === '') {
+                parent.alertify.error("灌溉时长不能为空");
+                return;
+            }
+            if ($("#selected_nozzle").children("a").length === 0) {
+                parent.alertify.error("请选择洒水站");
+                return;
+            }
+            var arr = document.getElementById("selected_nozzle").childNodes;
+            var nozzle_ids = [];
+            for(var i=0; i<arr.length; i++){
+                nozzle_ids.push(arr[i].getAttribute("id").slice(1));
+            }
+            $.post("/send.do", {
+                nozzle_ids: JSON.stringify(nozzle_ids),
+                hour: $("#hour", parent.document).val(),
+                minute: $("#minute", parent.document).val()
+            }, function (result) {
+                if (result.success) {
+                    location.reload(true);
+                    parent.document.getElementById('myFrame_area').contentWindow.location.reload(true);
+                } else {
+                    parent.alertify.error("网络原因，发送失败");
+                }
+            });
+        });
+
+        reinitIframe();
+    });
+
+    window.onresize = function () {
+        reinitIframe();
+    };
+
+    function reinitIframe() {
+        parent.document.getElementById('myFrame_controlbox').height = document.body.scrollHeight || document.documentElement.scrollHeight;
+    }
+</script>
+</body>
+</html>

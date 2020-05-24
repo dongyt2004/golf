@@ -156,6 +156,40 @@ $(document).ready(function () {
                     }
                 }
             },
+            lon: {
+                validators: {
+                    notEmpty: {
+                        message: '经度不能为空'
+                    },
+                    lessThan: {
+                        value: 180,
+                        inclusive: true,
+                        message: '经度必须小于180°'
+                    },
+                    greaterThan: {
+                        value: -180,
+                        inclusive: true,
+                        message: '经度必须大于-180°'
+                    }
+                }
+            },
+            lat: {
+                validators: {
+                    notEmpty: {
+                        message: '纬度不能为空'
+                    },
+                    lessThan: {
+                        value: 90,
+                        inclusive: true,
+                        message: '纬度必须小于90°'
+                    },
+                    greaterThan: {
+                        value: -90,
+                        inclusive: true,
+                        message: '纬度必须大于-90°'
+                    }
+                }
+            },
             nozzle_no: {
                 validators: {
                     notEmpty: {

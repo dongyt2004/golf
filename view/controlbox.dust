@@ -184,19 +184,19 @@
 
                         <!-- Row starts -->
                         <div class="row gutter">
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="controlbox_no">设备编号</label>
                                     <input id="controlbox_no" class="form-control" name="controlbox_no" />
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="controlbox_name">设备名称</label>
                                     <input id="controlbox_name" class="form-control" name="controlbox_name" />
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="controlbox_model">设备型号</label>
                                     <select class="form-control" id="controlbox_model" name="controlbox_model">
@@ -206,10 +206,22 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="nozzle_count">最大站点数</label>
                                     <input id="nozzle_count" class="form-control" name="nozzle_count" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="lon">经度</label>
+                                    <input id="lon" class="form-control" name="lon" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="lat">纬度</label>
+                                    <input id="lat" class="form-control" name="lat" />
                                 </div>
                             </div>
                         </div>
@@ -248,6 +260,8 @@
                                             <th>型 号</th>
                                             <th style="display: none;"></th>
                                             <th>最大站点数</th>
+                                            <th>经度</th>
+                                            <th>纬度</th>
                                             <th>设备状态</th>
                                         </tr>
                                     </thead>
@@ -261,6 +275,8 @@
                                             <td class="controlbox_model_{id}">{controlbox_model}</td>
                                             <td style="display: none;" class="model_id_{id}">{model_id}</td>
                                             <td class="nozzle_count_{id}">{nozzle_count}</td>
+                                            <td class="lon_{id}">{lon}</td>
+                                            <td class="lat_{id}">{lat}</td>
                                             <td class="skin skin-line">
                                                 <div class="row">
                                                     {@eq key=use_state value="1" type="number"}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: #32AB52;">正常</div>{:else}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: red;">设备网络异常</div>{/eq}
@@ -334,6 +350,29 @@
 <script src="js/custom.js"></script>
 
 <script type="text/javascript">
+    function getLocation(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setPosition, error, {
+                /* 指示浏览器获取高精度的位置，默认为false */
+                enableHighAccuracy: true,
+                /* 指定获取地理位置的超时时间，默认不限时，单位为毫秒 */
+                timeout: 5000,
+                /* 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。 */
+                maximumAge: 3000
+            });
+        }
+    }
+
+    function setPosition(position) {
+        $('#lon').val(position.coords.longitude);
+        $('#lat').val(position.coords.latitude);
+    }
+
+    function error(err){
+        $('#lon').val('');
+        $('#lat').val('');
+    }
+
     var transfered_controlbox_id = null;
     var transfered_controlbox_no = "";
 
@@ -346,6 +385,12 @@
         $('#controlbox_name').val($('td.controlbox_name_' + id).html());
         $('#controlbox_model').val($('td.model_id_' + id).html());
         $('#nozzle_count').val($('td.nozzle_count_' + id).html());
+        if ($('td.lon' + id).html() === '') {
+            getLocation();
+        } else {
+            $('#lon').val($('td.lon' + id).html());
+            $('#lat').val($('td.lat' + id).html());
+        }
         document.getElementById('myFrame').contentWindow.location.reload(true);
         $('#myFrame').attr('src', '/nozzle.html?controlbox_id=' + id + '&controlbox_no=' + cb.html());
     }
@@ -398,6 +443,8 @@
         var c = $("#controlbox_no");
         var n = $("#controlbox_name");
         var nc = $("#nozzle_count");
+        var lon = $("#lon");
+        var lat = $("#lat");
         /* 新增分控箱 */
         $("#c_controlbox").click(function() {
             if (c.val() === '') {
@@ -412,11 +459,21 @@
                 alertify.error("最大站点数不能为空");
                 return;
             }
+            if (lon.val() === '') {
+                alertify.error("经度不能为空");
+                return;
+            }
+            if (lat.val() === '') {
+                alertify.error("纬度不能为空");
+                return;
+            }
             $.post("/add_controlbox.do", {
                 no: c.val(),
                 name: n.val(),
                 model_id: $("#controlbox_model").val(),
-                nozzle_count: nc.val()
+                nozzle_count: nc.val(),
+                lon: lon.val(),
+                lat: lat.val()
             }, function (result) {
                 if (result.success) {
                     window.location.href = '/controlbox.html';
@@ -444,6 +501,14 @@
                 alertify.error("最大站点数不能为空");
                 return;
             }
+            if (lon.val() === '') {
+                alertify.error("经度不能为空");
+                return;
+            }
+            if (lat.val() === '') {
+                alertify.error("纬度不能为空");
+                return;
+            }
             var update_no = false;
             if (transfered_controlbox_no !== c.val()) {
                 update_no = true;
@@ -454,7 +519,9 @@
                 no: c.val(),
                 name: n.val(),
                 model_id: $("#controlbox_model").val(),
-                nozzle_count: nc.val()
+                nozzle_count: nc.val(),
+                lon: lon.val(),
+                lat: lat.val()
             }, function (result) {
                 if (result.success) {
                     window.location.href = '/controlbox.html';

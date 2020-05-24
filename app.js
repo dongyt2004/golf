@@ -1,8 +1,8 @@
 require('dotenv').config({ path: './app.env' });
 process.env.TZ = "Asia/Shanghai";
 const http = require('http');
-const https = require('https');
-const fs = require('fs');
+// const https = require('https');
+// const fs = require('fs');
 const db = require('./db');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -624,7 +624,7 @@ app.post("/add_controlbox.do", function (req, res) {
             var g = Math.floor(Math.random()*256);
             var b = Math.floor(Math.random()*256);
             var color = '#' + r.toString(16) + g.toString(16) + b.toString(16);
-            db.exec("insert into controlbox(no,name,model_id,nozzle_count,color,last_recv_time) values(?,?,?,?,?,?)", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, color, moment().format("YYYY-MM-DD HH:mm:ss")], function () {
+            db.exec("insert into controlbox(no,name,model_id,nozzle_count,lon,lat,color,last_recv_time) values(?,?,?,?,?,?,?,?)", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, req.body.lon, req.body.lat, color, moment().format("YYYY-MM-DD HH:mm:ss")], function () {
                 res.json({success: true});
             });
         }
@@ -642,7 +642,7 @@ app.post("/update_controlbox.do", function (req, res) {
             if (ids.length > 0) {
                 res.json({failure: true});  // 分控箱编号重复
             } else {
-                db.exec("update controlbox set no=?,name=?,model_id=?,nozzle_count=? where id=?", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, req.body.id], function () {
+                db.exec("update controlbox set no=?,name=?,model_id=?,nozzle_count=?,lon=?,lat=? where id=?", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, req.body.lon, req.body.lat, req.body.id], function () {
                     res.json({success: true});
                 });
             }
@@ -1137,6 +1137,49 @@ app.get("/manual.html", function (req, res) {
         });
     });
 });
+const EARTH_RADIUS = 6378137;  //地球半径，米
+// 计算两点距离
+function distance(lng1, lat1, lng2, lat2) {
+    var radLat1 = lat1 * Math.PI / 180.0;
+    var radLat2 = lat2 * Math.PI / 180.0;
+    var a = radLat1 - radLat2;
+    var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+    var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+    s = s * EARTH_RADIUS;
+    s = Math.round(s * 10000) / 10000;
+    return Math.abs(s);
+}
+// 打开手动灌溉按位置选洒水站页面
+app.get("/manual_location.html", function (req, res) {
+    db.exec("select * from controlbox where use_state=1 order by id", [], function (controlboxes) {
+        var boxes = [];
+        for(var i=0; i<controlboxes.length; i++) {
+            if (distance(req.query.lon, req.query.lat, controlboxes[i].lon, controlboxes[i].lat) <= process.env.LOCATION_CONTROL_DISTANCE) {
+                boxes.push(controlboxes[i]);
+            }
+        }
+        var nozzleNodes = [];
+        for(var i=0; i<boxes.length; i++) {
+            nozzleNodes.push({id:boxes[i].id,name:boxes[i].no + "：" + boxes[i].name,parent_id:0,icon:"/img/分控箱.png"});
+        }
+        db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id order by b.no, a.no", [], function (nozzles) {
+            for(var i=0; i<nozzles.length; i++) {
+                var str = "";
+                if (nozzles[i].use_state === 0) {
+                    str = "[正在维修]";
+                } else {
+                    if (nozzles[i].state === 1) {
+                        str = "[正在洒水]";
+                    }
+                }
+                nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
+            }
+            res.render('manual_location', {
+                nozzleNodes: nozzleNodes
+            });
+        });
+    });
+});
 // 打开手动灌溉按分控箱选洒水站页面
 app.get("/manual_controlbox.html", function (req, res) {
     db.exec("select distinct(controlbox_id) from nozzle where course_id=?", [req.query.course_id], function (controlbox_ids) {
@@ -1163,9 +1206,7 @@ app.get("/manual_controlbox.html", function (req, res) {
                     nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
                 }
                 res.render('manual_controlbox', {
-                    nozzleNodes: nozzleNodes,
-                    user: req.session.user,
-                    click_count: req.session.click_count % 2
+                    nozzleNodes: nozzleNodes
                 });
             });
         });
@@ -1205,9 +1246,7 @@ app.get("/manual_area.html", function (req, res) {
                         nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].area_id + "-" + nozzles[i].hole,icon:"/img/喷头.png"});
                     }
                     res.render('manual_area', {
-                        nozzleNodes: nozzleNodes,
-                        user: req.session.user,
-                        click_count: req.session.click_count % 2
+                        nozzleNodes: nozzleNodes
                     });
                 });
             });
@@ -1562,10 +1601,6 @@ app.get("/turf.html", function (req, res) {
             click_count: req.session.click_count % 2
         });
     });
-});
-// 打开定位灌溉页面
-app.get("/locate.html", function (req, res) {
-    res.render('locate');
 });
 /** ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- **/
 // catch 404 and forward to error handler
