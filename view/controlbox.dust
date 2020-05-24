@@ -472,14 +472,6 @@
                 alertify.error("最大站点数不能为空");
                 return;
             }
-            if (lon.val() === '') {
-                alertify.error("经度不能为空");
-                return;
-            }
-            if (lat.val() === '') {
-                alertify.error("纬度不能为空");
-                return;
-            }
             $.post("/add_controlbox.do", {
                 no: c.val(),
                 name: n.val(),
@@ -512,14 +504,6 @@
             }
             if (nc.val() === '') {
                 alertify.error("最大站点数不能为空");
-                return;
-            }
-            if (lon.val() === '') {
-                alertify.error("经度不能为空");
-                return;
-            }
-            if (lat.val() === '') {
-                alertify.error("纬度不能为空");
                 return;
             }
             var update_no = false;

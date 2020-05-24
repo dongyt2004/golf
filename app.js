@@ -624,7 +624,9 @@ app.post("/add_controlbox.do", function (req, res) {
             var g = Math.floor(Math.random()*256);
             var b = Math.floor(Math.random()*256);
             var color = '#' + r.toString(16) + g.toString(16) + b.toString(16);
-            db.exec("insert into controlbox(no,name,model_id,nozzle_count,lon,lat,color,last_recv_time) values(?,?,?,?,?,?,?,?)", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, req.body.lon, req.body.lat, color, moment().format("YYYY-MM-DD HH:mm:ss")], function () {
+            var lon = (req.body.lon === '')?null:req.body.lon;
+            var lat = (req.body.lat === '')?null:req.body.lat;
+            db.exec("insert into controlbox(no,name,model_id,nozzle_count,lon,lat,color,last_recv_time) values(?,?,?,?,?,?,?,?)", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, color, moment().format("YYYY-MM-DD HH:mm:ss")], function () {
                 res.json({success: true});
             });
         }
@@ -632,9 +634,11 @@ app.post("/add_controlbox.do", function (req, res) {
 });
 // 修改分控箱操作
 app.post("/update_controlbox.do", function (req, res) {
+    var lon = (req.body.lon === '')?null:req.body.lon;
+    var lat = (req.body.lat === '')?null:req.body.lat;
     var update_no = JSON.parse(req.body.update_no);
     if (!update_no) {
-        db.exec("update controlbox set name=?,model_id=?,nozzle_count=?,lon=?,lat=? where id=?", [req.body.name, req.body.model_id, req.body.nozzle_count, req.body.lon, req.body.lat, req.body.id], function () {
+        db.exec("update controlbox set name=?,model_id=?,nozzle_count=?,lon=?,lat=? where id=?", [req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, req.body.id], function () {
             res.json({success: true});
         });
     } else {
@@ -642,7 +646,7 @@ app.post("/update_controlbox.do", function (req, res) {
             if (ids.length > 0) {
                 res.json({failure: true});  // 分控箱编号重复
             } else {
-                db.exec("update controlbox set no=?,name=?,model_id=?,nozzle_count=?,lon=?,lat=? where id=?", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, req.body.lon, req.body.lat, req.body.id], function () {
+                db.exec("update controlbox set no=?,name=?,model_id=?,nozzle_count=?,lon=?,lat=? where id=?", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, req.body.id], function () {
                     res.json({success: true});
                 });
             }
