@@ -3,19 +3,9 @@
   <component name="ChangeListManager">
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/人.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/点位分控箱.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/access.2020-05-24.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/app.2020-05-24.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/ztree/jquery.ztree.exhide.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/log/access.2020-05-21.log" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.env" afterPath="$PROJECT_DIR$/app.env" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/access.log" afterPath="$PROJECT_DIR$/log/access.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/app.log" afterPath="$PROJECT_DIR$/log/app.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox.dust" afterPath="$PROJECT_DIR$/view/controlbox.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/manual.dust" afterPath="$PROJECT_DIR$/view/manual.dust" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/manual_location.dust" afterPath="$PROJECT_DIR$/view/manual_location.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -36,18 +26,18 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="477">
-              <caret line="1186" column="67" lean-forward="true" selection-start-line="1186" selection-start-column="67" selection-end-line="1186" selection-end-column="67" />
+            <state relative-caret-position="154">
+              <caret line="1169" column="23" lean-forward="true" selection-start-line="1169" selection-start-column="23" selection-end-line="1169" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="manual_location.dust" pinned="false" current-in-tab="false">
+      <file leaf-file-name="manual_location.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/manual_location.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="315" column="31" lean-forward="true" selection-start-line="315" selection-start-column="31" selection-end-line="315" selection-end-column="31" />
+            <state relative-caret-position="361">
+              <caret line="34" column="16" lean-forward="true" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -72,18 +62,28 @@
       <file leaf-file-name="manual.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/manual.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1285">
-              <caret line="281" column="0" lean-forward="true" selection-start-line="281" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
+            <state relative-caret-position="-752">
+              <caret line="217" column="61" lean-forward="true" selection-start-line="217" selection-start-column="61" selection-end-line="217" selection-end-column="61" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="836">
-              <caret line="44" column="29" lean-forward="true" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+            <state relative-caret-position="570">
+              <caret line="30" column="20" lean-forward="true" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test-stub.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test-stub.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="494">
+              <caret line="39" column="1" lean-forward="true" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -222,8 +222,8 @@
         <option value="$PROJECT_DIR$/static/js/ztree/jquery.ztree.exhide.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/view/manual.dust" />
-        <option value="$PROJECT_DIR$/app.env" />
         <option value="$PROJECT_DIR$/view/manual_location.dust" />
+        <option value="$PROJECT_DIR$/app.env" />
       </list>
     </option>
   </component>
@@ -498,14 +498,7 @@
       <workItem from="1589937891518" duration="39323000" />
       <workItem from="1590047161758" duration="5500000" />
       <workItem from="1590069611141" duration="98914000" />
-      <workItem from="1590338000416" duration="19906000" />
-    </task>
-    <task id="LOCAL-00024" summary="5th commit">
-      <created>1584623746803</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1584623746803</updated>
+      <workItem from="1590338000416" duration="22364000" />
     </task>
     <task id="LOCAL-00025" summary="5th commit">
       <created>1584627233500</created>
@@ -843,11 +836,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590325861200</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="5th commit">
+      <created>1590405342020</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1590405342020</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1485667000" />
+    <option name="totallyTimeSpent" value="1488125000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -869,7 +869,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24907063" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21269841" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17174721" sideWeight="0.5068226" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21798941" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.74920636" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1245,13 +1245,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test-stub.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="39" column="1" lean-forward="true" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/alertify/alertify-custom.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-266">
@@ -1265,13 +1258,6 @@
         <state relative-caret-position="396">
           <caret line="174" column="31" lean-forward="true" selection-start-line="174" selection-start-column="31" selection-end-line="174" selection-end-column="31" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../golf-schedule/scheduler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="89" column="7" lean-forward="true" selection-start-line="89" selection-start-column="7" selection-end-line="89" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1309,10 +1295,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../golf-schedule/scheduler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="725">
+          <caret line="75" column="3" lean-forward="true" selection-start-line="75" selection-start-column="3" selection-end-line="75" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-stub.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="39" column="1" lean-forward="true" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="1169" column="23" lean-forward="true" selection-start-line="1169" selection-start-column="23" selection-end-line="1169" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="30" column="20" lean-forward="true" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/view/manual.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1285">
-          <caret line="281" column="0" lean-forward="true" selection-start-line="281" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
+        <state relative-caret-position="-752">
+          <caret line="217" column="61" lean-forward="true" selection-start-line="217" selection-start-column="61" selection-end-line="217" selection-end-column="61" />
           <folding />
         </state>
       </provider>
@@ -1325,18 +1343,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="1186" column="67" lean-forward="true" selection-start-line="1186" selection-start-column="67" selection-end-line="1186" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/manual_location.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="315" column="31" lean-forward="true" selection-start-line="315" selection-start-column="31" selection-end-line="315" selection-end-column="31" />
+        <state relative-caret-position="361">
+          <caret line="34" column="16" lean-forward="true" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1344,14 +1354,6 @@
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h5#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="836">
-          <caret line="44" column="29" lean-forward="true" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>

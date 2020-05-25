@@ -39,6 +39,7 @@
                 text-align: center;
             }
         }
+        .BMapLabel{ max-width:none; }
     </style>
 </head>
 
@@ -305,6 +306,7 @@
         map.centerAndZoom(new BMap.Point({lon}, {lat}), 19);
 {/eq}
         map.enableDragging();
+        map.enableDoubleClickZoom();
         map.addControl(new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT}));
 {@ne key=lon value=""}
         var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(32, 32))});
