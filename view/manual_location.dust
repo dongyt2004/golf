@@ -63,7 +63,7 @@
 
 <div class="row gutter">
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-        <div style="width:100%; height:700px; border:#ccc solid 1px;" id="map"></div>
+        <div style="width:100%; height:700px; border:#ccc solid 1px; display: none;" id="map"></div>
     </div>
 
     <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
@@ -299,7 +299,7 @@
             });
         });
 
-        setTimeout(function() {
+        $("#map").show(function () {
             var map = new BMap.Map("map", {mapType: BMAP_SATELLITE_MAP});
 {@eq key=lon value=""}
             map.centerAndZoom(new BMap.Point(116.403875, 39.915168), 19);  /* 天安门 */
@@ -330,7 +330,7 @@
 {/near_controlboxes}
 
             reinitIframe();
-        }, 300);
+        });
     });
 
     window.onresize = function () {

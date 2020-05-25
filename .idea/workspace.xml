@@ -34,8 +34,8 @@
       <file leaf-file-name="manual_location.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/manual_location.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="706">
-              <caret line="329" column="20" lean-forward="true" selection-start-line="329" selection-start-column="20" selection-end-line="329" selection-end-column="20" />
+            <state relative-caret-position="-1493">
+              <caret line="225" column="25" lean-forward="true" selection-start-line="225" selection-start-column="25" selection-end-line="225" selection-end-column="25" />
               <folding>
                 <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -487,14 +487,7 @@
       <workItem from="1589937891518" duration="39323000" />
       <workItem from="1590047161758" duration="5500000" />
       <workItem from="1590069611141" duration="98914000" />
-      <workItem from="1590338000416" duration="26646000" />
-    </task>
-    <task id="LOCAL-00028" summary="5th commit">
-      <created>1584633918758</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1584633918758</updated>
+      <workItem from="1590338000416" duration="28903000" />
     </task>
     <task id="LOCAL-00029" summary="5th commit">
       <created>1584634226501</created>
@@ -832,11 +825,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590411493694</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="5th commit">
+      <created>1590414577378</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1590414577378</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1492407000" />
+    <option name="totallyTimeSpent" value="1494664000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1334,8 +1334,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/manual_location.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="706">
-          <caret line="329" column="20" lean-forward="true" selection-start-line="329" selection-start-column="20" selection-end-line="329" selection-end-column="20" />
+        <state relative-caret-position="-1493">
+          <caret line="225" column="25" lean-forward="true" selection-start-line="225" selection-start-column="25" selection-end-line="225" selection-end-column="25" />
           <folding>
             <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
