@@ -218,25 +218,25 @@
                     <div class="tabbable tabs-left clearfix">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#tabZero" data-toggle="tab">按位置选</a>
-                            </li>
-                            <li>
                                 <a href="#tabOne" data-toggle="tab">按分控箱选</a>
                             </li>
                             <li>
                                 <a href="#tabTwo" data-toggle="tab">按区域选</a>
                             </li>
+                            <li>
+                                <a href="#tabThree" data-toggle="tab">按位置选</a>
+                            </li>
                         </ul>
 
                         <div class="tab-content">
-                            <div class="tab-pane active" id="tabZero">
-                                <iframe id="myFrame_location" src="/manual_location.html" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%" vspale="0" style="overflow:visible;"></iframe>
-                            </div>
-                            <div class="tab-pane" id="tabOne">
+                            <div class="tab-pane active" id="tabOne">
                                 <iframe id="myFrame_controlbox" src="/manual_controlbox.html?course_id={first_course_id}" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%" vspale="0" style="overflow:visible;"></iframe>
                             </div>
                             <div class="tab-pane" id="tabTwo">
                                 <iframe id="myFrame_area" src="/manual_area.html?course_id={first_course_id}" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%" vspale="0" style="overflow:visible;"></iframe>
+                            </div>
+                            <div class="tab-pane" id="tabThree">
+                                <iframe id="myFrame_location" src="/manual_location.html" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%" vspale="0" style="overflow:visible;"></iframe>
                             </div>
                         </div>
                     </div>
@@ -278,29 +278,6 @@
 <script src="js/custom.js"></script>
 
 <script type="text/javascript">
-    function getLocation(){
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(initPosition, error, {
-                /* 指示浏览器获取高精度的位置，默认为false */
-                enableHighAccuracy: true,
-                /* 指定获取地理位置的超时时间，默认不限时，单位为毫秒 */
-                timeout: 5000,
-                /* 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。 */
-                maximumAge: 3000
-            });
-        }
-    }
-
-    getLocation();
-
-    function initPosition(position) {
-        document.getElementById('myFrame_location').contentWindow.location.reload(true);
-        $('#myFrame_controlbox').attr('src', '/manual_location.html?lon=' + position.coords.longitude + '&lat=' + position.coords.latitude);
-    }
-
-    function error(err){
-    }
-
     var c = $("#course");
 
     function change_course() {
@@ -313,7 +290,6 @@
     jQuery(function ($) {
         /* 刷新 */
         $("#refresh").click(function() {
-            getLocation();
             change_course();
         });
     });

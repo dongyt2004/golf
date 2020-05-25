@@ -358,6 +358,10 @@
 <!-- Custom JS -->
 <script src="js/custom.js"></script>
 
+<!--引用百度地图API-->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=jDFwTVOf78ilWOUthg3Pexm3RmCmSLRl"></script>
+<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+
 <script type="text/javascript">
     function getLocation(){
         if (navigator.geolocation) {
@@ -368,15 +372,17 @@
                 /* 指定获取地理位置的超时时间，默认不限时，单位为毫秒 */
                 timeout: 15000,
                 /* 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。 */
-                maximumAge: 30000
+                maximumAge: 20000
             });
         }
     }
 
     function setPosition(position) {
-        $('#lon').val(position.coords.longitude);
-        $('#lat').val(position.coords.latitude);
-        $('#loadingModal').modal('hide');
+        BMap.Convertor.translate(new BMap.Point(position.coords.longitude, position.coords.latitude), 0, function (point) {
+            $('#lon').val(point.lng);
+            $('#lat').val(point.lat);
+            $('#loadingModal').modal('hide');
+        });
     }
 
     function error(err){

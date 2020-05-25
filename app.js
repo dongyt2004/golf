@@ -1142,12 +1142,15 @@ app.get("/manual.html", function (req, res) {
     });
 });
 const EARTH_RADIUS = 6378137;  //地球半径，米
+function rad(d) {
+    return d * Math.PI / 180.0;
+}
 // 计算两点距离
 function distance(lng1, lat1, lng2, lat2) {
-    var radLat1 = lat1 * Math.PI / 180.0;
-    var radLat2 = lat2 * Math.PI / 180.0;
+    var radLat1 = rad(lat1);
+    var radLat2 = rad(lat2);
     var a = radLat1 - radLat2;
-    var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+    var b = rad(lng1) - rad(lng2);
     var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
     s = s * EARTH_RADIUS;
     s = Math.round(s * 10000) / 10000;
@@ -1156,18 +1159,18 @@ function distance(lng1, lat1, lng2, lat2) {
 // 打开手动灌溉按位置选洒水站页面
 app.get("/manual_location.html", function (req, res) {
     db.exec("select * from controlbox where use_state=1 order by id", [], function (controlboxes) {
-        var boxes = [];
+        var near_controlboxes = [];
         var where = "";
         for(var i=0; i<controlboxes.length; i++) {
-            if (distance(req.query.lon, req.query.lat, controlboxes[i].lon, controlboxes[i].lat) <= process.env.LOCATION_CONTROL_DISTANCE) {
-                boxes.push(controlboxes[i]);
+            if (req.query.lon && controlboxes[i].lon !== null && distance(req.query.lon, req.query.lat, controlboxes[i].lon, controlboxes[i].lat) <= process.env.MANUAL_CONTROL_DISTANCE) {
+                near_controlboxes.push(controlboxes[i]);
                 where += "b.id=" + controlboxes[i].id + " or ";
             }
         }
         where += "1=0";
         var nozzleNodes = [];
-        for(var i=0; i<boxes.length; i++) {
-            nozzleNodes.push({id:boxes[i].id,name:boxes[i].no + "：" + boxes[i].name,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
+        for(var i=0; i<near_controlboxes.length; i++) {
+            nozzleNodes.push({id:near_controlboxes[i].id,name:near_controlboxes[i].no + "：" + near_controlboxes[i].name,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
         }
         db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id where (" + where + ") order by b.no, a.no", [], function (nozzles) {
             for(var i=0; i<nozzles.length; i++) {
@@ -1181,11 +1184,13 @@ app.get("/manual_location.html", function (req, res) {
                 }
                 nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
             }
+            var lon = (req.query.lon)?parseFloat(req.query.lon):"";
+            var lat = (req.query.lat)?parseFloat(req.query.lat):"";
             res.render('manual_location', {
-                controlboxes: boxes,
+                near_controlboxes: near_controlboxes,
                 nozzleNodes: nozzleNodes,
-                lon: parseFloat(req.query.lon),
-                lat: parseFloat(req.query.lat)
+                lon: lon,
+                lat: lat
             });
         });
     });

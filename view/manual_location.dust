@@ -61,11 +61,11 @@
 <!-- Row Ends -->
 
 <div class="row gutter">
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <div style="width:100%; height:250px; border:#ccc solid 1px; font-size:12px" id="map"></div>
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        <div style="width:100%; height:700px; border:#ccc solid 1px;" id="map"></div>
     </div>
 
-    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
         <div class="panel">
             <div class="panel-heading">
                 <h4>待选洒水站</h4>
@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
         <div class="panel center-text">
 
             <a href="#" class="btn btn-info dongyt" id="to_tree"><i class="icon-chevron-left"></i> </a>
@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 sunzhh">
+    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 sunzhh">
         <div class="panel">
             <div class="panel-heading">
                 <h4>选中的洒水站</h4>
@@ -91,6 +91,15 @@
             <div class="list-group no-margin" id="selected_nozzle">
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal" id="loadingModal" data-backdrop="static" data-keyboard="false">
+    <div style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50%; margin-left:-100px; margin-top:-10px">
+        <div class="progress progress-striped active" style="margin-bottom: 0;">
+            <div class="progress-bar" style="width: 100%;"></div>
+        </div>
+        <h5 style="color:white"> <strong>正在获取经纬度，请稍等...</strong> </h5>
     </div>
 </div>
 
@@ -109,11 +118,37 @@
 <script type="text/javascript" src="js/ztree/jquery.ztree.core.min.js"></script>
 <script type="text/javascript" src="js/ztree/jquery.ztree.exedit.min.js"></script>
 <script type="text/javascript" src="js/ztree/jquery.ztree.excheck.min.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.exhide.js"></script>
 
 <!--引用百度地图API-->
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=jDFwTVOf78ilWOUthg3Pexm3RmCmSLRl"></script>
+<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 
 <script type="text/javascript">
+    function initPosition(position) {
+        BMap.Convertor.translate(new BMap.Point(position.coords.longitude, position.coords.latitude), 0, function (point) {
+            location.replace('/manual_location.html?lon=' + point.lng + '&lat=' + point.lat);
+        });
+    }
+
+    function error(err) {
+        $('#loadingModal').modal('hide');
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            $("#loadingModal").modal('show');
+            navigator.geolocation.getCurrentPosition(initPosition, error, {
+                /* 指示浏览器获取高精度的位置，默认为false */
+                enableHighAccuracy: true,
+                /* 指定获取地理位置的超时时间，默认不限时，单位为毫秒 */
+                timeout: 15000,
+                /* 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。 */
+                maximumAge: 20000
+            });
+        }
+    }
+
     var setting = {
         check: {
             enable: true
@@ -188,6 +223,12 @@
     }
 
     jQuery(function ($) {
+        $('#loadingModal').modal('hide');
+
+{@eq key=lon value=""}
+        getLocation();
+{/eq}
+
         $.fn.zTree.init($("#nozzletree"), setting, nozzleNodes);
 
         $("#to_list").click(function() {
@@ -257,29 +298,33 @@
             });
         });
 
-        var map = new BMap.Map("map");
+        var map = new BMap.Map("map", {mapType: BMAP_SATELLITE_MAP});
+{@eq key=lon value=""}
+        map.centerAndZoom(new BMap.Point(116.403875, 39.915168), 19);  /* 天安门 */
+{:else}
         map.centerAndZoom(new BMap.Point({lon}, {lat}), 19);
-        map.enableScrollWheelZoom();
+{/eq}
         map.enableDragging();
-        map.enableDoubleClickZoom()
-        map.addControl(new BMap.MapTypeControl({
-            mapTypes:[
-                BMAP_HYBRID_MAP
-            ]}
-        ));
-        var marker;
-{#controlboxes}
-        marker = new BMap.Marker(new BMap.Point({lon}, {lat}));
+        map.addControl(new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT}));
+{@ne key=lon value=""}
+        var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(32, 32))});
+        map.addOverlay(marker);
+{/ne}
+{#near_controlboxes}
+        marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/点位分控箱.png", new BMap.Size(32, 32))});
+        marker.setLabel(new BMap.Label("{no}：{name}", {offset: new BMap.Size(20, -10)}));
         map.addOverlay(marker);
         marker.addEventListener("click", function() {
-            var nodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByParam("isHidden", false);
-            $.fn.zTree.getZTreeObj("nozzletree").hideNodes(nodes);
-            nodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
-                return node.id === {id};
+            var controlbox_nodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
+                return node.id.substr(0, 1) !== 't' && node.isHidden === false;
+            });
+            $.fn.zTree.getZTreeObj("nozzletree").hideNodes(controlbox_nodes);
+            var nodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
+                return node.id === "{id}";
             });
             $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
         });
-{/controlboxes}
+{/near_controlboxes}
 
         reinitIframe();
     });
@@ -289,7 +334,7 @@
     };
 
     function reinitIframe() {
-        parent.document.getElementById('myFrame_controlbox').height = document.body.scrollHeight || document.documentElement.scrollHeight;
+        parent.document.getElementById('myFrame_location').height = document.body.scrollHeight || document.documentElement.scrollHeight;
     }
 </script>
 </body>
