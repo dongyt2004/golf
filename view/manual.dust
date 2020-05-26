@@ -290,6 +290,8 @@
     jQuery(function ($) {
         /* 刷新 */
         $("#refresh").click(function() {
+            document.getElementById('myFrame_location').contentWindow.location.reload(true);
+            $('#myFrame_area').attr('src', '/manual_location.html');
             change_course();
         });
     });
