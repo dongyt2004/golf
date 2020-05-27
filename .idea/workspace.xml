@@ -4,8 +4,6 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox.dust" afterPath="$PROJECT_DIR$/view/controlbox.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/manual_location.dust" afterPath="$PROJECT_DIR$/view/manual_location.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -32,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="manual_location.dust" pinned="false" current-in-tab="false">
+      <file leaf-file-name="manual_location.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/manual_location.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="138" column="20" lean-forward="false" selection-start-line="138" selection-start-column="20" selection-end-line="138" selection-end-column="20" />
+            <state relative-caret-position="342">
+              <caret line="139" column="22" lean-forward="true" selection-start-line="139" selection-start-column="22" selection-end-line="139" selection-end-column="22" />
               <folding>
                 <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -49,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controlbox.dust" pinned="false" current-in-tab="true">
+      <file leaf-file-name="controlbox.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="393" column="22" lean-forward="true" selection-start-line="393" selection-start-column="22" selection-end-line="393" selection-end-column="22" />
+            <state relative-caret-position="236">
+              <caret line="391" column="28" lean-forward="true" selection-start-line="391" selection-start-column="28" selection-end-line="391" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -480,14 +478,7 @@
       <workItem from="1590069611141" duration="98914000" />
       <workItem from="1590338000416" duration="32095000" />
       <workItem from="1590462249441" duration="1593000" />
-      <workItem from="1590543367308" duration="1567000" />
-    </task>
-    <task id="LOCAL-00031" summary="5th commit">
-      <created>1584635098620</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1584635098620</updated>
+      <workItem from="1590543367308" duration="2881000" />
     </task>
     <task id="LOCAL-00032" summary="5th commit">
       <created>1584635219830</created>
@@ -825,11 +816,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590462572163</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="5th commit">
+      <created>1590545057135</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1590545057135</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1501016000" />
+    <option name="totallyTimeSpent" value="1502330000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1307,10 +1305,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="391" column="28" lean-forward="true" selection-start-line="391" selection-start-column="28" selection-end-line="391" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/view/manual_location.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="138" column="20" lean-forward="false" selection-start-line="138" selection-start-column="20" selection-end-line="138" selection-end-column="20" />
+        <state relative-caret-position="342">
+          <caret line="139" column="22" lean-forward="true" selection-start-line="139" selection-start-column="22" selection-end-line="139" selection-end-column="22" />
           <folding>
             <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1319,14 +1325,6 @@
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h5#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="393" column="22" lean-forward="true" selection-start-line="393" selection-start-column="22" selection-end-line="393" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
