@@ -132,8 +132,21 @@
         });
     }
 
-    function error(err) {
+    function error(error) {
         $('#loadingModal').modal('hide');
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                parent.alertify.error("不允许获取位置信息，请设置相关权限");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                parent.alertify.error("请使用移动终端设备获取位置信息");
+                break;
+            case error.TIMEOUT:
+                parent.alertify.error("获取位置信息时间超时");
+                break;
+            default:
+                break;
+        }
     }
 
     function getLocation() {
