@@ -279,7 +279,7 @@
                                             <td class="lat_{id}">{lat}</td>
                                             <td class="skin skin-line">
                                                 <div class="row">
-                                                    {@eq key=use_state value="1" type="number"}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: #32AB52;">正常</div>{:else}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: red;">设备网络异常</div>{/eq}
+                                                    {@eq key=use_state value="1" type="number"}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: #32AB52;">正常</div>{:else}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: red;">网络异常</div>{/eq}
                                                     <div class="skin-section col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                         <input id="{id}" class="sunzhh" type="checkbox" {@eq key=use_state value="0" type="number"} checked{/eq}>
                                                         <label>{@eq key=use_state value="1" type="number"}禁用{:else}重新启用{/eq}</label>
@@ -363,47 +363,6 @@
 <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 
 <script type="text/javascript">
-    function getLocation(){
-        if (navigator.geolocation) {
-            $("#loadingModal").modal('show');
-            navigator.geolocation.getCurrentPosition(setPosition, error, {
-                /* 指示浏览器获取高精度的位置，默认为false */
-                enableHighAccuracy: true,
-                /* 指定获取地理位置的超时时间，默认不限时，单位为毫秒 */
-                timeout: 10000,
-                /* 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。 */
-                maximumAge: 20000
-            });
-        }
-    }
-
-    function setPosition(position) {
-        BMap.Convertor.translate(new BMap.Point(position.coords.longitude, position.coords.latitude), 0, function (point) {
-            $('#lon').val(point.lng);
-            $('#lat').val(point.lat);
-            $('#loadingModal').modal('hide');
-        });
-    }
-
-    function error(error){
-        $('#lon').val('');
-        $('#lat').val('');
-        $('#loadingModal').modal('hide');
-        switch(error.code) {
-            case error.PERMISSION_DENIED:
-                alertify.error("不允许获取位置信息，请设置相关权限");
-                break;
-            case error.POSITION_UNAVAILABLE:
-                alertify.error("请使用移动终端设备获取位置信息");
-                break;
-            case error.TIMEOUT:
-                alertify.error("获取位置信息时间超时");
-                break;
-            default:
-                break;
-        }
-    }
-
     var transfered_controlbox_id = null;
     var transfered_controlbox_no = "";
 
@@ -416,12 +375,8 @@
         $('#controlbox_name').val($('td.controlbox_name_' + id).html());
         $('#controlbox_model').val($('td.model_id_' + id).html());
         $('#nozzle_count').val($('td.nozzle_count_' + id).html());
-        if ($('td.lon_' + id).html() === '') {
-            getLocation();
-        } else {
-            $('#lon').val($('td.lon_' + id).html());
-            $('#lat').val($('td.lat_' + id).html());
-        }
+        $('#lon').val($('td.lon_' + id).html());
+        $('#lat').val($('td.lat_' + id).html());
         document.getElementById('myFrame').contentWindow.location.reload(true);
         $('#myFrame').attr('src', '/nozzle.html?controlbox_id=' + id + '&controlbox_no=' + cb.html());
     }

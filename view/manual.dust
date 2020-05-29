@@ -223,9 +223,6 @@
                             <li>
                                 <a href="#tabTwo" data-toggle="tab">按区域选</a>
                             </li>
-                            <li>
-                                <a href="#tabThree" data-toggle="tab">按位置选</a>
-                            </li>
                         </ul>
 
                         <div class="tab-content">
@@ -234,9 +231,6 @@
                             </div>
                             <div class="tab-pane" id="tabTwo">
                                 <iframe id="myFrame_area" src="/manual_area.html?course_id={first_course_id}" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%" vspale="0" style="overflow:visible;"></iframe>
-                            </div>
-                            <div class="tab-pane" id="tabThree">
-                                <iframe id="myFrame_location" src="/manual_location.html" marginWidth="0" frameSpacing="0" marginHeight="0" frameBorder="0" noResize scrolling="no" width="100%" height="100%" vspale="0" style="overflow:visible;"></iframe>
                             </div>
                         </div>
                     </div>
@@ -290,8 +284,6 @@
     jQuery(function ($) {
         /* 刷新 */
         $("#refresh").click(function() {
-            document.getElementById('myFrame_location').contentWindow.location.reload(true);
-            $('#myFrame_area').attr('src', '/manual_location.html');
             change_course();
         });
     });

@@ -353,7 +353,12 @@ app.post("/login.do", function (req, res) {
                     logger.addContext('real_name', real_name);
                     logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
                 }
-                res.redirect("/dynamics.html");
+                var userAgent = (req.headers["user-agent"] || "").toLowerCase();
+                if (userAgent.match(/(iphone|ipod|ipad|android|nexus)/)) {  // 移动端
+                    res.redirect("/gps_control.html");
+                } else {  // pc端
+                    res.redirect("/dynamics.html");
+                }
             });
         } else {
             res.render("login", {fail: [0]});  // 登录失败
@@ -1141,60 +1146,6 @@ app.get("/manual.html", function (req, res) {
         });
     });
 });
-const EARTH_RADIUS = 6378137;  //地球半径，米
-function rad(d) {
-    return d * Math.PI / 180.0;
-}
-// 计算两点距离
-function distance(lng1, lat1, lng2, lat2) {
-    var radLat1 = rad(lat1);
-    var radLat2 = rad(lat2);
-    var a = radLat1 - radLat2;
-    var b = rad(lng1) - rad(lng2);
-    var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
-    s = s * EARTH_RADIUS;
-    s = Math.round(s * 10000) / 10000;
-    return Math.abs(s);
-}
-// 打开手动灌溉按位置选洒水站页面
-app.get("/manual_location.html", function (req, res) {
-    db.exec("select * from controlbox where use_state=1 order by id", [], function (controlboxes) {
-        var near_controlboxes = [];
-        var where = "";
-        for(var i=0; i<controlboxes.length; i++) {
-            if (req.query.lon && controlboxes[i].lon !== null && distance(req.query.lon, req.query.lat, controlboxes[i].lon, controlboxes[i].lat) <= process.env.MANUAL_CONTROL_DISTANCE) {
-                near_controlboxes.push(controlboxes[i]);
-                where += "b.id=" + controlboxes[i].id + " or ";
-            }
-        }
-        where += "1=0";
-        var nozzleNodes = [];
-        for(var i=0; i<near_controlboxes.length; i++) {
-            nozzleNodes.push({id:near_controlboxes[i].id,name:near_controlboxes[i].no + "：" + near_controlboxes[i].name,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
-        }
-        db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id where (" + where + ") order by b.no, a.no", [], function (nozzles) {
-            for(var i=0; i<nozzles.length; i++) {
-                var str = "";
-                if (nozzles[i].use_state === 0) {
-                    str = "[正在维修]";
-                } else {
-                    if (nozzles[i].state === 1) {
-                        str = "[正在洒水]";
-                    }
-                }
-                nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
-            }
-            var lon = (req.query.lon)?parseFloat(req.query.lon):"";
-            var lat = (req.query.lat)?parseFloat(req.query.lat):"";
-            res.render('manual_location', {
-                near_controlboxes: near_controlboxes,
-                nozzleNodes: nozzleNodes,
-                lon: lon,
-                lat: lat
-            });
-        });
-    });
-});
 // 打开手动灌溉按分控箱选洒水站页面
 app.get("/manual_controlbox.html", function (req, res) {
     db.exec("select distinct(controlbox_id) from nozzle where course_id=?", [req.query.course_id], function (controlbox_ids) {
@@ -1614,6 +1565,60 @@ app.get("/turf.html", function (req, res) {
             turfs: turfs,
             user: req.session.user,
             click_count: req.session.click_count % 2
+        });
+    });
+});
+const EARTH_RADIUS = 6378137;  //地球半径，米
+function rad(d) {
+    return d * Math.PI / 180.0;
+}
+// 计算两点距离
+function distance(lng1, lat1, lng2, lat2) {
+    var radLat1 = rad(lat1);
+    var radLat2 = rad(lat2);
+    var a = radLat1 - radLat2;
+    var b = rad(lng1) - rad(lng2);
+    var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+    s = s * EARTH_RADIUS;
+    s = Math.round(s * 10000) / 10000;
+    return Math.abs(s);
+}
+// 打开移动端页面
+app.get("/gps_control.html", function (req, res) {
+    db.exec("select * from controlbox order by id", [], function (controlboxes) {
+        var nozzleNodes = [];
+        for(var i=0; i<controlboxes.length; i++) {
+            if (req.query.lon && controlboxes[i].lon !== null && distance(req.query.lon, req.query.lat, controlboxes[i].lon, controlboxes[i].lat) <= process.env.MANUAL_CONTROL_DISTANCE) {
+                controlboxes[i].near = 1;
+            } else {
+                controlboxes[i].near = 0;
+            }
+            if (controlboxes[i].use_state === 1) {
+                nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].no + "：" + controlboxes[i].name,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
+            } else {
+                nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].no + "：" + controlboxes[i].name + "[网络异常]",parent_id:0,icon:"/img/分控箱.png",isHidden:true});
+            }
+        }
+        db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id order by b.no, a.no", [], function (nozzles) {
+            for(var i=0; i<nozzles.length; i++) {
+                var str = "";
+                if (nozzles[i].use_state === 0) {
+                    str = "[正在维修]";
+                } else {
+                    if (nozzles[i].state === 1) {
+                        str = "[正在洒水]";
+                    }
+                }
+                nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
+            }
+            var lon = (req.query.lon)?parseFloat(req.query.lon):"";
+            var lat = (req.query.lat)?parseFloat(req.query.lat):"";
+            res.render('gps_control', {
+                controlboxes: controlboxes,
+                nozzleNodes: nozzleNodes,
+                lon: lon,
+                lat: lat
+            });
         });
     });
 });
