@@ -3,14 +3,8 @@
   <component name="ChangeListManager">
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/log/access.2020-05-24.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/log/access.2020-05-25.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/log/access.2020-05-29.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/log/app.2020-05-23.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/log/app.2020-05-24.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/log/app.2020-05-25.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/log/app.2020-05-29.log" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,11 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="1592" column="10" lean-forward="true" selection-start-line="1592" selection-start-column="10" selection-end-line="1592" selection-end-column="10" />
+            <state relative-caret-position="452">
+              <caret line="359" column="51" lean-forward="true" selection-start-line="359" selection-start-column="51" selection-end-line="359" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -40,8 +34,8 @@
       <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4274">
-              <caret line="105" column="45" lean-forward="true" selection-start-line="105" selection-start-column="45" selection-end-line="105" selection-end-column="45" />
+            <state relative-caret-position="209">
+              <caret line="142" column="19" lean-forward="false" selection-start-line="142" selection-start-column="19" selection-end-line="142" selection-end-column="19" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -56,7 +50,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="570">
@@ -103,12 +97,12 @@
       <find>manual_loca</find>
       <find>add_control</find>
       <find>nozzletree</find>
-      <find>login.do</find>
       <find>alertify</find>
       <find>send.do</find>
       <find>hour</find>
       <find>发送</find>
       <find>.do</find>
+      <find>login.do</find>
     </findStrings>
     <replaceStrings>
       <replace>col-sm-3</replace>
@@ -198,9 +192,9 @@
         <option value="$PROJECT_DIR$/static/css/maintenance.css" />
         <option value="$PROJECT_DIR$/view/manual_area.dust" />
         <option value="$PROJECT_DIR$/view/manual_controlbox.dust" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/view/gps_control.dust" />
         <option value="$PROJECT_DIR$/app.env" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
@@ -479,14 +473,7 @@
       <workItem from="1590462249441" duration="1593000" />
       <workItem from="1590543367308" duration="2957000" />
       <workItem from="1590710164636" duration="6010000" />
-      <workItem from="1590731459937" duration="48624000" />
-    </task>
-    <task id="LOCAL-00036" summary="5th commit">
-      <created>1584665922559</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1584665922559</updated>
+      <workItem from="1590731459937" duration="49267000" />
     </task>
     <task id="LOCAL-00037" summary="5th commit">
       <created>1584668055284</created>
@@ -824,11 +811,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590845835666</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="5th commit">
+      <created>1590845867199</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1590845867199</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1557040000" />
+    <option name="totallyTimeSpent" value="1557683000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1293,10 +1287,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="30" column="16" lean-forward="true" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4274">
-          <caret line="105" column="45" lean-forward="true" selection-start-line="105" selection-start-column="45" selection-end-line="105" selection-end-column="45" />
+        <state relative-caret-position="209">
+          <caret line="142" column="19" lean-forward="false" selection-start-line="142" selection-start-column="19" selection-end-line="142" selection-end-column="19" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1312,16 +1314,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="1592" column="10" lean-forward="true" selection-start-line="1592" selection-start-column="10" selection-end-line="1592" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="30" column="16" lean-forward="true" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
+        <state relative-caret-position="452">
+          <caret line="359" column="51" lean-forward="true" selection-start-line="359" selection-start-column="51" selection-end-line="359" selection-end-column="51" />
           <folding />
         </state>
       </provider>

@@ -353,13 +353,12 @@ app.post("/login.do", function (req, res) {
                     logger.addContext('real_name', real_name);
                     logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
                 }
-                res.redirect("/gps_control.html");
-                /*var userAgent = (req.headers["user-agent"] || "").toLowerCase();
+                var userAgent = (req.headers["user-agent"] || "").toLowerCase();
                 if (userAgent.match(/(iphone|ipod|ipad|android|nexus)/)) {  // 移动端
                     res.redirect("/gps_control.html");
                 } else {  // pc端
                     res.redirect("/dynamics.html");
-                }*/
+                }
             });
         } else {
             res.render("login", {fail: [0]});  // 登录失败
