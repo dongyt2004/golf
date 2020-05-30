@@ -279,7 +279,7 @@
                                             <td class="lat_{id}">{lat}</td>
                                             <td class="skin skin-line">
                                                 <div class="row">
-                                                    {@eq key=use_state value="1" type="number"}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: #32AB52;">正常</div>{:else}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: red;">网络异常</div>{/eq}
+                                                    {@eq key=use_state value="1" type="number"}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: #32AB52;">正常</div>{:else}<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="color: red;">断网</div>{/eq}
                                                     <div class="skin-section col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                         <input id="{id}" class="sunzhh" type="checkbox" {@eq key=use_state value="0" type="number"} checked{/eq}>
                                                         <label>{@eq key=use_state value="1" type="number"}禁用{:else}重新启用{/eq}</label>

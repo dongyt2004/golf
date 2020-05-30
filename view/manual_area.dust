@@ -53,7 +53,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="panel dongyk">
 
-            <a href="#" class="btn btn-success dongyt" id="send">发 送</a>
+            <a href="#" class="btn btn-success dongyt" id="send">开 启</a>
 
         </div>
     </div>
@@ -219,11 +219,11 @@
         });
 
         $("#send").click(function() {
-            if ($("#hour", window.parent.document).val() === '') {
+            if ($("#hour", parent.document).val() === '') {
                 parent.alertify.error("灌溉时长不能为空");
                 return;
             }
-            if ($("#minute", window.parent.document).val() === '') {
+            if ($("#minute", parent.document).val() === '') {
                 parent.alertify.error("灌溉时长不能为空");
                 return;
             }
@@ -245,7 +245,7 @@
                     location.reload(true);
                     window.parent.document.getElementById('myFrame_controlbox').contentWindow.location.reload(true);
                 } else {
-                    parent.alertify.error("网络原因，发送失败");
+                    parent.alertify.error("网络原因，开启失败");
                 }
             });
         });

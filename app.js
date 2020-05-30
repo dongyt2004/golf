@@ -353,12 +353,13 @@ app.post("/login.do", function (req, res) {
                     logger.addContext('real_name', real_name);
                     logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
                 }
-                var userAgent = (req.headers["user-agent"] || "").toLowerCase();
+                res.redirect("/gps_control.html");
+                /*var userAgent = (req.headers["user-agent"] || "").toLowerCase();
                 if (userAgent.match(/(iphone|ipod|ipad|android|nexus)/)) {  // 移动端
                     res.redirect("/gps_control.html");
                 } else {  // pc端
                     res.redirect("/dynamics.html");
-                }
+                }*/
             });
         } else {
             res.render("login", {fail: [0]});  // 登录失败
@@ -963,6 +964,12 @@ app.post("/del_turf.do", function (req, res) {
         db.exec("delete from turf where id=?", [req.body.id], function () {
             res.json({success: true});
         });
+    });
+});
+// 分控箱定位
+app.post("/pos.do", function (req, res) {
+    db.exec("update controlbox set lon=?, lat=? where id=?", [req.body.lon, req.body.lat, req.body.id], function () {
+        res.json({success: true});
     });
 });
 /** ------------------------------------------------------------------------------------------ 从 网 页 请 求 ---------------------------------------------------------------------------------------------- **/
@@ -1586,40 +1593,65 @@ function distance(lng1, lat1, lng2, lat2) {
 // 打开移动端页面
 app.get("/gps_control.html", function (req, res) {
     db.exec("select * from controlbox order by id", [], function (controlboxes) {
+        var adj_controlboxes = [];
+        var near_controlboxes = [];
+        var far_controlboxes = [];
         var nozzleNodes = [];
-        for(var i=0; i<controlboxes.length; i++) {
-            if (req.query.lon && controlboxes[i].lon !== null && distance(req.query.lon, req.query.lat, controlboxes[i].lon, controlboxes[i].lat) <= process.env.MANUAL_CONTROL_DISTANCE) {
-                controlboxes[i].near = 1;
-            } else {
-                controlboxes[i].near = 0;
-            }
-            if (controlboxes[i].use_state === 1) {
-                nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].no + "：" + controlboxes[i].name,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
-            } else {
-                nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].no + "：" + controlboxes[i].name + "[网络异常]",parent_id:0,icon:"/img/分控箱.png",isHidden:true});
-            }
-        }
-        db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id order by b.no, a.no", [], function (nozzles) {
-            for(var i=0; i<nozzles.length; i++) {
-                var str = "";
-                if (nozzles[i].use_state === 0) {
-                    str = "[正在维修]";
-                } else {
-                    if (nozzles[i].state === 1) {
-                        str = "[正在洒水]";
+        if (req.query.lon) {
+            var where = "";
+            for(var i=0; i<controlboxes.length; i++) {
+                if (controlboxes[i].lon !== null) {
+                    var d = distance(req.query.lon, req.query.lat, controlboxes[i].lon, controlboxes[i].lat);
+                    if (d < process.env.ADJACENT_DISTANCE) {
+                        adj_controlboxes.push(controlboxes[i]);
+                    } else if (d < process.env.NEAR_DISTANCE) {
+                        near_controlboxes.push(controlboxes[i]);
+                    } else {
+                        far_controlboxes.push(controlboxes[i]);
                     }
+                    if (controlboxes[i].use_state === 1) {
+                        controlboxes[i].fullname = controlboxes[i].no + "：" + controlboxes[i].name;
+                        nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].no + "：" + controlboxes[i].name,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
+                    } else {
+                        controlboxes[i].fullname = controlboxes[i].no + "：" + controlboxes[i].name + "【断网】";
+                        nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].no + "：" + controlboxes[i].name + "【断网】",parent_id:0,icon:"/img/分控箱.png",isHidden:true});
+                    }
+                    where += "b.id=" + controlboxes[i].id + " or ";
                 }
-                nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
             }
-            var lon = (req.query.lon)?parseFloat(req.query.lon):"";
-            var lat = (req.query.lat)?parseFloat(req.query.lat):"";
+            where += "1=0";
+            db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id where (" + where + ") order by b.no, a.no", [], function (nozzles) {
+                for(var i=0; i<nozzles.length; i++) {
+                    var str = "";
+                    if (nozzles[i].use_state === 0) {
+                        str = "[正在维修]";
+                    } else {
+                        if (nozzles[i].state === 1) {
+                            str = "[正在洒水]";
+                        }
+                    }
+                    nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
+                }
+                res.render('gps_control', {
+                    controlboxes: controlboxes,
+                    adj_controlboxes: adj_controlboxes,
+                    near_controlboxes: near_controlboxes,
+                    far_controlboxes: far_controlboxes,
+                    nozzleNodes: nozzleNodes,
+                    lon: parseFloat(req.query.lon),
+                    lat: parseFloat(req.query.lat)
+                });
+            });
+        } else {
             res.render('gps_control', {
                 controlboxes: controlboxes,
+                adj_controlboxes: adj_controlboxes,
+                near_controlboxes: near_controlboxes,
+                far_controlboxes: far_controlboxes,
                 nozzleNodes: nozzleNodes,
-                lon: lon,
-                lat: lat
+                lon: ""
             });
-        });
+        }
     });
 });
 /** ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- **/
