@@ -190,7 +190,7 @@
         <div class="row gutter">
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                 <div class="panel">
-
+                    <label>管网名称的填写格式：管网名称 流量（中间空格隔开，流量单位：升/分钟）</label>
                     <ul id="pipetree" class="ztree"></ul>
 
                 </div>
