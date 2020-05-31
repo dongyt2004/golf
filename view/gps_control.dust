@@ -151,8 +151,8 @@
                 alertify.success("开启成功，洒水站开始喷灌");
                 for(var i=0; i<nozzleNodes.length; i++){
                     nozzleNodes[i].name = nozzleNodes[i].name + "[正在洒水]";
+                    $.fn.zTree.getZTreeObj("nozzletree").updateNode(nozzleNodes[i]);
                 }
-                $.fn.zTree.getZTreeObj("nozzletree").reAsyncChildNodes(nozzleNodes[0].getParentNode(), "refresh");
                 infoWindow.redraw();
             } else {
                 alertify.error("网络原因，开启失败");
@@ -193,9 +193,6 @@
     }
 
     var setting = {
-        async: {
-            enable: true
-        },
         check: {
             enable: true
         },
