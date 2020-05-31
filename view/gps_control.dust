@@ -248,7 +248,7 @@
             '               </div>\n' +
             '               <hr style="border-top: 1px solid #46b8da;">' +
             '               <label>待选洒水站</label>\n' +
-            '               <div style="overflow-y: auto;">\n' +
+            '               <div style="max-height: 200px; overflow-y: auto;">\n' +
             '                   <ul id="nozzletree" class="ztree"></ul>' +
             '                   <div style="text-align: center;">' +
             '                      <a href="javascript:send()" class="btn btn-success">开 启</a>' +
@@ -301,7 +301,7 @@
             /* 添加刷新按钮 */
             function RefreshControl(){
                 this.defaultAnchor = BMAP_ANCHOR_TOP_RIGHT;
-                this.defaultOffset = new BMap.Size(50, 20);
+                this.defaultOffset = new BMap.Size(20, 20);
             }
             RefreshControl.prototype = new BMap.Control();
             RefreshControl.prototype.initialize = function(map) {

@@ -34,18 +34,18 @@
       <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="250" column="64" lean-forward="true" selection-start-line="250" selection-start-column="64" selection-end-line="250" selection-end-column="64" />
+            <state relative-caret-position="99">
+              <caret line="230" column="5" lean-forward="true" selection-start-line="230" selection-start-column="5" selection-end-line="230" selection-end-column="5" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h5#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1590895301502" expanded="true" signature="9257:9287" ph="..." />
-                <marker date="1590895301502" expanded="true" signature="9387:9404" ph="..." />
-                <marker date="1590895301502" expanded="true" signature="9531:9550" ph="..." />
-                <marker date="1590895301502" expanded="true" signature="10542:10576" ph="..." />
+                <marker date="1590896366910" expanded="true" signature="9257:9287" ph="..." />
+                <marker date="1590896366910" expanded="true" signature="9387:9423" ph="..." />
+                <marker date="1590896366910" expanded="true" signature="9550:9569" ph="..." />
+                <marker date="1590896366910" expanded="true" signature="10561:10595" ph="..." />
               </folding>
             </state>
           </provider>
@@ -292,6 +292,12 @@
               <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
               <item name="golf" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="golf-project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="golf" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -488,14 +494,7 @@
       <workItem from="1590462249441" duration="1593000" />
       <workItem from="1590543367308" duration="2957000" />
       <workItem from="1590710164636" duration="6010000" />
-      <workItem from="1590731459937" duration="62513000" />
-    </task>
-    <task id="LOCAL-00039" summary="5th commit">
-      <created>1584670446145</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1584670446145</updated>
+      <workItem from="1590731459937" duration="63500000" />
     </task>
     <task id="LOCAL-00040" summary="5th commit">
       <created>1584672343799</created>
@@ -833,11 +832,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590891368947</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="5th commit">
+      <created>1590895333948</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1590895333948</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1570929000" />
+    <option name="totallyTimeSpent" value="1571916000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1137,13 +1143,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/manual_location.dust" />
-    <entry file="file://$PROJECT_DIR$/view/login.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="668">
-          <caret line="74" column="35" lean-forward="true" selection-start-line="74" selection-start-column="35" selection-end-line="74" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/m/login.dust" />
     <entry file="file://$PROJECT_DIR$/view/dynamics_detail.dust">
       <provider selected="true" editor-type-id="text-editor">
@@ -1325,20 +1324,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/view/login.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="47" column="49" lean-forward="false" selection-start-line="47" selection-start-column="45" selection-end-line="47" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="250" column="64" lean-forward="true" selection-start-line="250" selection-start-column="64" selection-end-line="250" selection-end-column="64" />
+        <state relative-caret-position="99">
+          <caret line="230" column="5" lean-forward="true" selection-start-line="230" selection-start-column="5" selection-end-line="230" selection-end-column="5" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h5#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1590895301502" expanded="true" signature="9257:9287" ph="..." />
-            <marker date="1590895301502" expanded="true" signature="9387:9404" ph="..." />
-            <marker date="1590895301502" expanded="true" signature="9531:9550" ph="..." />
-            <marker date="1590895301502" expanded="true" signature="10542:10576" ph="..." />
+            <marker date="1590896366910" expanded="true" signature="9257:9287" ph="..." />
+            <marker date="1590896366910" expanded="true" signature="9387:9423" ph="..." />
+            <marker date="1590896366910" expanded="true" signature="9550:9569" ph="..." />
+            <marker date="1590896366910" expanded="true" signature="10561:10595" ph="..." />
           </folding>
         </state>
       </provider>
