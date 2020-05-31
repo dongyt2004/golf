@@ -72,7 +72,7 @@
 <script src="js/alertify/alertify-custom.js"></script>
 
 <!--引用百度地图API-->
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=jDFwTVOf78ilWOUthg3Pexm3RmCmSLRl"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=jDFwTVOf78ilWOUthg3Pexm3RmCmSLRl"></script>
 <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 
 <script type="text/javascript">
@@ -247,13 +247,10 @@
             '                   </div>\n' +
             '               </div>\n' +
             '               <hr style="border-top: 1px solid #46b8da;">' +
-            '               <label>待选洒水站</label>\n' +
-            '               <div style="min-height: 200px; overflow-y: auto;">\n' +
-            '                   <ul id="nozzletree" class="ztree"></ul>' +
-            '                   <div style="text-align: center;">' +
-            '                      <a href="javascript:send()" class="btn btn-success">开 启</a>' +
-            '                   </div>' +
+            '               <div style="text-align: center; padding-bottom: 10px;">' +
+            '                   <a href="javascript:send()" class="btn btn-success">开 启</a>' +
             '               </div>' +
+            '               <ul id="nozzletree" class="ztree" style="height: 200px; overflow-y: auto;"></ul>' +
             '            </div>');
         $.fn.zTree.init(content.find('ul:eq(0)'), setting, nozzleNodes);
         var infoWindow = new BMap.InfoWindow(content[0]);
@@ -295,7 +292,6 @@
             map.addOverlay(marker);
             marker.addEventListener("click", function() {
                 this.openInfoWindow(infoWindow2);
-                infoWindow2.redraw();
             });
 
             /* 添加刷新按钮 */
