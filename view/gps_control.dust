@@ -250,7 +250,7 @@
             '               <div style="text-align: center; padding-bottom: 10px;">' +
             '                   <a href="javascript:send()" class="btn btn-success">开 启</a>' +
             '               </div>' +
-            '               <ul id="nozzletree" class="ztree" style="height: 200px; overflow-y: auto;"></ul>' +
+            '               <ul id="nozzletree" class="ztree" style="max-height:200px;overflow-y:auto;"></ul>' +
             '            </div>');
         $.fn.zTree.init(content.find('ul:eq(0)'), setting, nozzleNodes);
         var infoWindow = new BMap.InfoWindow(content[0]);
