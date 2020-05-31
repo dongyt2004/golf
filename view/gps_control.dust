@@ -140,14 +140,16 @@
         for(var i=0; i<nozzleNodes.length; i++){
             nozzle_ids.push(nozzleNodes[i].id.slice(1));
         }
-        console.log(nozzle_ids);
         $.post("/send.do", {
             nozzle_ids: JSON.stringify(nozzle_ids),
             hour: $("#hour").val(),
             minute: $("#minute").val()
         }, function (result) {
             if (result.success) {
-                location.reload(true);
+                alertify.success("成功开启，洒水站开始喷灌");
+                for(var i=0; i<nozzleNodes.length; i++){
+                    nozzleNodes[i].name = nozzleNodes[i].name + "[正在洒水]";
+                }
             } else {
                 alertify.error("网络原因，开启失败");
             }
@@ -161,8 +163,9 @@
                 lon: point.lng,
                 lat: point.lat
             }, function (result) {
+                $('#loadingModal').modal('hide');
                 if (result.success) {
-                    alertify.success("定位成功");
+                    alertify.success("定位成功，经度：" + point.lng + "，纬度：" + point.lat);
                 } else {
                     alertify.error("网络原因，定位失败");
                 }
@@ -226,6 +229,7 @@
 {@eq key=lon value=""}
         getLocation();
 {/eq}
+
         var content = $('<div>' +
             '               <label>灌溉时长</label>\n' +
             '               <div class="row gutter">\n' +
@@ -246,7 +250,7 @@
             '               <label>待选洒水站</label>\n' +
             '               <ul id="nozzletree" class="ztree"></ul>' +
             '               <div style="text-align: center;">' +
-            '                  <a href="javascript:send()" class="btn btn-success" id="send">开 启</a>' +
+            '                  <a href="javascript:send()" class="btn btn-success">开 启</a>' +
             '               </div>' +
             '            </div>');
         $.fn.zTree.init(content.find('ul:eq(0)'), setting, nozzleNodes);
@@ -265,7 +269,7 @@
 {/controlboxes}
             '               </select>\n' +
             '               <div style="text-align: center; padding: 10px;">' +
-            '                  <a href="javascript:pos()" class="btn btn-success" id="send">为这个分控箱定位</a>' +
+            '                   <a href="javascript:pos()" class="btn btn-success">为这个分控箱定位</a>' +
             '               </div>' +
             '            </div>');
         var infoWindow2 = new BMap.InfoWindow(content2[0]);
@@ -281,29 +285,31 @@
             map.centerAndZoom(new BMap.Point({lon}, {lat}), 19);
 {/eq}
             map.enableDragging();
-            map.addControl(new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT}));
+            /* 显示比例尺 */
+            map.addControl(new BMap.ScaleControl());
+{@ne key=lon value=""}
+            /* 显示我的位置 */
+            var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(36, 36))});
+            map.addOverlay(marker);
+            marker.addEventListener("click", function() {
+                this.openInfoWindow(infoWindow2);
+                infoWindow2.redraw();
+            });
 
+            /* 添加刷新按钮 */
             function RefreshControl(){
                 this.defaultAnchor = BMAP_ANCHOR_TOP_RIGHT;
-                this.defaultOffset = new BMap.Size(100, 20);
+                this.defaultOffset = new BMap.Size(60, 20);
             }
             RefreshControl.prototype = new BMap.Control();
-
             RefreshControl.prototype.initialize = function(map) {
                 var btn = $('<a href="/gps_control.html" class="btn btn-info">刷新我的位置</a>');
                 map.getContainer().appendChild(btn[0]);
                 return btn[0];
             };
             map.addControl(new RefreshControl());
-
-{@ne key=lon value=""}
-            var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(32, 32))});
-            map.addOverlay(marker);
-            marker.addEventListener("click", function() {
-                this.openInfoWindow(infoWindow2);
-                infoWindow2.redraw();
-            });
 {/ne}
+            /* 显示我跟前的分控箱 */
 {#adj_controlboxes}
             marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/邻分控箱.png", new BMap.Size(36, 36))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));
@@ -321,6 +327,8 @@
                 infoWindow.redraw();
             });
 {/adj_controlboxes}
+
+            /* 显示我附近的分控箱 */
 {#near_controlboxes}
             marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/近分控箱.png", new BMap.Size(36, 36))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));
@@ -338,6 +346,8 @@
                 infoWindow.redraw();
             });
 {/near_controlboxes}
+
+            /* 显示远处的分控箱 */
 {#far_controlboxes}
             marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/远分控箱.png", new BMap.Size(36, 36))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));

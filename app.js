@@ -1597,24 +1597,25 @@ app.get("/gps_control.html", function (req, res) {
         var far_controlboxes = [];
         var nozzleNodes = [];
         if (req.query.lon) {
+            var lon = parseFloat(req.query.lon);
+            var lat = parseFloat(req.query.lat);
             var where = "";
             for(var i=0; i<controlboxes.length; i++) {
                 if (controlboxes[i].lon !== null) {
-                    var d = distance(req.query.lon, req.query.lat, controlboxes[i].lon, controlboxes[i].lat);
-                    if (d < process.env.ADJACENT_DISTANCE) {
+                    var d = distance(lon, lat, controlboxes[i].lon, controlboxes[i].lat);
+                    if (d <= process.env.ADJACENT_DISTANCE) {
                         adj_controlboxes.push(controlboxes[i]);
-                    } else if (d < process.env.NEAR_DISTANCE) {
+                    } else if (d <= process.env.NEAR_DISTANCE) {
                         near_controlboxes.push(controlboxes[i]);
                     } else {
                         far_controlboxes.push(controlboxes[i]);
                     }
                     if (controlboxes[i].use_state === 1) {
                         controlboxes[i].fullname = controlboxes[i].no + "：" + controlboxes[i].name;
-                        nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].no + "：" + controlboxes[i].name,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
                     } else {
-                        controlboxes[i].fullname = controlboxes[i].no + "：" + controlboxes[i].name + "【断网】";
-                        nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].no + "：" + controlboxes[i].name + "【断网】",parent_id:0,icon:"/img/分控箱.png",isHidden:true});
+                        controlboxes[i].fullname = controlboxes[i].no + "：" + controlboxes[i].name + "[断网]";
                     }
+                    nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].fullname,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
                     where += "b.id=" + controlboxes[i].id + " or ";
                 }
             }
@@ -1637,8 +1638,8 @@ app.get("/gps_control.html", function (req, res) {
                     near_controlboxes: near_controlboxes,
                     far_controlboxes: far_controlboxes,
                     nozzleNodes: nozzleNodes,
-                    lon: parseFloat(req.query.lon),
-                    lat: parseFloat(req.query.lat)
+                    lon: lon,
+                    lat: lat
                 });
             });
         } else {
