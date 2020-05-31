@@ -235,22 +235,24 @@
             '               <div class="row gutter">\n' +
             '                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">\n' +
             '                      <div class="input-group">\n' +
-            '                           <input id="hour" class="form-control" name="hour"/>\n' +
+            '                           <input type="number" min="0" id="hour" class="form-control" name="hour"/>\n' +
             '                           <span class="input-group-addon">小时</span>\n' +
             '                      </div>\n' +
             '                    </div>\n' +
             '                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">\n' +
             '                       <div class="input-group">\n' +
-            '                            <input id="minute" class="form-control" name="minute"/>\n' +
+            '                            <input type="number" min="0" max="59" id="minute" class="form-control" name="minute"/>\n' +
             '                            <span class="input-group-addon">分钟</span>\n' +
             '                       </div>\n' +
             '                   </div>\n' +
             '               </div>\n' +
             '               <hr style="border-top: 1px solid #46b8da;">' +
             '               <label>待选洒水站</label>\n' +
-            '               <ul id="nozzletree" class="ztree"></ul>' +
-            '               <div style="text-align: center;">' +
-            '                  <a href="javascript:send()" class="btn btn-success">开 启</a>' +
+            '               <div style="overflow-y: auto;">\n' +
+            '                   <ul id="nozzletree" class="ztree"></ul>' +
+            '                   <div style="text-align: center;">' +
+            '                      <a href="javascript:send()" class="btn btn-success">开 启</a>' +
+            '                   </div>' +
             '               </div>' +
             '            </div>');
         $.fn.zTree.init(content.find('ul:eq(0)'), setting, nozzleNodes);
@@ -299,7 +301,7 @@
             /* 添加刷新按钮 */
             function RefreshControl(){
                 this.defaultAnchor = BMAP_ANCHOR_TOP_RIGHT;
-                this.defaultOffset = new BMap.Size(60, 20);
+                this.defaultOffset = new BMap.Size(50, 20);
             }
             RefreshControl.prototype = new BMap.Control();
             RefreshControl.prototype.initialize = function(map) {
