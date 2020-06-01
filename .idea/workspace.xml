@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
-    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/img/近分控箱.png" afterPath="$PROJECT_DIR$/static/img/近分控箱.png" />
+    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="5th commit">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/img/远分控箱.png" afterPath="$PROJECT_DIR$/static/img/远分控箱.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -25,8 +24,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="1598" column="28" lean-forward="false" selection-start-line="1598" selection-start-column="28" selection-end-line="1598" selection-end-column="28" />
+            <state relative-caret-position="559">
+              <caret line="1608" column="64" lean-forward="false" selection-start-line="1608" selection-start-column="64" selection-end-line="1608" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -240,7 +239,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -257,6 +255,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -449,14 +448,8 @@
       <workItem from="1590710164636" duration="6010000" />
       <workItem from="1590731459937" duration="83986000" />
       <workItem from="1590934510828" duration="705000" />
-      <workItem from="1590940350594" duration="494000" />
-    </task>
-    <task id="LOCAL-00048" summary="5th commit">
-      <created>1589986161611</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1589986161611</updated>
+      <workItem from="1590940350594" duration="564000" />
+      <workItem from="1590970688765" duration="27000" />
     </task>
     <task id="LOCAL-00049" summary="5th commit">
       <created>1590148353683</created>
@@ -794,11 +787,18 @@
       <option name="project" value="LOCAL" />
       <updated>1590934730217</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="5th commit">
+      <created>1590940864943</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1590940864944</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1593601000" />
+    <option name="totallyTimeSpent" value="1593698000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1248,8 +1248,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="1598" column="28" lean-forward="false" selection-start-line="1598" selection-start-column="28" selection-end-line="1598" selection-end-column="28" />
+        <state relative-caret-position="559">
+          <caret line="1608" column="64" lean-forward="false" selection-start-line="1608" selection-start-column="64" selection-end-line="1608" selection-end-column="64" />
           <folding />
         </state>
       </provider>
