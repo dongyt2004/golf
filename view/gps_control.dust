@@ -252,7 +252,7 @@
             '               </div>\n' +
             '               <hr style="border-top: 1px solid #46b8da;">\n' +
             '               <div style="text-align: center; padding-bottom: 10px;">\n' +
-            '                   <a href="javascript:send()" class="btn btn-success">开 启</a>\n' +
+            '                   <a href="javascript:send()" class="btn btn-success">开启选中的洒水站</a>\n' +
             '               </div>\n' +
             '               <ul id="nozzletree" class="ztree" style="max-height:200px;overflow-y:auto;"></ul>\n' +
             '            </div>');
@@ -265,15 +265,11 @@
         });
 
         var content2 = $('<div>\n' +
-            '               <label for="course">选择分控箱</label>\n' +
-            '               <select class="form-control" id="controlbox" name="controlbox">\n' +
+            '               为 <select id="controlbox" name="controlbox">\n' +
 {#controlboxes}
             '                   <option value="{id}">{name}</option>\n' +
 {/controlboxes}
-            '               </select>\n' +
-            '               <div style="text-align: center; padding: 10px;">' +
-            '                   <a href="javascript:pos()" class="btn btn-success">为这个分控箱定位</a>' +
-            '               </div>' +
+            '               </select> 分控箱 <a href="javascript:pos()" class="btn btn-success btn-sm">定 位</a>' +
             '            </div>');
         var infoWindow2 = new BMap.InfoWindow(content2[0]);
         infoWindow2.addEventListener("close", function() {
@@ -293,6 +289,7 @@
 {@ne key=lon value=""}
             /* 显示我的位置 */
             var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(36, 36))});
+            marker.setLabel(new BMap.Label("点击我可为身边分控箱定位", {offset: new BMap.Size(25, -10)}));
             map.addOverlay(marker);
             marker.addEventListener("click", function() {
                 this.openInfoWindow(infoWindow2);
