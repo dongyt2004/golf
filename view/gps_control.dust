@@ -280,7 +280,7 @@
 {#controlboxes}
             '                   <option value="{id}">{name}</option>\n' +
 {/controlboxes}
-            '               </select> 分控箱  <a href="javascript:pos()" class="btn btn-success btn-sm">定 位</a>' +
+            '               </select> 分控箱 <a href="javascript:pos()" class="btn btn-success">定 位</a>' +
             '            </div>');
         var infoWindow2 = new BMap.InfoWindow(content2[0], {title: '&nbsp;'});
         infoWindow2.addEventListener("close", function() {
