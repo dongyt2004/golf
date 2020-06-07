@@ -42,6 +42,17 @@
             overflow: hidden;
         }
         .BMapLabel{ max-width:none; }
+        .dongyt {
+            border-radius: 0;
+            border: 1px solid #d9d9d9;
+            background: #FFF;
+            height: 40px;
+            padding: 6px 10px;
+            transition: all .3s ease-out;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+        }
     </style>
 </head>
 
@@ -265,13 +276,13 @@
         });
 
         var content2 = $('<div>\n' +
-            '               为 <select id="controlbox" name="controlbox">\n' +
+            '               为 <select class="dongyt" id="controlbox" name="controlbox">\n' +
 {#controlboxes}
             '                   <option value="{id}">{name}</option>\n' +
 {/controlboxes}
-            '               </select> 分控箱 <a href="javascript:pos()" class="btn btn-success btn-sm">定 位</a>' +
+            '               </select> 分控箱  <a href="javascript:pos()" class="btn btn-success btn-sm">定 位</a>' +
             '            </div>');
-        var infoWindow2 = new BMap.InfoWindow(content2[0]);
+        var infoWindow2 = new BMap.InfoWindow(content2[0], {title: '&nbsp;'});
         infoWindow2.addEventListener("close", function() {
             content2.find('select:eq(0)').get(0).selectedIndex = 0;
         });
