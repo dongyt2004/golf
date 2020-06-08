@@ -52,11 +52,16 @@
                 <input name="password" type="password" placeholder="密 码">
                 <i class="icon-spell-check"></i>
             </div>
-{#fail}
+{@eq key=fail value=100 type="number"}
             <div class="form-block dongyt">
                 用户名或密码错误，请重新登录
             </div>
-{/fail}
+{/eq}
+{@eq key=fail value=200 type="number"}
+            <div class="form-block dongyt">
+                权限不足，请联系管理员
+            </div>
+{/eq}
             <input type="submit" value="登 录">
         </div>
     </div>

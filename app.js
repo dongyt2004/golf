@@ -342,26 +342,42 @@ function left_pad(num, n) {
 /** ----------------------------------------------------------------------------------------- 从 AJAX 请 求，代 表 操 作 ----------------------------------------------------------------------------------------------- **/
 // 登录操作
 app.post("/login.do", function (req, res) {
-    db.exec("select id,name,password,real_name from user where name=? and password=?", [req.body.username, req.body.password], function (users) {
+    db.exec("select id,name,password,real_name,mobile_control from user where name=? and password=?", [req.body.username, req.body.password], function (users) {
         if (users.length === 1) {  // 登陆成功
-            var fromIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip || req.connection.socket.remoteAddress;
-            db.exec("update user set login_time=?, from_ip=? where name=? and password=?", [moment().format("YYYY-MM-DD HH:mm:ss"), fromIp, req.body.username, req.body.password], function () {
-                req.session.click_count = 0;
-                req.session.user = users[0];
-                real_name = req.session.user['real_name'];
-                if (logger.isInfoEnabled()) {
-                    logger.addContext('real_name', real_name);
-                    logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
-                }
-                var userAgent = (req.headers["user-agent"] || "").toLowerCase();
-                if (userAgent.match(/(iphone|ipod|ipad|android|nexus)/)) {  // 移动端
+            var userAgent = (req.headers["user-agent"] || "").toLowerCase();
+            if (userAgent.match(/(iphone|ipod|ipad|android|nexus)/)) {  // 移动端
+                if (users[0].mobile_control === 1) {
+                    var fromIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip || req.connection.socket.remoteAddress;
+                    db.exec("update user set login_time=?, from_ip=? where name=? and password=?", [moment().format("YYYY-MM-DD HH:mm:ss"), fromIp, req.body.username, req.body.password], function () {
+                        req.session.click_count = 0;
+                        req.session.user = users[0];
+                        real_name = req.session.user['real_name'];
+                        if (logger.isInfoEnabled()) {
+                            logger.addContext('real_name', real_name);
+                            logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
+                        }
+
+                    });
                     res.redirect("/gps_control.html");
-                } else {  // pc端
-                    res.redirect("/dynamics.html");
+                } else {
+                    res.render("login", {fail: 200});  // 移动端登录失败
                 }
-            });
+            } else {  // pc端
+                var fromIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip || req.connection.socket.remoteAddress;
+                db.exec("update user set login_time=?, from_ip=? where name=? and password=?", [moment().format("YYYY-MM-DD HH:mm:ss"), fromIp, req.body.username, req.body.password], function () {
+                    req.session.click_count = 0;
+                    req.session.user = users[0];
+                    real_name = req.session.user['real_name'];
+                    if (logger.isInfoEnabled()) {
+                        logger.addContext('real_name', real_name);
+                        logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
+                    }
+
+                });
+                res.redirect("/dynamics.html");
+            }
         } else {
-            res.render("login", {fail: [0]});  // 登录失败
+            res.render("login", {fail: 100});  // 登录失败
         }
     });
 });
@@ -1600,6 +1616,8 @@ app.get("/gps_control.html", function (req, res) {
             var lon = parseFloat(req.query.lon);
             var lat = parseFloat(req.query.lat);
             var where = "";
+            var controlbox_lon = 0, controlbox_lat = 0;
+            var first = true;
             for(var i=0; i<controlboxes.length; i++) {
                 if (controlboxes[i].lon !== null) {
                     var d = distance(lon, lat, controlboxes[i].lon, controlboxes[i].lat);
@@ -1617,6 +1635,11 @@ app.get("/gps_control.html", function (req, res) {
                     }
                     nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].fullname,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
                     where += "b.id=" + controlboxes[i].id + " or ";
+                    if (first) {
+                        controlbox_lon = controlboxes[i].lon;
+                        controlbox_lat = controlboxes[i].lat;
+                        first = false;
+                    }
                 }
             }
             where += "1=0";
@@ -1639,7 +1662,9 @@ app.get("/gps_control.html", function (req, res) {
                     far_controlboxes: far_controlboxes,
                     nozzleNodes: nozzleNodes,
                     lon: lon,
-                    lat: lat
+                    lat: lat,
+                    controlbox_lon: controlbox_lon,
+                    controlbox_lat: controlbox_lat
                 });
             });
         } else {

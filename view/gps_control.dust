@@ -292,7 +292,11 @@
 {@eq key=lon value=""}
             map.centerAndZoom(new BMap.Point(116.403875, 39.915168), 19);  /* 天安门 */
 {:else}
+    {@eq key=controlbox_lon value=0 type="number"}
             map.centerAndZoom(new BMap.Point({lon}, {lat}), 19);
+    {:else}
+            map.centerAndZoom(new BMap.Point({controlbox_lon}, {controlbox_lat}), 19);
+    {/eq}
 {/eq}
             map.enableDragging();
             /* 显示比例尺 */
@@ -313,11 +317,24 @@
             }
             RefreshControl.prototype = new BMap.Control();
             RefreshControl.prototype.initialize = function(map) {
-                var btn = $('<a href="/gps_control.html" class="btn btn-info">刷新我的位置</a>');
+                var btn = $('<a href="/gps_control.html" class="btn btn-info">刷新地图</a>');
                 map.getContainer().appendChild(btn[0]);
                 return btn[0];
             };
             map.addControl(new RefreshControl());
+
+            /* 添加退出按钮 */
+            function LogoutControl(){
+                this.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
+                this.defaultOffset = new BMap.Size(20, 20);
+            }
+            LogoutControl.prototype = new BMap.Control();
+            LogoutControl.prototype.initialize = function(map) {
+                var btn = $('<a href="/logout.do" class="btn btn-primary">离 开</a>');
+                map.getContainer().appendChild(btn[0]);
+                return btn[0];
+            };
+            map.addControl(new LogoutControl());
 {/ne}
             /* 显示我跟前的分控箱 */
 {#adj_controlboxes}
