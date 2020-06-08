@@ -238,6 +238,17 @@
         return false;
     }
 
+    function logout() {
+        reset();
+        alertify.confirm("确定离开吗？", function (e) {
+            if (e) {
+                window.location.href="/logout.do";
+            } else {
+                return false;
+            }
+        });
+    }
+
     jQuery(function ($) {
         $('#loadingModal').modal('hide');
 
@@ -317,7 +328,7 @@
             }
             RefreshControl.prototype = new BMap.Control();
             RefreshControl.prototype.initialize = function(map) {
-                var btn = $('<a href="/gps_control.html" class="btn btn-info">刷新地图</a>');
+                var btn = $('<a href="/gps_control.html" class="btn btn-info"><i class="icon-ccw"></i>刷新地图</a>');
                 map.getContainer().appendChild(btn[0]);
                 return btn[0];
             };
@@ -330,7 +341,7 @@
             }
             LogoutControl.prototype = new BMap.Control();
             LogoutControl.prototype.initialize = function(map) {
-                var btn = $('<a href="/logout.do" class="btn btn-primary">离 开</a>');
+                var btn = $('<a href="javascript:logout()" class="btn btn-info"><i class="icon-exit"></i>退出应用</a>');
                 map.getContainer().appendChild(btn[0]);
                 return btn[0];
             };

@@ -4,9 +4,7 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/access.log" afterPath="$PROJECT_DIR$/log/access.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/app.log" afterPath="$PROJECT_DIR$/log/app.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/gps_control.dust" afterPath="$PROJECT_DIR$/view/gps_control.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -23,37 +21,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="342" column="7" lean-forward="true" selection-start-line="342" selection-start-column="7" selection-end-line="342" selection-end-column="7" />
+            <state relative-caret-position="194">
+              <caret line="998" column="7" lean-forward="true" selection-start-line="998" selection-start-column="7" selection-end-line="998" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="false">
+      <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9">
-              <caret line="311" column="0" lean-forward="true" selection-start-line="311" selection-start-column="0" selection-end-line="311" selection-end-column="0" />
+            <state relative-caret-position="351">
+              <caret line="341" column="57" lean-forward="true" selection-start-line="341" selection-start-column="57" selection-end-line="341" selection-end-column="57" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1591620068128" expanded="true" signature="9717:9747" ph="..." />
-                <marker date="1591620068128" expanded="true" signature="9795:9836" ph="..." />
-                <marker date="1591620068128" expanded="true" signature="10055:10088" ph="..." />
+                <marker date="1591626630239" expanded="true" signature="9964:9994" ph="..." />
+                <marker date="1591626630239" expanded="true" signature="10042:10083" ph="..." />
+                <marker date="1591626630239" expanded="true" signature="10302:10335" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.dust" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view/login.dust">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="58" column="5" lean-forward="true" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -81,7 +69,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>hideNodes</find>
       <find>login</find>
       <find>update_controlbox</find>
       <find>manual_lo</find>
@@ -108,9 +95,10 @@
       <find>updateNode</find>
       <find>{@eq key=</find>
       <find>天安门</find>
-      <find>logout.do</find>
       <find>lon</find>
       <find>login.do</find>
+      <find>alerti</find>
+      <find>logout.do</find>
     </findStrings>
     <replaceStrings>
       <replace>col-sm-3</replace>
@@ -200,9 +188,9 @@
         <option value="$PROJECT_DIR$/static/js/infobox.js" />
         <option value="$PROJECT_DIR$/view/pipe.dust" />
         <option value="$PROJECT_DIR$/view/login.dust" />
-        <option value="$PROJECT_DIR$/view/gps_control.dust" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/app.env" />
+        <option value="$PROJECT_DIR$/view/gps_control.dust" />
       </list>
     </option>
   </component>
@@ -484,14 +472,7 @@
       <workItem from="1590940350594" duration="564000" />
       <workItem from="1590970688765" duration="670000" />
       <workItem from="1591449798564" duration="4703000" />
-      <workItem from="1591615553485" duration="6125000" />
-    </task>
-    <task id="LOCAL-00055" summary="5th commit">
-      <created>1590205263393</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1590205263393</updated>
+      <workItem from="1591615553485" duration="8536000" />
     </task>
     <task id="LOCAL-00056" summary="5th commit">
       <created>1590207457059</created>
@@ -829,11 +810,18 @@
       <option name="project" value="LOCAL" />
       <updated>1591620292481</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="5th commit">
+      <created>1591623800075</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1591623800075</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1605169000" />
+    <option name="totallyTimeSpent" value="1607580000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1128,13 +1116,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/manual_location.dust" />
     <entry file="file://$PROJECT_DIR$/view/m/login.dust" />
-    <entry file="file://$PROJECT_DIR$/view/dynamics_detail.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/m/dynamics_detail.dust" />
     <entry file="file://$PROJECT_DIR$/view/m/dynamics.dust" />
     <entry file="file://$PROJECT_DIR$/view/m/gps_control.dust" />
@@ -1183,13 +1164,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1649">
-          <caret line="348" column="55" lean-forward="true" selection-start-line="348" selection-start-column="55" selection-end-line="348" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/manual_controlbox.dust">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="419">
@@ -1232,13 +1206,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/manual_area.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="153" column="5" lean-forward="true" selection-start-line="153" selection-start-column="5" selection-end-line="153" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/map.dust">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -1260,14 +1227,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/dynamics.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="68" column="49" lean-forward="true" selection-start-line="68" selection-start-column="49" selection-end-line="68" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1284,24 +1243,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
+    <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9">
-          <caret line="311" column="0" lean-forward="true" selection-start-line="311" selection-start-column="0" selection-end-line="311" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1591620068128" expanded="true" signature="9717:9747" ph="..." />
-            <marker date="1591620068128" expanded="true" signature="9795:9836" ph="..." />
-            <marker date="1591620068128" expanded="true" signature="10055:10088" ph="..." />
-          </folding>
+        <state relative-caret-position="384">
+          <caret line="419" column="21" lean-forward="true" selection-start-line="419" selection-start-column="21" selection-end-line="419" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="342" column="7" lean-forward="true" selection-start-line="342" selection-start-column="7" selection-end-line="342" selection-end-column="7" />
+        <state relative-caret-position="194">
+          <caret line="998" column="7" lean-forward="true" selection-start-line="998" selection-start-column="7" selection-end-line="998" selection-end-column="7" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/manual_area.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="153" column="5" lean-forward="true" selection-start-line="153" selection-start-column="5" selection-end-line="153" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/dynamics_detail.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3130">
+          <caret line="288" column="0" lean-forward="true" selection-start-line="288" selection-start-column="0" selection-end-line="288" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/dynamics.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="249" column="36" lean-forward="true" selection-start-line="249" selection-start-column="36" selection-end-line="249" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="341" column="57" lean-forward="true" selection-start-line="341" selection-start-column="57" selection-end-line="341" selection-end-column="57" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1591626630239" expanded="true" signature="9964:9994" ph="..." />
+            <marker date="1591626630239" expanded="true" signature="10042:10083" ph="..." />
+            <marker date="1591626630239" expanded="true" signature="10302:10335" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
