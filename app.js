@@ -356,9 +356,8 @@ app.post("/login.do", function (req, res) {
                             logger.addContext('real_name', real_name);
                             logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
                         }
-
+                        res.redirect("/gps_control.html");
                     });
-                    res.redirect("/gps_control.html");
                 } else {
                     res.render("login", {fail: 200});  // 移动端登录失败
                 }
@@ -372,9 +371,8 @@ app.post("/login.do", function (req, res) {
                         logger.addContext('real_name', real_name);
                         logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
                     }
-
+                    res.redirect("/dynamics.html");
                 });
-                res.redirect("/dynamics.html");
             }
         } else {
             res.render("login", {fail: 100});  // 登录失败

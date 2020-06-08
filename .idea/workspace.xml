@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
-    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="5th commit">
+    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/access.log" afterPath="$PROJECT_DIR$/log/access.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/app.log" afterPath="$PROJECT_DIR$/log/app.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/gps_control.dust" afterPath="$PROJECT_DIR$/view/gps_control.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/login.dust" afterPath="$PROJECT_DIR$/view/login.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="1006" column="20" lean-forward="true" selection-start-line="1006" selection-start-column="20" selection-end-line="1006" selection-end-column="20" />
+            <state relative-caret-position="114">
+              <caret line="342" column="7" lean-forward="true" selection-start-line="342" selection-start-column="7" selection-end-line="342" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -38,8 +36,8 @@
       <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="323" column="49" lean-forward="true" selection-start-line="323" selection-start-column="49" selection-end-line="323" selection-end-column="49" />
+            <state relative-caret-position="9">
+              <caret line="311" column="0" lean-forward="true" selection-start-line="311" selection-start-column="0" selection-end-line="311" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <marker date="1591620068128" expanded="true" signature="9717:9747" ph="..." />
@@ -53,14 +51,14 @@
       <file leaf-file-name="login.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/login.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="62" column="18" lean-forward="true" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
+            <state relative-caret-position="318">
+              <caret line="58" column="5" lean-forward="true" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -108,11 +106,11 @@
       <find>max-he</find>
       <find>parent</find>
       <find>updateNode</find>
-      <find>login.do</find>
       <find>{@eq key=</find>
       <find>天安门</find>
       <find>logout.do</find>
       <find>lon</find>
+      <find>login.do</find>
     </findStrings>
     <replaceStrings>
       <replace>col-sm-3</replace>
@@ -202,8 +200,8 @@
         <option value="$PROJECT_DIR$/static/js/infobox.js" />
         <option value="$PROJECT_DIR$/view/pipe.dust" />
         <option value="$PROJECT_DIR$/view/login.dust" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/view/gps_control.dust" />
+        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/app.env" />
       </list>
     </option>
@@ -486,14 +484,7 @@
       <workItem from="1590940350594" duration="564000" />
       <workItem from="1590970688765" duration="670000" />
       <workItem from="1591449798564" duration="4703000" />
-      <workItem from="1591615553485" duration="4662000" />
-    </task>
-    <task id="LOCAL-00054" summary="5th commit">
-      <created>1590202773647</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1590202773657</updated>
+      <workItem from="1591615553485" duration="6125000" />
     </task>
     <task id="LOCAL-00055" summary="5th commit">
       <created>1590205263393</created>
@@ -831,11 +822,18 @@
       <option name="project" value="LOCAL" />
       <updated>1591493586603</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="5th commit">
+      <created>1591620292479</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1591620292481</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1603706000" />
+    <option name="totallyTimeSpent" value="1605169000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -978,10 +976,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/app.js</url>
+          <line>133</line>
+          <properties />
+          <option name="timeStamp" value="306" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="306" />
+      <option name="time" value="311" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1262,18 +1268,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/app.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="1006" column="20" lean-forward="true" selection-start-line="1006" selection-start-column="20" selection-end-line="1006" selection-end-column="20" />
+        <state relative-caret-position="0">
+          <caret line="0" column="17" lean-forward="true" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/login.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="58" column="5" lean-forward="true" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="323" column="49" lean-forward="true" selection-start-line="323" selection-start-column="49" selection-end-line="323" selection-end-column="49" />
+        <state relative-caret-position="9">
+          <caret line="311" column="0" lean-forward="true" selection-start-line="311" selection-start-column="0" selection-end-line="311" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <marker date="1591620068128" expanded="true" signature="9717:9747" ph="..." />
@@ -1283,18 +1297,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/login.dust">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="62" column="18" lean-forward="true" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="17" lean-forward="true" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
+        <state relative-caret-position="114">
+          <caret line="342" column="7" lean-forward="true" selection-start-line="342" selection-start-column="7" selection-end-line="342" selection-end-column="7" />
           <folding />
         </state>
       </provider>
