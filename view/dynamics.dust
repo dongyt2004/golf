@@ -98,6 +98,7 @@
                 <span class="menu-item">球场动态</span>
             </a>
         </li>
+{@eq key=can_irrigate value=1 type="number"}
         <li>
             <a href="/manual.html">
                 <i class="icon-droplet"></i>
@@ -110,6 +111,7 @@
                 <span class="menu-item">洒水计划</span>
             </a>
         </li>
+{/eq}
         <li>
             <a href="#">
                 <i class="icon-tools2"></i>

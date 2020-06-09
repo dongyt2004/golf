@@ -59,7 +59,7 @@
 {/eq}
 {@eq key=fail value=200 type="number"}
             <div class="form-block dongyt">
-                权限不足，请联系管理员
+                账号被封，请联系管理员
             </div>
 {/eq}
             <input type="submit" value="登 录">

@@ -102,6 +102,7 @@
                 <span class="menu-item">球场动态</span>
             </a>
         </li>
+{@eq key=can_irrigate value=1 type="number"}
         <li>
             <a href="/manual.html">
                 <i class="icon-droplet"></i>
@@ -114,6 +115,7 @@
                 <span class="menu-item">洒水计划</span>
             </a>
         </li>
+{/eq}
         <li class="active selected">
             <a href="#">
                 <i class="icon-tools2"></i>
@@ -215,13 +217,13 @@
                             <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="lon">经度</label>
-                                    <input id="lon" class="form-control" name="lon" />
+                                    <input id="lon" class="form-control" name="lon" {@eq key=can_pos value=0 type="number" } readonly {/eq} />
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="lat">纬度</label>
-                                    <input id="lat" class="form-control" name="lat" />
+                                    <input id="lat" class="form-control" name="lat" {@eq key=can_pos value=0 type="number" } readonly {/eq} />
                                 </div>
                             </div>
                         </div>

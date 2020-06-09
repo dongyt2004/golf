@@ -5,7 +5,20 @@
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/access.log" afterPath="$PROJECT_DIR$/log/access.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/app.log" afterPath="$PROJECT_DIR$/log/app.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox.dust" afterPath="$PROJECT_DIR$/view/controlbox.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox_model.dust" afterPath="$PROJECT_DIR$/view/controlbox_model.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/course.dust" afterPath="$PROJECT_DIR$/view/course.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/dynamics.dust" afterPath="$PROJECT_DIR$/view/dynamics.dust" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/gps_control.dust" afterPath="$PROJECT_DIR$/view/gps_control.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/login.dust" afterPath="$PROJECT_DIR$/view/login.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/map.dust" afterPath="$PROJECT_DIR$/view/map.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/nozzle_model.dust" afterPath="$PROJECT_DIR$/view/nozzle_model.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/nozzle_shape.dust" afterPath="$PROJECT_DIR$/view/nozzle_shape.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/pipe.dust" afterPath="$PROJECT_DIR$/view/pipe.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/task.dust" afterPath="$PROJECT_DIR$/view/task.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/turf.dust" afterPath="$PROJECT_DIR$/view/turf.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,33 +38,43 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="1619" column="51" lean-forward="true" selection-start-line="1619" selection-start-column="51" selection-end-line="1619" selection-end-column="51" />
+            <state relative-caret-position="391">
+              <caret line="1667" column="32" lean-forward="false" selection-start-line="1667" selection-start-column="20" selection-end-line="1667" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="true">
+      <file leaf-file-name="login.dust" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/view/login.dust">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="413">
+              <caret line="60" column="43" lean-forward="true" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="242" column="30" lean-forward="false" selection-start-line="242" selection-start-column="30" selection-end-line="242" selection-end-column="30" />
+            <state relative-caret-position="304">
+              <caret line="94" column="5" lean-forward="true" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1591664673278" expanded="true" signature="9964:9994" ph="..." />
-                <marker date="1591664673278" expanded="true" signature="10042:10083" ph="..." />
-                <marker date="1591664673278" expanded="true" signature="10302:10335" ph="..." />
+                <marker date="1591676918038" expanded="true" signature="9964:9994" ph="..." />
+                <marker date="1591676918038" expanded="true" signature="10042:10083" ph="..." />
+                <marker date="1591676918038" expanded="true" signature="10302:10335" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="532">
+              <caret line="28" column="37" lean-forward="true" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -70,17 +93,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>login</find>
-      <find>update_controlbox</find>
-      <find>manual_lo</find>
-      <find>设备网络异常</find>
-      <find>{@</find>
-      <find>gps_control.html</find>
-      <find>manual_loca</find>
-      <find>add_control</find>
-      <find>nozzletree</find>
-      <find>alertify</find>
-      <find>send.do</find>
       <find>hour</find>
       <find>发送</find>
       <find>.do</find>
@@ -100,6 +112,17 @@
       <find>login.do</find>
       <find>alerti</find>
       <find>logout.do</find>
+      <find>controlbox.html</find>
+      <find>/controlbo.html</find>
+      <find>user</find>
+      <find>mobile_control</find>
+      <find>/controlbox.html</find>
+      <find>add_controlbox</find>
+      <find>/gps</find>
+      <find>/login.do</find>
+      <find>/dynamics.html</find>
+      <find>can_pos</find>
+      <find>req.session.user['can_irrigate']</find>
     </findStrings>
     <replaceStrings>
       <replace>col-sm-3</replace>
@@ -161,19 +184,11 @@
         <option value="$PROJECT_DIR$/view/event.dust" />
         <option value="$PROJECT_DIR$/../golf-schedule/app.env" />
         <option value="$PROJECT_DIR$/log/app.log" />
-        <option value="$PROJECT_DIR$/view/controlbox_model.dust" />
-        <option value="$PROJECT_DIR$/view/course.dust" />
-        <option value="$PROJECT_DIR$/view/dynamics.dust" />
-        <option value="$PROJECT_DIR$/view/map.dust" />
-        <option value="$PROJECT_DIR$/view/nozzle_model.dust" />
-        <option value="$PROJECT_DIR$/view/nozzle_shape.dust" />
-        <option value="$PROJECT_DIR$/view/turf.dust" />
         <option value="$PROJECT_DIR$/static/js/calendar/zh-cn.js" />
         <option value="$PROJECT_DIR$/view/plan.dust" />
         <option value="$PROJECT_DIR$/static/js/calendar/custom-calendar.js" />
         <option value="$PROJECT_DIR$/../golf-schedule/scheduler.js" />
         <option value="$PROJECT_DIR$/static/css/calendar/custom-calendar.css" />
-        <option value="$PROJECT_DIR$/view/task.dust" />
         <option value="$PROJECT_DIR$/view/task_step.dust" />
         <option value="$PROJECT_DIR$/view/1.dust" />
         <option value="$PROJECT_DIR$/view/locate.dust" />
@@ -182,16 +197,24 @@
         <option value="$PROJECT_DIR$/view/manual_location.dust" />
         <option value="$PROJECT_DIR$/view/m/dynamics_detail.dust" />
         <option value="$PROJECT_DIR$/view/manual.dust" />
-        <option value="$PROJECT_DIR$/view/controlbox.dust" />
         <option value="$PROJECT_DIR$/static/css/maintenance.css" />
         <option value="$PROJECT_DIR$/view/manual_area.dust" />
         <option value="$PROJECT_DIR$/view/manual_controlbox.dust" />
         <option value="$PROJECT_DIR$/static/js/infobox.js" />
-        <option value="$PROJECT_DIR$/view/pipe.dust" />
         <option value="$PROJECT_DIR$/view/login.dust" />
-        <option value="$PROJECT_DIR$/app.env" />
-        <option value="$PROJECT_DIR$/view/gps_control.dust" />
+        <option value="$PROJECT_DIR$/view/dynamics.dust" />
+        <option value="$PROJECT_DIR$/view/course.dust" />
+        <option value="$PROJECT_DIR$/view/controlbox.dust" />
+        <option value="$PROJECT_DIR$/view/task.dust" />
+        <option value="$PROJECT_DIR$/view/pipe.dust" />
+        <option value="$PROJECT_DIR$/view/map.dust" />
+        <option value="$PROJECT_DIR$/view/controlbox_model.dust" />
+        <option value="$PROJECT_DIR$/view/nozzle_model.dust" />
+        <option value="$PROJECT_DIR$/view/nozzle_shape.dust" />
+        <option value="$PROJECT_DIR$/view/turf.dust" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/view/gps_control.dust" />
+        <option value="$PROJECT_DIR$/app.env" />
       </list>
     </option>
   </component>
@@ -254,6 +277,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -276,8 +301,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -474,14 +497,8 @@
       <workItem from="1590970688765" duration="670000" />
       <workItem from="1591449798564" duration="4703000" />
       <workItem from="1591615553485" duration="9160000" />
-      <workItem from="1591664465446" duration="284000" />
-    </task>
-    <task id="LOCAL-00057" summary="5th commit">
-      <created>1590212978951</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1590212978951</updated>
+      <workItem from="1591664465446" duration="1127000" />
+      <workItem from="1591672078976" duration="4861000" />
     </task>
     <task id="LOCAL-00058" summary="5th commit">
       <created>1590213473453</created>
@@ -819,11 +836,18 @@
       <option name="project" value="LOCAL" />
       <updated>1591626653119</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="5th commit">
+      <created>1591664797354</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1591664797357</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1608488000" />
+    <option name="totallyTimeSpent" value="1614192000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -845,7 +869,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24907063" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21269841" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17174721" sideWeight="0.5068226" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21481481" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21481481" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -966,13 +990,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/app.js</url>
-          <line>133</line>
-          <option name="timeStamp" value="306" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -981,27 +998,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/view/nozzle.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5814">
-          <caret line="306" column="29" lean-forward="true" selection-start-line="306" selection-start-column="29" selection-end-line="306" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/nozzle_model.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="126" column="34" lean-forward="false" selection-start-line="126" selection-start-column="34" selection-end-line="126" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/turf.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="126" column="34" lean-forward="false" selection-start-line="126" selection-start-column="34" selection-end-line="126" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/calendar/zh-cn.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="839">
@@ -1020,20 +1016,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="319">
           <caret line="0" column="3765" lean-forward="false" selection-start-line="0" selection-start-column="3759" selection-end-line="0" selection-end-column="3765" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/nozzle_shape.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-722">
-          <caret line="127" column="21" lean-forward="true" selection-start-line="127" selection-start-column="21" selection-end-line="127" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/course.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="230" column="84" lean-forward="false" selection-start-line="230" selection-start-column="43" selection-end-line="230" selection-end-column="84" />
         </state>
       </provider>
     </entry>
@@ -1062,13 +1044,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="10" column="22" lean-forward="false" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/task.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="315" column="19" lean-forward="false" selection-start-line="315" selection-start-column="19" selection-end-line="315" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -1207,38 +1182,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/map.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="285" column="19" lean-forward="true" selection-start-line="285" selection-start-column="19" selection-end-line="285" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test-stub.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="227">
           <caret line="43" column="69" lean-forward="true" selection-start-line="43" selection-start-column="69" selection-end-line="43" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/pipe.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="185" column="14" lean-forward="true" selection-start-line="185" selection-start-column="14" selection-end-line="185" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/login.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="58" column="5" lean-forward="true" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="419" column="21" lean-forward="true" selection-start-line="419" selection-start-column="21" selection-end-line="419" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1258,37 +1205,118 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/dynamics.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="249" column="36" lean-forward="true" selection-start-line="249" selection-start-column="36" selection-end-line="249" selection-end-column="36" />
+        <state relative-caret-position="-30">
+          <caret line="100" column="0" lean-forward="false" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="44" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.env">
+    <entry file="file://$PROJECT_DIR$/view/course.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="543">
+          <caret line="113" column="4" lean-forward="false" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/controlbox.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="116" column="4" lean-forward="false" selection-start-line="116" selection-start-column="4" selection-end-line="116" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/task.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="114" column="4" lean-forward="false" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/pipe.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="547">
+          <caret line="116" column="4" lean-forward="false" selection-start-line="116" selection-start-column="4" selection-end-line="116" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/map.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="120" column="4" lean-forward="false" selection-start-line="120" selection-start-column="4" selection-end-line="120" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/controlbox_model.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="113" column="4" lean-forward="false" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/nozzle_model.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="114" column="4" lean-forward="false" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/nozzle_shape.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="114" column="4" lean-forward="false" selection-start-line="114" selection-start-column="4" selection-end-line="114" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/turf.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="112" column="4" lean-forward="false" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/login.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="60" column="43" lean-forward="true" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="1619" column="51" lean-forward="true" selection-start-line="1619" selection-start-column="51" selection-end-line="1619" selection-end-column="51" />
+        <state relative-caret-position="391">
+          <caret line="1667" column="32" lean-forward="false" selection-start-line="1667" selection-start-column="20" selection-end-line="1667" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="242" column="30" lean-forward="false" selection-start-line="242" selection-start-column="30" selection-end-line="242" selection-end-column="30" />
+        <state relative-caret-position="304">
+          <caret line="94" column="5" lean-forward="true" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1591664673278" expanded="true" signature="9964:9994" ph="..." />
-            <marker date="1591664673278" expanded="true" signature="10042:10083" ph="..." />
-            <marker date="1591664673278" expanded="true" signature="10302:10335" ph="..." />
+            <marker date="1591676918038" expanded="true" signature="9964:9994" ph="..." />
+            <marker date="1591676918038" expanded="true" signature="10042:10083" ph="..." />
+            <marker date="1591676918038" expanded="true" signature="10302:10335" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="28" column="37" lean-forward="true" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -342,26 +342,9 @@ function left_pad(num, n) {
 /** ----------------------------------------------------------------------------------------- 从 AJAX 请 求，代 表 操 作 ----------------------------------------------------------------------------------------------- **/
 // 登录操作
 app.post("/login.do", function (req, res) {
-    db.exec("select id,name,password,real_name,mobile_control from user where name=? and password=?", [req.body.username, req.body.password], function (users) {
-        if (users.length === 1) {  // 登陆成功
-            var userAgent = (req.headers["user-agent"] || "").toLowerCase();
-            if (userAgent.match(/(iphone|ipod|ipad|android|nexus)/)) {  // 移动端
-                if (users[0].mobile_control === 1) {
-                    var fromIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip || req.connection.socket.remoteAddress;
-                    db.exec("update user set login_time=?, from_ip=? where name=? and password=?", [moment().format("YYYY-MM-DD HH:mm:ss"), fromIp, req.body.username, req.body.password], function () {
-                        req.session.click_count = 0;
-                        req.session.user = users[0];
-                        real_name = req.session.user['real_name'];
-                        if (logger.isInfoEnabled()) {
-                            logger.addContext('real_name', real_name);
-                            logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
-                        }
-                        res.redirect("/gps_control.html");
-                    });
-                } else {
-                    res.render("login", {fail: 200});  // 移动端登录失败
-                }
-            } else {  // pc端
+    db.exec("select id,name,password,real_name,can_login,can_pos,can_irrigate from user where name=? and password=?", [req.body.username, req.body.password], function (users) {
+        if (users.length === 1) {  // 有这个用户
+            if (users[0].can_login === 1) {  // 允许登录
                 var fromIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip || req.connection.socket.remoteAddress;
                 db.exec("update user set login_time=?, from_ip=? where name=? and password=?", [moment().format("YYYY-MM-DD HH:mm:ss"), fromIp, req.body.username, req.body.password], function () {
                     req.session.click_count = 0;
@@ -371,11 +354,18 @@ app.post("/login.do", function (req, res) {
                         logger.addContext('real_name', real_name);
                         logger.info("%s于%s登录系统", req.body.username, moment().format("YYYY-MM-DD HH:mm:ss"));
                     }
-                    res.redirect("/dynamics.html");
+                    var userAgent = (req.headers["user-agent"] || "").toLowerCase();
+                    if (userAgent.match(/(iphone|ipod|ipad|android|nexus)/)) {  // 移动端
+                        res.redirect("/gps_control.html");
+                    } else {  // pc端
+                        res.redirect("/dynamics.html");
+                    }
                 });
+            } else {  // 不允许登录
+                res.render("login", {fail: 200});  // 不允许登录
             }
         } else {
-            res.render("login", {fail: 100});  // 登录失败
+            res.render("login", {fail: 100});  // 用户名或密码错误
         }
     });
 });
@@ -1023,7 +1013,8 @@ app.get("/dynamics.html", function (req, res) {
             courses: courses,
             first_course_id: first_course_id,
             user: req.session.user,
-            click_count: req.session.click_count % 2
+            click_count: req.session.click_count % 2,
+            can_irrigate: req.session.user['can_irrigate']
         });
     });
 });
@@ -1281,7 +1272,8 @@ app.get("/course.html", function (req, res) {
         res.render('course', {
             courses: courses,
             user: req.session.user,
-            click_count: req.session.click_count % 2
+            click_count: req.session.click_count % 2,
+            can_irrigate: req.session.user['can_irrigate']
         });
     });
 });
@@ -1303,7 +1295,9 @@ app.get("/controlbox.html", function (req, res) {
                 controlboxes: controlboxes,
                 controlbox_models: controlbox_models,
                 user: req.session.user,
-                click_count: req.session.click_count % 2
+                click_count: req.session.click_count % 2,
+                can_pos: req.session.user['can_pos'],
+                can_irrigate: req.session.user['can_irrigate']
             });
         });
     });
@@ -1370,7 +1364,8 @@ app.get("/task.html", function (req, res) {
             tasks: tasks,
             focus: focus,
             user: req.session.user,
-            click_count: req.session.click_count % 2
+            click_count: req.session.click_count % 2,
+            can_irrigate: req.session.user['can_irrigate']
         });
     });
 });
@@ -1516,7 +1511,8 @@ app.get("/pipe.html", function (req, res) {
                             pipeNodes: pipeNodes,
                             nozzleNodes: nozzleNodes,
                             user: req.session.user,
-                            click_count: req.session.click_count % 2
+                            click_count: req.session.click_count % 2,
+                            can_irrigate: req.session.user['can_irrigate']
                         });
                     });
                 });
@@ -1543,7 +1539,8 @@ app.get("/map.html", function (req, res) {
             res.render('map', {
                 nozzleNodes: nozzleNodes,
                 user: req.session.user,
-                click_count: req.session.click_count % 2
+                click_count: req.session.click_count % 2,
+                can_irrigate: req.session.user['can_irrigate']
             });
         });
     });
@@ -1554,7 +1551,8 @@ app.get("/controlbox_model.html", function (req, res) {
         res.render('controlbox_model', {
             models: models,
             user: req.session.user,
-            click_count: req.session.click_count % 2
+            click_count: req.session.click_count % 2,
+            can_irrigate: req.session.user['can_irrigate']
         });
     });
 });
@@ -1564,7 +1562,8 @@ app.get("/nozzle_model.html", function (req, res) {
         res.render('nozzle_model', {
             models: models,
             user: req.session.user,
-            click_count: req.session.click_count % 2
+            click_count: req.session.click_count % 2,
+            can_irrigate: req.session.user['can_irrigate']
         });
     });
 });
@@ -1574,7 +1573,8 @@ app.get("/nozzle_shape.html", function (req, res) {
         res.render('nozzle_shape', {
             shapes: shapes,
             user: req.session.user,
-            click_count: req.session.click_count % 2
+            click_count: req.session.click_count % 2,
+            can_irrigate: req.session.user['can_irrigate']
         });
     });
 });
@@ -1584,7 +1584,8 @@ app.get("/turf.html", function (req, res) {
         res.render('turf', {
             turfs: turfs,
             user: req.session.user,
-            click_count: req.session.click_count % 2
+            click_count: req.session.click_count % 2,
+            can_irrigate: req.session.user['can_irrigate']
         });
     });
 });
@@ -1662,7 +1663,9 @@ app.get("/gps_control.html", function (req, res) {
                     lon: lon,
                     lat: lat,
                     controlbox_lon: controlbox_lon,
-                    controlbox_lat: controlbox_lat
+                    controlbox_lat: controlbox_lat,
+                    can_pos: req.session.user['can_pos'],
+                    can_irrigate: req.session.user['can_irrigate']
                 });
             });
         } else {

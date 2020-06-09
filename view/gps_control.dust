@@ -301,12 +301,12 @@
         $("#map").show(function () {
             var map = new BMap.Map("map", {mapType: BMAP_SATELLITE_MAP});
 {@eq key=lon value=""}
-            map.centerAndZoom(new BMap.Point(116.403875, 39.915168), 19);  /* 天安门 */
+            map.centerAndZoom(new BMap.Point(116.403875, 39.915168), 19);  /* 以天安门为中心 */
 {:else}
     {@eq key=controlbox_lon value=0 type="number"}
-            map.centerAndZoom(new BMap.Point({lon}, {lat}), 19);  /* 人 */
+            map.centerAndZoom(new BMap.Point({lon}, {lat}), 19);  /* 以人为中心 */
     {:else}
-            map.centerAndZoom(new BMap.Point({controlbox_lon}, {controlbox_lat}), 19);  /* 分控箱 */
+            map.centerAndZoom(new BMap.Point({controlbox_lon}, {controlbox_lat}), 19);  /* 以分控箱为中心 */
     {/eq}
 {/eq}
             map.enableDragging();
@@ -339,17 +339,20 @@
 {@ne key=lon value=""}
             /* 显示我的位置 */
             var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(36, 36))});
-            marker.setLabel(new BMap.Label("点击我可为身边分控箱定位", {offset: new BMap.Size(25, -10)}));
             map.addOverlay(marker);
+{@eq key=can_pos value=1 type="number"}
+            marker.setLabel(new BMap.Label("点击我可为身边分控箱定位", {offset: new BMap.Size(25, -10)}));
             marker.addEventListener("click", function() {
                 this.openInfoWindow(infoWindow2);
             });
+{/eq}
 {/ne}
             /* 显示我跟前的分控箱 */
 {#adj_controlboxes}
             marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/邻分控箱.png", new BMap.Size(36, 36))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));
             map.addOverlay(marker);
+{@eq key=can_irrigate value=1 type="number"}
             marker.addEventListener("click", function() {
                 var controlbox_nodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
                     return node.id.substr(0, 1) !== 't' && node.isHidden === false;
@@ -362,6 +365,7 @@
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
             });
+{/eq}
 {/adj_controlboxes}
 
             /* 显示我附近的分控箱 */
@@ -369,6 +373,7 @@
             marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/近分控箱.png", new BMap.Size(36, 36))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));
             map.addOverlay(marker);
+{@eq key=can_irrigate value=1 type="number"}
             marker.addEventListener("click", function() {
                 var controlbox_nodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
                     return node.id.substr(0, 1) !== 't' && node.isHidden === false;
@@ -381,6 +386,7 @@
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
             });
+{/eq}
 {/near_controlboxes}
 
             /* 显示远处的分控箱 */
@@ -388,6 +394,7 @@
             marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/远分控箱.png", new BMap.Size(36, 36))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));
             map.addOverlay(marker);
+{@eq key=can_irrigate value=1 type="number"}
             marker.addEventListener("click", function() {
                 var controlbox_nodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
                     return node.id.substr(0, 1) !== 't' && node.isHidden === false;
@@ -400,6 +407,7 @@
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
             });
+{/eq}
 {/far_controlboxes}
         });
     });
