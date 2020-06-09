@@ -181,6 +181,9 @@
                 $('#loadingModal').modal('hide');
                 if (result.success) {
                     alertify.success("定位成功，经度：" + point.lng + "，纬度：" + point.lat);
+                    setTimeout(function () {
+                        window.location.href="/gps_control.html";
+                    }, 3000);
                 } else {
                     alertify.error("网络原因，定位失败");
                 }

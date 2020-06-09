@@ -4,21 +4,7 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/access.log" afterPath="$PROJECT_DIR$/log/access.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/app.log" afterPath="$PROJECT_DIR$/log/app.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox.dust" afterPath="$PROJECT_DIR$/view/controlbox.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox_model.dust" afterPath="$PROJECT_DIR$/view/controlbox_model.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/course.dust" afterPath="$PROJECT_DIR$/view/course.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/dynamics.dust" afterPath="$PROJECT_DIR$/view/dynamics.dust" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/gps_control.dust" afterPath="$PROJECT_DIR$/view/gps_control.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/login.dust" afterPath="$PROJECT_DIR$/view/login.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/map.dust" afterPath="$PROJECT_DIR$/view/map.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/nozzle_model.dust" afterPath="$PROJECT_DIR$/view/nozzle_model.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/nozzle_shape.dust" afterPath="$PROJECT_DIR$/view/nozzle_shape.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/pipe.dust" afterPath="$PROJECT_DIR$/view/pipe.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/task.dust" afterPath="$PROJECT_DIR$/view/task.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/turf.dust" afterPath="$PROJECT_DIR$/view/turf.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -48,33 +34,33 @@
       <file leaf-file-name="login.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/login.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="413">
-              <caret line="60" column="43" lean-forward="true" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
+            <state relative-caret-position="147">
+              <caret line="46" column="36" lean-forward="true" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="false">
+      <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="94" column="5" lean-forward="true" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
+            <state relative-caret-position="384">
+              <caret line="186" column="24" lean-forward="true" selection-start-line="186" selection-start-column="24" selection-end-line="186" selection-end-column="24" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1591676918038" expanded="true" signature="9964:9994" ph="..." />
-                <marker date="1591676918038" expanded="true" signature="10042:10083" ph="..." />
-                <marker date="1591676918038" expanded="true" signature="10302:10335" ph="..." />
+                <marker date="1591681028676" expanded="true" signature="10105:10135" ph="..." />
+                <marker date="1591681028676" expanded="true" signature="10183:10224" ph="..." />
+                <marker date="1591681028676" expanded="true" signature="10443:10476" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="28" column="37" lean-forward="true" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
+            <state relative-caret-position="323">
+              <caret line="17" column="24" lean-forward="true" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -93,8 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>hour</find>
-      <find>发送</find>
       <find>.do</find>
       <find>gps_control</find>
       <find>gps_con</find>
@@ -123,6 +107,8 @@
       <find>/dynamics.html</find>
       <find>can_pos</find>
       <find>req.session.user['can_irrigate']</find>
+      <find>定位</find>
+      <find>location.</find>
     </findStrings>
     <replaceStrings>
       <replace>col-sm-3</replace>
@@ -213,8 +199,8 @@
         <option value="$PROJECT_DIR$/view/nozzle_shape.dust" />
         <option value="$PROJECT_DIR$/view/turf.dust" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/view/gps_control.dust" />
         <option value="$PROJECT_DIR$/app.env" />
+        <option value="$PROJECT_DIR$/view/gps_control.dust" />
       </list>
     </option>
   </component>
@@ -498,14 +484,7 @@
       <workItem from="1591449798564" duration="4703000" />
       <workItem from="1591615553485" duration="9160000" />
       <workItem from="1591664465446" duration="1127000" />
-      <workItem from="1591672078976" duration="4861000" />
-    </task>
-    <task id="LOCAL-00058" summary="5th commit">
-      <created>1590213473453</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1590213473453</updated>
+      <workItem from="1591672078976" duration="5940000" />
     </task>
     <task id="LOCAL-00059" summary="5th commit">
       <created>1590221496338</created>
@@ -843,11 +822,18 @@
       <option name="project" value="LOCAL" />
       <updated>1591664797357</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="5th commit">
+      <created>1591676993749</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1591676993749</updated>
+    </task>
+    <option name="localTasksCounter" value="108" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1614192000" />
+    <option name="totallyTimeSpent" value="1615271000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1283,14 +1269,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/login.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="60" column="43" lean-forward="true" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
@@ -1299,24 +1277,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
+    <entry file="file://$PROJECT_DIR$/app.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="94" column="5" lean-forward="true" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1591676918038" expanded="true" signature="9964:9994" ph="..." />
-            <marker date="1591676918038" expanded="true" signature="10042:10083" ph="..." />
-            <marker date="1591676918038" expanded="true" signature="10302:10335" ph="..." />
-          </folding>
+        <state relative-caret-position="323">
+          <caret line="17" column="24" lean-forward="true" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.env">
+    <entry file="file://$PROJECT_DIR$/view/login.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="28" column="37" lean-forward="true" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
+        <state relative-caret-position="147">
+          <caret line="46" column="36" lean-forward="true" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="186" column="24" lean-forward="true" selection-start-line="186" selection-start-column="24" selection-end-line="186" selection-end-column="24" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1591681028676" expanded="true" signature="10105:10135" ph="..." />
+            <marker date="1591681028676" expanded="true" signature="10183:10224" ph="..." />
+            <marker date="1591681028676" expanded="true" signature="10443:10476" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
