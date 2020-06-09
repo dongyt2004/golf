@@ -304,23 +304,14 @@
             map.centerAndZoom(new BMap.Point(116.403875, 39.915168), 19);  /* 天安门 */
 {:else}
     {@eq key=controlbox_lon value=0 type="number"}
-            map.centerAndZoom(new BMap.Point({lon}, {lat}), 19);
+            map.centerAndZoom(new BMap.Point({lon}, {lat}), 19);  /* 人 */
     {:else}
-            map.centerAndZoom(new BMap.Point({controlbox_lon}, {controlbox_lat}), 19);
+            map.centerAndZoom(new BMap.Point({controlbox_lon}, {controlbox_lat}), 19);  /* 分控箱 */
     {/eq}
 {/eq}
             map.enableDragging();
             /* 显示比例尺 */
             map.addControl(new BMap.ScaleControl());
-{@ne key=lon value=""}
-            /* 显示我的位置 */
-            var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(36, 36))});
-            marker.setLabel(new BMap.Label("点击我可为身边分控箱定位", {offset: new BMap.Size(25, -10)}));
-            map.addOverlay(marker);
-            marker.addEventListener("click", function() {
-                this.openInfoWindow(infoWindow2);
-            });
-
             /* 添加刷新按钮 */
             function RefreshControl(){
                 this.defaultAnchor = BMAP_ANCHOR_TOP_RIGHT;
@@ -333,7 +324,6 @@
                 return btn[0];
             };
             map.addControl(new RefreshControl());
-
             /* 添加退出按钮 */
             function LogoutControl(){
                 this.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
@@ -346,6 +336,14 @@
                 return btn[0];
             };
             map.addControl(new LogoutControl());
+{@ne key=lon value=""}
+            /* 显示我的位置 */
+            var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(36, 36))});
+            marker.setLabel(new BMap.Label("点击我可为身边分控箱定位", {offset: new BMap.Size(25, -10)}));
+            map.addOverlay(marker);
+            marker.addEventListener("click", function() {
+                this.openInfoWindow(infoWindow2);
+            });
 {/ne}
             /* 显示我跟前的分控箱 */
 {#adj_controlboxes}

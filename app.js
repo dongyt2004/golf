@@ -1615,7 +1615,7 @@ app.get("/gps_control.html", function (req, res) {
             var lat = parseFloat(req.query.lat);
             var where = "";
             var controlbox_lon = 0, controlbox_lat = 0;
-            var first = true;
+            var once = true;
             for(var i=0; i<controlboxes.length; i++) {
                 if (controlboxes[i].lon !== null) {
                     var d = distance(lon, lat, controlboxes[i].lon, controlboxes[i].lat);
@@ -1633,10 +1633,10 @@ app.get("/gps_control.html", function (req, res) {
                     }
                     nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].fullname,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
                     where += "b.id=" + controlboxes[i].id + " or ";
-                    if (first) {
+                    if (once) {
                         controlbox_lon = controlboxes[i].lon;
                         controlbox_lat = controlboxes[i].lat;
-                        first = false;
+                        once = false;
                     }
                 }
             }
