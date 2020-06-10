@@ -1639,6 +1639,10 @@ app.get("/gps_control.html", function (req, res) {
                         controlbox_lat = controlboxes[i].lat;
                         once = false;
                     }
+                    if (req.query.id === "" + controlboxes[i].id) {
+                        controlbox_lon = controlboxes[i].lon;
+                        controlbox_lat = controlboxes[i].lat;
+                    }
                 }
             }
             where += "1=0";
