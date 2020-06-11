@@ -1679,7 +1679,8 @@ app.get("/gps_control.html", function (req, res) {
                 near_controlboxes: near_controlboxes,
                 far_controlboxes: far_controlboxes,
                 nozzleNodes: nozzleNodes,
-                lon: ""
+                lon: "",
+                lat: ""
             });
         }
     });

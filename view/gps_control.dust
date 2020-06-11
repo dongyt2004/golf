@@ -182,8 +182,8 @@
                 if (result.success) {
                     alertify.success("定位成功，经度：" + point.lng + "，纬度：" + point.lat);
                     setTimeout(function () {
-                        window.location.href="/gps_control.html?id=" + $("#controlbox").val();
-                    }, 2500);
+                        window.location.href="/gps_control.html?lon={lon}&lat={lat}&id=" + $("#controlbox").val();
+                    }, 1800);
                 } else {
                     alertify.error("网络原因，定位失败");
                 }
@@ -193,6 +193,7 @@
 
     /* 为分控箱定位 */
     function pos() {
+        /*postPos({coords:{longitude: 117.1665001493, latitude: 39.0851165656}});*/
         if (navigator.geolocation) {
             $("#loadingModal").modal('show');
             navigator.geolocation.getCurrentPosition(postPos, error, {
