@@ -4,7 +4,6 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-stub.env" afterPath="$PROJECT_DIR$/test-stub.env" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -69,8 +68,8 @@
       <file leaf-file-name="test-stub.env" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test-stub.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="12" column="18" lean-forward="true" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+            <state relative-caret-position="468">
+              <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -496,14 +495,7 @@
       <workItem from="1592140772796" duration="184000" />
       <workItem from="1592291441213" duration="660000" />
       <workItem from="1592645256712" duration="694000" />
-      <workItem from="1592818475592" duration="4034000" />
-    </task>
-    <task id="LOCAL-00064" summary="5th commit">
-      <created>1590283513391</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1590283513391</updated>
+      <workItem from="1592818475592" duration="4122000" />
     </task>
     <task id="LOCAL-00065" summary="5th commit">
       <created>1590285155339</created>
@@ -841,11 +833,18 @@
       <option name="project" value="LOCAL" />
       <updated>1592823846616</updated>
     </task>
-    <option name="localTasksCounter" value="113" />
+    <task id="LOCAL-00113" summary="5th commit">
+      <created>1592831237131</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1592831237131</updated>
+    </task>
+    <option name="localTasksCounter" value="114" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1630498000" />
+    <option name="totallyTimeSpent" value="1630586000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1304,8 +1303,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test-stub.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="12" column="18" lean-forward="true" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+        <state relative-caret-position="468">
+          <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
           <folding />
         </state>
       </provider>
