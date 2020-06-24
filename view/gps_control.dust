@@ -277,7 +277,7 @@
             '               </div>\n' +
             '               <hr style="border-top: 1px solid #46b8da;">\n' +
             '               <div style="text-align: center; padding-bottom: 10px;">\n' +
-            '                   <a href="javascript:send()" class="btn btn-success">开启选中的洒水站</a>\n' +
+            '                   <a id="send" href="javascript:send()" class="btn btn-success">开启选中的洒水站</a>\n' +
             '               </div>\n' +
             '               <ul id="nozzletree" class="ztree" style="max-height:200px;overflow-y:auto;"></ul>\n' +
             '            </div>');
@@ -365,6 +365,11 @@
                     return node.id === "{id}";
                 });
                 $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
+                if ("{fullname}".indexOf("[断网]") >= 0) {
+                    $('#send').attr('disabled', "true");
+                } else {
+                    $('#send').removeAttr("disabled");
+                }
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
             });
@@ -386,6 +391,11 @@
                     return node.id === "{id}";
                 });
                 $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
+                if ("{fullname}".indexOf("[断网]") >= 0) {
+                    $('#send').attr('disabled', "true");
+                } else {
+                    $('#send').removeAttr("disabled");
+                }
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
             });
@@ -407,6 +417,11 @@
                     return node.id === "{id}";
                 });
                 $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
+                if ("{fullname}".indexOf("[断网]") >= 0) {
+                    $('#send').attr('disabled', "true");
+                } else {
+                    $('#send').removeAttr("disabled");
+                }
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
             });
