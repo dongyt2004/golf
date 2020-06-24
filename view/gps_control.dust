@@ -365,10 +365,13 @@
                     return node.id === "{id}";
                 });
                 $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
+                var e = content.find('a#send:eq(0)');
                 if ("{fullname}".indexOf("[断网]") >= 0) {
-                    content.find('a#send:eq(0)').attr('href', "javascript:void(0)");
+                    e.attr('href', "javascript:void(0)");
+                    e.attr('disabled', 'true');
                 } else {
-                    content.find('a#send:eq(0)').attr('href', "javascript:send()");
+                    e.attr('href', "javascript:send()");
+                    e.removeAttr('disabled');
                 }
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
@@ -391,10 +394,13 @@
                     return node.id === "{id}";
                 });
                 $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
+                var e = content.find('a#send:eq(0)');
                 if ("{fullname}".indexOf("[断网]") >= 0) {
-                    content.find('a#send:eq(0)').attr('href', "javascript:void(0)");
+                    e.attr('href', "javascript:void(0)");
+                    e.attr('disabled', 'true');
                 } else {
-                    content.find('a#send:eq(0)').attr('href', "javascript:send()");
+                    e.attr('href', "javascript:send()");
+                    e.removeAttr('disabled');
                 }
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
@@ -417,10 +423,13 @@
                     return node.id === "{id}";
                 });
                 $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
+                var e = content.find('a#send:eq(0)');
                 if ("{fullname}".indexOf("[断网]") >= 0) {
-                    content.find('a#send:eq(0)').attr('href', "javascript:void(0)");
+                    e.attr('href', "javascript:void(0)");
+                    e.attr('disabled', 'true');
                 } else {
-                    content.find('a#send:eq(0)').attr('href', "javascript:send()");
+                    e.attr('href', "javascript:send()");
+                    e.removeAttr('disabled');
                 }
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();

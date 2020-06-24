@@ -34,13 +34,13 @@
       <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="516">
-              <caret line="423" column="17" lean-forward="true" selection-start-line="423" selection-start-column="17" selection-end-line="423" selection-end-column="17" />
+            <state relative-caret-position="518">
+              <caret line="374" column="17" lean-forward="false" selection-start-line="374" selection-start-column="17" selection-end-line="374" selection-end-column="17" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1592972811809" expanded="true" signature="10154:10184" ph="..." />
-                <marker date="1592972811809" expanded="true" signature="10232:10273" ph="..." />
-                <marker date="1592972811809" expanded="true" signature="10502:10535" ph="..." />
+                <marker date="1592973238846" expanded="true" signature="10154:10184" ph="..." />
+                <marker date="1592973238846" expanded="true" signature="10232:10273" ph="..." />
+                <marker date="1592973238846" expanded="true" signature="10502:10535" ph="..." />
               </folding>
             </state>
           </provider>
@@ -491,14 +491,7 @@
       <workItem from="1592140772796" duration="184000" />
       <workItem from="1592291441213" duration="660000" />
       <workItem from="1592645256712" duration="694000" />
-      <workItem from="1592818475592" duration="23033000" />
-    </task>
-    <task id="LOCAL-00072" summary="5th commit">
-      <created>1590325861200</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1590325861200</updated>
+      <workItem from="1592818475592" duration="23459000" />
     </task>
     <task id="LOCAL-00073" summary="5th commit">
       <created>1590405342020</created>
@@ -836,11 +829,18 @@
       <option name="project" value="LOCAL" />
       <updated>1592972443982</updated>
     </task>
-    <option name="localTasksCounter" value="121" />
+    <task id="LOCAL-00121" summary="5th commit">
+      <created>1592972832106</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1592972832106</updated>
+    </task>
+    <option name="localTasksCounter" value="122" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1649497000" />
+    <option name="totallyTimeSpent" value="1649923000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1296,13 +1296,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
-          <caret line="423" column="17" lean-forward="true" selection-start-line="423" selection-start-column="17" selection-end-line="423" selection-end-column="17" />
+        <state relative-caret-position="518">
+          <caret line="374" column="17" lean-forward="false" selection-start-line="374" selection-start-column="17" selection-end-line="374" selection-end-column="17" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1592972811809" expanded="true" signature="10154:10184" ph="..." />
-            <marker date="1592972811809" expanded="true" signature="10232:10273" ph="..." />
-            <marker date="1592972811809" expanded="true" signature="10502:10535" ph="..." />
+            <marker date="1592973238846" expanded="true" signature="10154:10184" ph="..." />
+            <marker date="1592973238846" expanded="true" signature="10232:10273" ph="..." />
+            <marker date="1592973238846" expanded="true" signature="10502:10535" ph="..." />
           </folding>
         </state>
       </provider>
