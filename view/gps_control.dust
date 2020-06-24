@@ -366,9 +366,9 @@
                 });
                 $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
                 if ("{fullname}".indexOf("[断网]") >= 0) {
-                    $('#send').attr('disabled', "true");
+                    content.find('a#send:eq(0)').attr('disabled', "true");
                 } else {
-                    $('#send').removeAttr("disabled");
+                    content.find('a#send:eq(0)').removeAttr("disabled");
                 }
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
@@ -392,9 +392,9 @@
                 });
                 $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
                 if ("{fullname}".indexOf("[断网]") >= 0) {
-                    $('#send').attr('disabled', "true");
+                    content.find('a#send:eq(0)').attr('disabled', "true");
                 } else {
-                    $('#send').removeAttr("disabled");
+                    content.find('a#send:eq(0)').removeAttr("disabled");
                 }
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
@@ -418,9 +418,9 @@
                 });
                 $.fn.zTree.getZTreeObj("nozzletree").showNodes(nodes);
                 if ("{fullname}".indexOf("[断网]") >= 0) {
-                    $('#send').attr('disabled', "true");
+                    content.find('a#send:eq(0)').attr('disabled', "true");
                 } else {
-                    $('#send').removeAttr("disabled");
+                    content.find('a#send:eq(0)').removeAttr("disabled");
                 }
                 this.openInfoWindow(infoWindow);
                 infoWindow.redraw();
