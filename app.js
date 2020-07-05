@@ -14,10 +14,11 @@ const _ = require('lodash');
 const moment = require("moment");
 const methodOverride = require('method-override');
 const session = require('express-session');
+var qos = 0;
 const mqtt = require('mqtt');
 const mqtt_client  = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER, clean: false});
 mqtt_client.on('connect', function () {
-    mqtt_client.subscribe(process.env.MQTT_BOTTOMUP_TOPIC, {qos: 1});
+    mqtt_client.subscribe(process.env.MQTT_BOTTOMUP_TOPIC, {qos: qos});
 });
 const schedule = require('node-schedule');
 const format = require('string-format');
@@ -303,7 +304,7 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
                 command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
                 command = format(command, numeral(command.length + 1 + 4).format('000'));
                 command = command + left_pad(crc16(command).toString(16), 4);
-                mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
+                mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                     if (!err) {
                         db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
                     } else {
@@ -320,7 +321,7 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
         command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
         command = format(command, numeral(command.length + 1 + 4).format('000'));
         command = command + left_pad(crc16(command).toString(16), 4);
-        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
+        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
             if (!err) {
                 db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function(results) {
                     res.end("1");
@@ -394,7 +395,7 @@ app.post("/inc_click_count.do", function (req, res) {
 app.post("/stop_all.do", function (req, res) {
     var command = process.env.COMMAND_STOP + "|";
     command = command + left_pad(crc16(command).toString(16), 4);
-    mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
+    mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
         if (!err) {
             res.json({success: true});
         } else {
@@ -428,7 +429,7 @@ app.post("/send.do", function (req, res) {
                 command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
                 command = format(command, numeral(command.length + 1 + 4).format('000'));
                 command = command + left_pad(crc16(command).toString(16), 4);
-                mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
+                mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                     if (!err) {
                         db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
                     } else {
@@ -445,7 +446,7 @@ app.post("/send.do", function (req, res) {
         command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
         command = format(command, numeral(command.length + 1 + 4).format('000'));
         command = command + left_pad(crc16(command).toString(16), 4);
-        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
+        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
             if (!err) {
                 db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
                     res.json({success: true});
@@ -689,7 +690,7 @@ app.post("/remote_control.do", function (req, res) {
         if (results.length > 0) {
             var command = process.env.COMMAND_REMOTE_OR_LOCAL_CONTROL + "|" + numeral(results[0].no).format('000') + "|1|";
             command = command + left_pad(crc16(command).toString(16), 4);
-            mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
+            mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                 if (!err) {
                     res.json({success: true});
                 } else {
@@ -707,7 +708,7 @@ app.post("/local_control.do", function (req, res) {
         if (results.length > 0) {
             var command = process.env.COMMAND_REMOTE_OR_LOCAL_CONTROL + "|" + numeral(results[0].no).format('000') + "|0|";
             command = command + left_pad(crc16(command).toString(16), 4);
-            mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: 1}, function (err) {
+            mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                 if (!err) {
                     res.json({success: true});
                 } else {

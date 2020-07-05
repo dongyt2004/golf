@@ -6,6 +6,7 @@ const moment = require("moment");
 const crc16 = require('crc').crc16modbus;
 const MQTT_BOTTOMUP_TOPIC = process.env.MQTT_BOTTOMUP_TOPIC;
 
+var qos = 0;
 var interval_handles = {};
 var nozzle_state_dict = {};
 var mqtt_clients = {};
@@ -14,8 +15,8 @@ db.exec("select distinct(no) from controlbox order by no", [], function (control
     controlboxes.forEach(function (controlbox, index, arr) {
         var controlbox_no = numeral(controlbox.no).format('000');
         nozzle_state_dict[controlbox_no] = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-        var mqtt_client = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER + "-" + controlbox_no, clean: false});
-        mqtt_client.subscribe(process.env.MQTT_TOPDOWN_TOPIC, {qos: 1});
+        var mqtt_client = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clean: true});
+        mqtt_client.subscribe(process.env.MQTT_TOPDOWN_TOPIC, {qos: qos});
         mqtt_client.on("message", function (topic, message) {
             recv_msg(controlbox_no, message);
         });
@@ -24,7 +25,7 @@ db.exec("select distinct(no) from controlbox order by no", [], function (control
             interval_handles[controlbox_no] = setInterval(function(controlbox_no, mqtt_client) {
                 var command = process.env.COMMAND_NOZZLE_STATE + "|" + controlbox_no + "|" + nozzle_state_dict[controlbox_no] + "|1|";
                 command = command + left_pad(crc16(command).toString(16), 4);
-                mqtt_client.publish(MQTT_BOTTOMUP_TOPIC, command, {qos: 1}, function (err) {
+                mqtt_client.publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                     if (err) {
                         console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.MQTT_USER + "-" + controlbox_no + "号箱上送状态指令出错，连接broker失败");
                     } else {
@@ -44,8 +45,8 @@ var myInterval = setInterval(function() {
             var controlbox_no = numeral(controlbox.no).format('000');
             if (!(controlbox_no in nozzle_state_dict)) {
                 nozzle_state_dict[controlbox_no] = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-                var mqtt_client = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: controlbox_no, clean: false});
-                mqtt_client.subscribe(process.env.MQTT_TOPDOWN_TOPIC, {qos: 1});
+                var mqtt_client = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clean: true});
+                mqtt_client.subscribe(process.env.MQTT_TOPDOWN_TOPIC, {qos: qos});
                 mqtt_client.on("message", function (topic, message) {
                     recv_msg(controlbox_no, message);
                 });
@@ -54,7 +55,7 @@ var myInterval = setInterval(function() {
                     interval_handles[controlbox_no] = setInterval(function(controlbox_no, mqtt_client) {
                         var command = process.env.COMMAND_NOZZLE_STATE + "|" + controlbox_no + "|" + nozzle_state_dict[controlbox_no] + "|1|";
                         command = command + left_pad(crc16(command).toString(16), 4);
-                        mqtt_client.publish(MQTT_BOTTOMUP_TOPIC, command, {qos: 1}, function (err) {
+                        mqtt_client.publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                             if (err) {
                                 console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.MQTT_USER + "-" + controlbox_no + "号箱上送状态指令出错，连接broker失败");
                             } else {
@@ -109,7 +110,7 @@ function recv_msg(client_id, message) {
                             nozzle_state_dict[controlbox_no] = state;
                             var command = process.env.COMMAND_NOZZLE_STATE + "|" + controlbox_no + "|" + state + "|1|";
                             command = command + left_pad(crc16(command).toString(16), 4);
-                            mqtt_clients[controlbox_no].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: 1}, function (err) {
+                            mqtt_clients[controlbox_no].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                                 if (err) {
                                     console.log("[" + current_time + "] " + process.env.MQTT_USER + "-" + controlbox_no + "号箱上送状态指令出错，连接broker失败");
                                 } else {
@@ -128,7 +129,7 @@ function recv_msg(client_id, message) {
                     nozzle_state_dict[client_id] = nozzle_state_string;
                     command = process.env.COMMAND_NOZZLE_STATE + "|" + client_id + "|" + nozzle_state_string + "|1|";
                     command = command + left_pad(crc16(command).toString(16), 4);
-                    mqtt_clients[client_id].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: 1}, function (err) {
+                    mqtt_clients[client_id].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                         if (err) {
                             console.log("[" + current_time + "] " + process.env.MQTT_USER + "-" + client_id + "号箱上送状态指令出错，连接broker失败");
                         } else {
@@ -143,7 +144,7 @@ function recv_msg(client_id, message) {
             setTimeout(function(controlbox_no, mqtt_client) {
                 var command = process.env.COMMAND_NOZZLE_STATE + "|" + controlbox_no + "|00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000|1|";
                 command = command + left_pad(crc16(command).toString(16), 4);
-                mqtt_client.publish(MQTT_BOTTOMUP_TOPIC, command, {qos: 1}, function (err) {
+                mqtt_client.publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                     if (err) {
                         console.log("[" + current_time + "] " + process.env.MQTT_USER + "-" + controlbox_no + "号箱上送状态指令出错，连接broker失败");
                     } else {
@@ -157,7 +158,7 @@ function recv_msg(client_id, message) {
             if (controlbox_no === client_id) {
                 var command = process.env.COMMAND_REMOTE_OR_LOCAL_CONTROL_FEEDBACK + "|" + controlbox_no + "|";
                 command = command + left_pad(crc16(command).toString(16), 4);
-                mqtt_clients[controlbox_no].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: 1}, function (err) {
+                mqtt_clients[controlbox_no].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                     if (err) {
                         console.log("[" + current_time + "] " + process.env.MQTT_USER + "-" + controlbox_no + "号箱上送远程、本地反馈指令出错，连接broker失败");
                     } else {
