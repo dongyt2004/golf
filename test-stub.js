@@ -6,7 +6,7 @@ const moment = require("moment");
 const crc16 = require('crc').crc16modbus;
 const MQTT_BOTTOMUP_TOPIC = process.env.MQTT_BOTTOMUP_TOPIC;
 
-var qos = 0;
+var qos = 1;
 var interval_handles = {};
 var nozzle_state_dict = {};
 var mqtt_clients = {};
