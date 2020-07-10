@@ -6,16 +6,16 @@ const moment = require("moment");
 const crc16 = require('crc').crc16modbus;
 const MQTT_BOTTOMUP_TOPIC = process.env.MQTT_BOTTOMUP_TOPIC;
 
-var qos = 0;
 var interval_handles = {};
 var nozzle_state_dict = {};
 var mqtt_clients = {};
+var qos = 0, clean = true;
 // 模拟所有分控箱
 db.exec("select distinct(no) from controlbox order by no", [], function (controlboxes) {
     controlboxes.forEach(function (controlbox, index, arr) {
         var controlbox_no = numeral(controlbox.no).format('000');
         nozzle_state_dict[controlbox_no] = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-        var mqtt_client = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: "test-stub-" + controlbox_no, clean: true});
+        var mqtt_client = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: "test-stub-" + controlbox_no, clean: clean});
         mqtt_client.subscribe(process.env.MQTT_TOPDOWN_TOPIC, {qos: qos});
         mqtt_client.on("message", function (topic, message) {
             recv_msg(controlbox_no, message);

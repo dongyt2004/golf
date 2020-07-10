@@ -14,9 +14,9 @@ const _ = require('lodash');
 const moment = require("moment");
 const methodOverride = require('method-override');
 const session = require('express-session');
-var qos = 0;
+var qos = 0, clean = true;
 const mqtt = require('mqtt');
-const mqtt_client  = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER, clean: false});
+const mqtt_client  = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER, clean: clean});
 mqtt_client.on('connect', function () {
     mqtt_client.subscribe(process.env.MQTT_BOTTOMUP_TOPIC, {qos: qos});
 });
