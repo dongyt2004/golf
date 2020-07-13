@@ -166,7 +166,7 @@
                 }
                 infoWindow.redraw();
             } else {
-                alertify.error("网络原因，开启失败");
+                alertify.error("联网失败");
             }
         });
     }
@@ -185,7 +185,7 @@
                         window.location.href="/gps_control.html?lon={lon}&lat={lat}&id=" + $("#controlbox").val();
                     }, 1800);
                 } else {
-                    alertify.error("网络原因，定位失败");
+                    alertify.error("联网失败");
                 }
             });
         });

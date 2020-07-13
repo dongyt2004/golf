@@ -2,118 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
-    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="5th commit">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/地图.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/.bin/detect-libc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/.bin/detect-libc.cmd" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/.bin/image-size" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/.bin/image-size.cmd" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/.bin/prebuild-install" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/.bin/prebuild-install.cmd" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/.bin/rc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/.bin/rc.cmd" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/Readme.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/bin/image-size.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/detector.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/detector.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/fs.promises.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/fs.promises.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/index.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/readUInt.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/readUInt.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/bmp.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/bmp.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/cur.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/cur.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/dds.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/dds.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/gif.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/gif.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/icns.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/icns.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/ico.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/ico.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/interface.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/interface.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/j2c.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/j2c.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/jp2.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/jp2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/jpg.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/jpg.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/ktx.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/ktx.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/png.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/png.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/pnm.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/pnm.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/psd.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/psd.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/svg.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/svg.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/tiff.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/tiff.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/webp.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/dist/types/webp.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/image-size/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/queue/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/queue/index.d.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/queue/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/queue/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/queue/readme.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/drag-move.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/.eslintrc.yaml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/.travis.yml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/coverage/coverage.raw.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/coverage/lcov-report/base.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/coverage/lcov-report/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/coverage/lcov-report/index.js.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/coverage/lcov-report/prettify.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/coverage/lcov-report/prettify.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/coverage/lcov-report/sort-arrow-sprite.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/coverage/lcov-report/sorter.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/coverage/lcov.info" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/package.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/readme.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/source/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/test/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/node_modules/sleepjs/test/mocha.opts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/static/地图.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/logo.png" afterPath="$PROJECT_DIR$/static/logo.png" />
+    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.env" afterPath="$PROJECT_DIR$/app.env" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/access.log" afterPath="$PROJECT_DIR$/log/access.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/app.log" afterPath="$PROJECT_DIR$/log/app.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/main.css" afterPath="$PROJECT_DIR$/static/css/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/area.dust" afterPath="$PROJECT_DIR$/view/area.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/change_password.dust" afterPath="$PROJECT_DIR$/view/change_password.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox.dust" afterPath="$PROJECT_DIR$/view/controlbox.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/controlbox_model.dust" afterPath="$PROJECT_DIR$/view/controlbox_model.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/course.dust" afterPath="$PROJECT_DIR$/view/course.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/dynamics.dust" afterPath="$PROJECT_DIR$/view/dynamics.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/dynamics_detail.dust" afterPath="$PROJECT_DIR$/view/dynamics_detail.dust" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/alertify/alertify-custom.js" afterPath="$PROJECT_DIR$/static/js/alertify/alertify-custom.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/alertify/alertify.js" afterPath="$PROJECT_DIR$/static/js/alertify/alertify.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/gps_control.dust" afterPath="$PROJECT_DIR$/view/gps_control.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/login.dust" afterPath="$PROJECT_DIR$/view/login.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/manual.dust" afterPath="$PROJECT_DIR$/view/manual.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/manual_area.dust" afterPath="$PROJECT_DIR$/view/manual_area.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/manual_controlbox.dust" afterPath="$PROJECT_DIR$/view/manual_controlbox.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/map.dust" afterPath="$PROJECT_DIR$/view/map.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/nozzle.dust" afterPath="$PROJECT_DIR$/view/nozzle.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/nozzle_model.dust" afterPath="$PROJECT_DIR$/view/nozzle_model.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/nozzle_shape.dust" afterPath="$PROJECT_DIR$/view/nozzle_shape.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/pipe.dust" afterPath="$PROJECT_DIR$/view/pipe.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plan.dust" afterPath="$PROJECT_DIR$/view/plan.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/task.dust" afterPath="$PROJECT_DIR$/view/task.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/task_step.dust" afterPath="$PROJECT_DIR$/view/task_step.dust" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/turf.dust" afterPath="$PROJECT_DIR$/view/turf.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -133,8 +28,8 @@
       <file leaf-file-name="dynamics.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/dynamics.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="276" column="41" lean-forward="true" selection-start-line="276" selection-start-column="41" selection-end-line="276" selection-end-column="41" />
+            <state relative-caret-position="252">
+              <caret line="74" column="22" lean-forward="true" selection-start-line="74" selection-start-column="22" selection-end-line="74" selection-end-column="22" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#0;n#a#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -144,25 +39,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="true">
+      <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1649">
-              <caret line="243" column="16" lean-forward="false" selection-start-line="243" selection-start-column="16" selection-end-line="243" selection-end-column="16" />
+            <state relative-caret-position="342">
+              <caret line="348" column="49" lean-forward="true" selection-start-line="348" selection-start-column="49" selection-end-line="348" selection-end-column="49" />
               <folding>
-                <marker date="1594649144833" expanded="true" signature="10737:10767" ph="..." />
-                <marker date="1594649144833" expanded="true" signature="10815:10856" ph="..." />
-                <marker date="1594649144833" expanded="true" signature="11085:11118" ph="..." />
+                <marker date="1594653892652" expanded="true" signature="10727:10757" ph="..." />
+                <marker date="1594653892652" expanded="true" signature="10805:10846" ph="..." />
+                <marker date="1594653892652" expanded="true" signature="11075:11108" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="3" column="12" lean-forward="true" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+            <state relative-caret-position="261">
+              <caret line="27" column="29" lean-forward="true" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -171,8 +66,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="14" column="49" lean-forward="false" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
+            <state relative-caret-position="170">
+              <caret line="389" column="3" lean-forward="true" selection-start-line="389" selection-start-column="3" selection-end-line="389" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -181,8 +76,8 @@
       <file leaf-file-name="test-stub.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test-stub.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="11" column="26" lean-forward="true" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+            <state relative-caret-position="36">
+              <caret line="2" column="29" lean-forward="true" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -191,8 +86,8 @@
       <file leaf-file-name="test-stub.env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test-stub.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="20" lean-forward="true" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+            <state relative-caret-position="180">
+              <caret line="10" column="22" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -211,9 +106,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>dragImg.cancel</find>
-      <find>_that</find>
-      <find>index:</find>
       <find>x: 30</find>
       <find>console</find>
       <find>loadingModal</find>
@@ -238,9 +130,12 @@
       <find>click_count</find>
       <find>/inc_click_count.do</find>
       <find>drop4</find>
-      <find>stop_all</find>
       <find>logout</find>
       <find>HTTPS_SERVICE_PORT</find>
+      <find>alertify-button</find>
+      <find>Cancel</find>
+      <find>OK</find>
+      <find>stop_all</find>
     </findStrings>
     <replaceStrings>
       <replace>ci</replace>
@@ -286,8 +181,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../golf-schedule/db.js" />
-        <option value="$PROJECT_DIR$/static/css/timeline.css" />
         <option value="$PROJECT_DIR$/view/event_nozzle.dust" />
         <option value="$PROJECT_DIR$/view/event_create.dust" />
         <option value="$PROJECT_DIR$/view/plan_detail.dust" />
@@ -334,9 +227,11 @@
         <option value="$PROJECT_DIR$/view/nozzle_model.dust" />
         <option value="$PROJECT_DIR$/view/nozzle_shape.dust" />
         <option value="$PROJECT_DIR$/test-stub.env" />
-        <option value="$PROJECT_DIR$/app.env" />
-        <option value="$PROJECT_DIR$/view/gps_control.dust" />
         <option value="$PROJECT_DIR$/view/dynamics.dust" />
+        <option value="$PROJECT_DIR$/static/js/alertify/alertify-custom.js" />
+        <option value="$PROJECT_DIR$/static/js/alertify/alertify.js" />
+        <option value="$PROJECT_DIR$/view/gps_control.dust" />
+        <option value="$PROJECT_DIR$/app.env" />
       </list>
     </option>
   </component>
@@ -633,14 +528,7 @@
       <workItem from="1594341167675" duration="4273000" />
       <workItem from="1594446031951" duration="69044000" />
       <workItem from="1594617059031" duration="3771000" />
-      <workItem from="1594626259614" duration="11070000" />
-    </task>
-    <task id="LOCAL-00081" summary="5th commit">
-      <created>1590553662529</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1590553662529</updated>
+      <workItem from="1594626259614" duration="14491000" />
     </task>
     <task id="LOCAL-00082" summary="5th commit">
       <created>1590749758273</created>
@@ -978,11 +866,18 @@
       <option name="project" value="LOCAL" />
       <updated>1594369833343</updated>
     </task>
-    <option name="localTasksCounter" value="130" />
+    <task id="LOCAL-00130" summary="5th commit">
+      <created>1594649363210</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1594649363210</updated>
+    </task>
+    <option name="localTasksCounter" value="131" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1749015000" />
+    <option name="totallyTimeSpent" value="1752436000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1128,25 +1023,11 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="322" />
+      <option name="time" value="323" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/js/ztree/jquery.ztree.core.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/maintenance.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="22" lean-forward="true" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/custom.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1106">
@@ -1172,20 +1053,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
           <caret line="409" column="39" lean-forward="true" selection-start-line="409" selection-start-column="39" selection-end-line="409" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/alertify/alertify-custom.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="26" lean-forward="true" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/alertify/alertify.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="613" column="39" lean-forward="true" selection-start-line="613" selection-start-column="39" selection-end-line="613" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -1485,42 +1352,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="12" lean-forward="true" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="49" lean-forward="false" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-stub.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="26" lean-forward="true" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-stub.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="20" lean-forward="true" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/dynamics.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="276" column="41" lean-forward="true" selection-start-line="276" selection-start-column="41" selection-end-line="276" selection-end-column="41" />
+        <state relative-caret-position="252">
+          <caret line="74" column="22" lean-forward="true" selection-start-line="74" selection-start-column="22" selection-end-line="74" selection-end-column="22" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#a#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1529,15 +1364,79 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/alertify/default.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/alertify/core.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/alertify/alertify-custom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="131" column="0" lean-forward="true" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/alertify/alertify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="84" column="28" lean-forward="false" selection-start-line="84" selection-start-column="28" selection-end-line="84" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="389" column="3" lean-forward="true" selection-start-line="389" selection-start-column="3" selection-end-line="389" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-stub.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="29" lean-forward="true" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1649">
-          <caret line="243" column="16" lean-forward="false" selection-start-line="243" selection-start-column="16" selection-end-line="243" selection-end-column="16" />
+        <state relative-caret-position="342">
+          <caret line="348" column="49" lean-forward="true" selection-start-line="348" selection-start-column="49" selection-end-line="348" selection-end-column="49" />
           <folding>
-            <marker date="1594649144833" expanded="true" signature="10737:10767" ph="..." />
-            <marker date="1594649144833" expanded="true" signature="10815:10856" ph="..." />
-            <marker date="1594649144833" expanded="true" signature="11085:11118" ph="..." />
+            <marker date="1594653892652" expanded="true" signature="10727:10757" ph="..." />
+            <marker date="1594653892652" expanded="true" signature="10805:10846" ph="..." />
+            <marker date="1594653892652" expanded="true" signature="11075:11108" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-stub.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="22" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="27" column="29" lean-forward="true" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>

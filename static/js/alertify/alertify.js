@@ -81,8 +81,8 @@
 			 * @type {Object}
 			 */
 			labels : {
-				ok     : "OK",
-				cancel : "Cancel"
+				ok     : "是",
+				cancel : "取消"
 			},
 
 			/**

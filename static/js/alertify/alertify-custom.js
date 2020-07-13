@@ -2,8 +2,8 @@ function reset () {
 	$("#toggleCSS").attr("href", "../themes/alertify.default.css");
 	alertify.set({
 		labels : {
-			ok     : "OK",
-			cancel : "Cancel"
+			ok     : "是",
+			cancel : "取消"
 		},
 		delay : 5000,
 		buttonReverse : false,
