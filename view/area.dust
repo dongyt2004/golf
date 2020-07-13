@@ -42,7 +42,7 @@
     </style>
 </head>
 
-<body>
+<body style="background: linen">
 
 <!-- 定义这两个button不会报错了 -->
 <button class="collapse-menu" style="display: none;"></button>

@@ -39,17 +39,54 @@
                 text-align: center;
             }
         }
+        .gf {
+            box-shadow: 0 15px 15px 8px rgba(145, 200, 255, 0.8);
+            background-color: rgb(145, 200, 255);
+            border-right: 0;
+            padding-top: 15px;
+        }
+        ul.menu li.selected:after {
+            all: unset
+        }
+        ul.menu li.selected>a {
+            font-family: "Microsoft YaHei";
+            background-color: #ffffff;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: all .3s ease-out;
+            color: deepskyblue;
+            text-shadow: none;
+        }
+        ul.menu li a {
+            margin: 0 10px;
+        }
+        header {
+            padding: 0 25px 0 20px;
+        }
+        ul.menu li .current {
+            font-family: "Microsoft YaHei";
+            background-color: #ffffff;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: all .3s ease-out;
+            color: deepskyblue;
+            text-shadow: none;
+        }
+        ul#header-actions li.list-box.user-admin a.dropdown-toggle {
+            background: white;
+            float: right;
+        }
     </style>
 </head>
 
-<body>
+<body style="background: linen">
 
 <!-- Header starts -->
 <header>
 
     <!-- Logo starts -->
     <a href="/dynamics.html" class="logo">
-        <img src="/logo.png" alt="高尔夫球场中控管理系统" />
+        <img src="/logo.png" alt="高尔夫球场中控管理系统" /><span style="margin-left: 10px; font-family: 'Microsoft YaHei'; font-size: large; vertical-align: middle;">京基高尔夫乡村俱乐部</span>
     </a>
     <!-- Logo ends -->
 
@@ -61,7 +98,7 @@
                 <div class="designation">操 作 员</div>
             </div>
             <a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-user"></i>
+                <i class="icon-user2"></i>
             </a>
             <ul class="dropdown-menu sm">
                 <li class="dropdown-content">
@@ -82,12 +119,10 @@
 <!-- Header ends -->
 
 <!-- Left sidebar start -->
-<div class='vertical-nav{@eq key=click_count value="0" type="number"} vertical-nav-sm{/eq}'>
+<div class='gf vertical-nav'>
 
     <!-- Collapse menu starts -->
-    <button class="collapse-menu">
-        <i class='{@eq key=click_count value="0" type="number"}icon-menu2{:else}icon-cross2{/eq}'></i>
-    </button>
+    <button class="collapse-menu" style="display: none;"></button>
     <!-- Collapse menu ends -->
 
     <!-- Sidebar menu starts -->
@@ -108,11 +143,11 @@
         <li>
             <a href="/plan.html">
                 <i class="icon-calendar2"></i>
-                <span class="menu-item">洒水计划</span>
+                <span class="menu-item">灌溉计划</span>
             </a>
         </li>
 {/eq}
-        <li class="active selected">
+        <li class="active">
             <a href="#">
                 <i class="icon-tools2"></i>
                 <span class="menu-item">高级设置</span>
@@ -126,7 +161,7 @@
                     <a href='/controlbox.html'>控制系统</a>
                 </li>
                 <li>
-                    <a href='/task.html'>洒水任务</a>
+                    <a href='/task.html'>灌溉任务</a>
                 </li>
                 <li>
                     <a href='/pipe.html'>管网设置</a>
@@ -154,7 +189,7 @@
 <!-- Left sidebar end -->
 
 <!-- Dashboard Wrapper Start -->
-<div class='dashboard-wrapper{@eq key=click_count value="1" type="number"} dashboard-wrapper-lg{/eq}'>
+<div class='dashboard-wrapper dashboard-wrapper-lg'>
 
     <!-- Container fluid Starts -->
     <div class="container-fluid">

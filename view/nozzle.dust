@@ -43,7 +43,7 @@
     </style>
 </head>
 
-<body>
+<body style="background: linen">
 
 <!-- 定义这两个button不会报错了 -->
 <button class="collapse-menu" style="display: none;"></button>
@@ -350,6 +350,10 @@
                 parent.alertify.error("球洞不能为空");
                 return;
             }
+            if ($("#shot_count").val() === '') {
+                parent.alertify.error("喷头数量不能为空");
+                return;
+            }
             if ($("#turf").val() === null) {
                 parent.alertify.error("请选择湿度调整%");
                 return;
@@ -400,6 +404,10 @@
             }
             if ($("#hole").val() === '') {
                 parent.alertify.error("球洞不能为空");
+                return;
+            }
+            if ($("#shot_count").val() === '') {
+                parent.alertify.error("喷头数量不能为空");
                 return;
             }
             if ($("#turf").val() === null) {

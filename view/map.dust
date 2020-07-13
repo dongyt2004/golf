@@ -24,11 +24,6 @@
 
     <link href="css/colpick.css" rel="stylesheet" type="text/css"/>
 
-    <style type="text/css">
-        .ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
-        .ztree li ul.level0 {padding:0; background:none;}
-    </style>
-
     <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -36,6 +31,9 @@
     <![endif]-->
 
     <style type="text/css">
+        .ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
+        .ztree li ul.level0 {padding:0; background:none;}
+
         .dongyt {
             margin-right: 10px;
         }
@@ -46,17 +44,60 @@
                 text-align: center;
             }
         }
+        .drag-box {
+            position: relative;
+        }
+        #myCanvas {
+            position: absolute;
+        }
+        .gf {
+            box-shadow: 0 15px 15px 8px rgba(145, 200, 255, 0.8);
+            background-color: rgb(145, 200, 255);
+            border-right: 0;
+            padding-top: 15px;
+        }
+        ul.menu li.selected:after {
+            all: unset
+        }
+        ul.menu li.selected>a {
+            font-family: "Microsoft YaHei";
+            background-color: #ffffff;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: all .3s ease-out;
+            color: deepskyblue;
+            text-shadow: none;
+        }
+        ul.menu li a {
+            margin: 0 10px;
+        }
+        header {
+            padding: 0 25px 0 20px;
+        }
+        ul.menu li .current {
+            font-family: "Microsoft YaHei";
+            background-color: #ffffff;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: all .3s ease-out;
+            color: deepskyblue;
+            text-shadow: none;
+        }
+        ul#header-actions li.list-box.user-admin a.dropdown-toggle {
+            background: white;
+            float: right;
+        }
     </style>
 </head>
 
-<body>
+<body style="background: linen">
 
 <!-- Header starts -->
 <header>
 
     <!-- Logo starts -->
     <a href="/dynamics.html" class="logo">
-        <img src="/logo.png" alt="高尔夫球场中控管理系统"/>
+        <img src="/logo.png" alt="高尔夫球场中控管理系统"/><span style="margin-left: 10px; font-family: 'Microsoft YaHei'; font-size: large; vertical-align: middle;">京基高尔夫乡村俱乐部</span>
     </a>
     <!-- Logo ends -->
 
@@ -68,7 +109,7 @@
                 <div class="designation">操 作 员</div>
             </div>
             <a id="drop4" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-user"></i>
+                <i class="icon-user2"></i>
             </a>
             <ul class="dropdown-menu sm">
                 <li class="dropdown-content">
@@ -89,12 +130,10 @@
 <!-- Header ends -->
 
 <!-- Left sidebar start -->
-<div class='vertical-nav{@eq key=click_count value="0" type="number"} vertical-nav-sm{/eq}'>
+<div class='gf vertical-nav'>
 
     <!-- Collapse menu starts -->
-    <button class="collapse-menu">
-        <i class='{@eq key=click_count value="0" type="number"}icon-menu2{:else}icon-cross2{/eq}'></i>
-    </button>
+    <button class="collapse-menu" style="display: none;"></button>
     <!-- Collapse menu ends -->
 
     <!-- Sidebar menu starts -->
@@ -115,11 +154,11 @@
         <li>
             <a href="/plan.html">
                 <i class="icon-calendar2"></i>
-                <span class="menu-item">洒水计划</span>
+                <span class="menu-item">灌溉计划</span>
             </a>
         </li>
 {/eq}
-        <li class="active selected">
+        <li class="active">
             <a href="#">
                 <i class="icon-tools2"></i>
                 <span class="menu-item">高级设置</span>
@@ -133,7 +172,7 @@
                     <a href='/controlbox.html'>控制系统</a>
                 </li>
                 <li>
-                    <a href='/task.html'>洒水任务</a>
+                    <a href='/task.html'>灌溉任务</a>
                 </li>
                 <li>
                     <a href='/pipe.html'>管网设置</a>
@@ -161,7 +200,7 @@
 <!-- Left sidebar end -->
 
 <!-- Dashboard Wrapper Start -->
-<div class='dashboard-wrapper{@eq key=click_count value="1" type="number"} dashboard-wrapper-lg{/eq}'>
+<div class='dashboard-wrapper dashboard-wrapper-lg'>
 
     <!-- Container fluid Starts -->
     <div class="container-fluid" id="dongytForm">
@@ -205,8 +244,10 @@
                 </div>
             </div>
 
-            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="background-image: url('/地图.png'); background-repeat: no-repeat; padding: 0;" id="shadowBox">
-                <canvas id="myCanvas" width="1000" height="1000"></canvas>
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="overflow: hidden; height: {height}px;" id="shadowBox">
+                <div class="drag-box">
+                    <canvas id="myCanvas" width="{width}" height="{height}"></canvas>
+                </div>
             </div>
         </div>
         <!-- Row Ends -->
@@ -226,6 +267,8 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.js"></script>
 
+<script src="js/drag-move.js"></script>
+
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 
@@ -243,6 +286,13 @@
 <script type="text/javascript" src="js/colpick.js"></script>
 
 <script type="text/javascript">
+    var canvas_left = 0, canvas_top = 0;
+
+    function set_canvas_pos(left, top) {
+        canvas_left = left;
+        canvas_top = top;
+    }
+
     var setting = {
         view: {
             addHoverDom: addHoverDom,
@@ -270,11 +320,14 @@
     };
 
     var nozzleNodes = [{#nozzleNodes}{@eq key=$idx value=0 type="number"}
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}",x:{x},y:{y},color:"{color}"}{:else},
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}",x:{x},y:{y},color:"{color}"}{/eq}{/nozzleNodes}
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}",x:[{x}],y:[{y}],color:"{color}",shot_count:{shot_count}}{:else},
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}",x:[{x}],y:[{y}],color:"{color}",shot_count:{shot_count}}{/eq}{/nozzleNodes}
     ];
 
     var c = $('canvas');
+    var dragImg = new DragScale(c, c);
+    dragImg.drag(set_canvas_pos);
+
     function addHoverDom(treeId, treeNode) {
         var sObj = $("#" + treeNode.tId + "_span");
         if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0 || treeNode.id === 'c9999') return;
@@ -292,6 +345,8 @@
                 }
                 $.fn.zTree.getZTreeObj("nozzletree").setting.view.fontCss["color"] = color;
                 $.fn.zTree.getZTreeObj("nozzletree").updateNode(treeNode);
+                var init_x = (canvas_left < 0) ? -canvas_left + 30 : 30;
+                var init_y = (canvas_top < 0) ? -canvas_top + 40 : 40;
                 c.drawRect({
                     data: {
                         name: treeNode.name
@@ -302,7 +357,7 @@
                     groups: [treeNode.id],
                     dragGroups: [treeNode.id],
                     fillStyle: color,
-                    x: 30, y: 40,
+                    x: init_x, y: init_y,
                     width: 8, height: 8,
                     mouseover: function(layer) {
                         $(this).drawText({
@@ -318,9 +373,13 @@
                             x: layer.x + 20, y: layer.y - 15,
                             letterSpacing: 0.2
                         });
+                        dragImg.stopDrag();
+                        dragImg = null;
                     },
                     mouseout: function(layer) {
                         $(this).removeLayer("t" + layer.name);
+                        dragImg = new DragScale(c, c);
+                        dragImg.drag(set_canvas_pos);
                     },
                     drag: function(layer) {
                         var layers = $(this).getLayers(function(layer1) {
@@ -336,11 +395,11 @@
                     c.drawLine({
                         layer: true,
                         name: "L" + layers1[l].name,
-                        index: 0,
+                        index: -1,
                         strokeStyle: color,
                         strokeWidth: 2,
                         rounded: true,
-                        x1: 30, y1: 40,  /* 分控箱 */
+                        x1: init_x, y1: init_y,  /* 分控箱 */
                         x2: layers1[l].x, y2: layers1[l].y  /* 洒水站 */
                     });
                 }
@@ -358,55 +417,80 @@
                 }
                 $.fn.zTree.getZTreeObj("nozzletree").setting.view.fontCss["color"] = color;
                 $.fn.zTree.getZTreeObj("nozzletree").updateNode(treeNode);
-                c.drawArc({
-                    data: {
-                        name: treeNode.name
-                    },
-                    layer: true,
-                    name: treeNode.id,
-                    draggable: true,
-                    groups: [treeNode.id],
-                    dragGroups: [treeNode.id],
-                    fillStyle: color,
-                    x: 30, y: 30,
-                    radius: 4,
-                    mouseover: function(layer) {
-                        $(this).drawText({
-                            layer: true,
-                            name: "t" + layer.name,
-                            draggable: true,
-                            groups: [layer.name],
-                            dragGroups: [layer.name],
-                            fillStyle: '#fff',
-                            fontFamily: '微软雅黑',
-                            fontSize: 12,
-                            text: layer.data.name,
-                            x: layer.x + 20, y: layer.y - 15,
-                            letterSpacing: 0.2
-                        });
-                    },
-                    mouseout: function(layer) {
-                        $(this).removeLayer("t" + layer.name);
-                    },
-                    drag: function(layer) {
-                        var line_layer = $(this).getLayer("L" + layer.name);
-                        if (line_layer !== undefined) {
-                            line_layer.x2 = layer.x;
-                            line_layer.y2 = layer.y;
+                var init_x = (canvas_left < 0) ? -canvas_left + 30 : 30;
+                var init_y = (canvas_top < 0) ? -canvas_top + 30 : 30;
+                var controlbox_layer = null;
+                for(var i=0; i<treeNode.shot_count; i++) {
+                    c.drawArc({
+                        data: {
+                            name: treeNode.name
+                        },
+                        layer: true,
+                        name: treeNode.id + "-" + i,
+                        draggable: true,
+                        groups: [treeNode.id],
+                        dragGroups: [treeNode.id + "-" + i],
+                        fillStyle: color,
+                        x: init_x + i * 20, y: init_y,
+                        radius: 4,
+                        mouseover: function(layer) {
+                            $(this).drawText({
+                                layer: true,
+                                name: "t" + layer.name,
+                                draggable: true,
+                                groups: [layer.name],
+                                dragGroups: [layer.name],
+                                fillStyle: '#fff',
+                                fontFamily: '微软雅黑',
+                                fontSize: 12,
+                                text: layer.data.name,
+                                x: layer.x + 20, y: layer.y - 15,
+                                letterSpacing: 0.2
+                            });
+                            dragImg.stopDrag();
+                            dragImg = null;
+                        },
+                        mouseout: function(layer) {
+                            $(this).removeLayer("t" + layer.name);
+                            dragImg = new DragScale(c, c);
+                            dragImg.drag(set_canvas_pos);
+                        },
+                        drag: function(layer) {
+                            var line_layer = $(this).getLayer("L" + layer.name);
+                            if (line_layer !== undefined) {
+                                line_layer.x2 = layer.x;
+                                line_layer.y2 = layer.y;
+                            }
                         }
-                    }
-                });
-                for(var l=0; l<layers.length; l++) {
-                    if (layers[l].name === treeNode.parent_id) {
+                    });
+                    var found_controlbox = false;
+                    if (!found_controlbox) {
+                        for(var l=0; l<layers.length; l++) {
+                            if (layers[l].name === treeNode.parent_id) {
+                                found_controlbox = true;
+                                controlbox_layer = layers[l];
+                                c.drawLine({
+                                    layer: true,
+                                    name: "L" + treeNode.id + "-" + i,
+                                    index: -1,
+                                    strokeStyle: color,
+                                    strokeWidth: 2,
+                                    rounded: true,
+                                    x1: layers[l].x, y1: layers[l].y,  /* 分控箱 */
+                                    x2: init_x + i * 20, y2: init_y  /* 洒水站 */
+                                });
+                            }
+                        }
+                    } else {
                         c.drawLine({
                             layer: true,
-                            name: "L" + treeNode.id,
-                            index: 0,
+                            name: "L" + treeNode.id + "-" + i,
+                            index: -1,
                             strokeStyle: color,
                             strokeWidth: 2,
                             rounded: true,
-                            x1: layers[l].x, y1: layers[l].y,  /* 分控箱 */
-                            x2: 30, y2: 30  /* 洒水站 */
+                            x1: controlbox_layer.x, y1: controlbox_layer.y,  /* 分控箱 */
+                            x2: init_x + i * 20, y2: init_y  /* 洒水站 */
                         });
                     }
                 }
@@ -431,7 +515,12 @@
         $.fn.zTree.getZTreeObj("nozzletree").setting.view.fontCss["color"] = "#95a0b1";
         $.fn.zTree.getZTreeObj("nozzletree").updateNode(treeNode);
         if (treeNode.parent_id) {  /* 洒水站 */
-            c.removeLayer("L" + treeNode.id);
+            var layers = c.getLayers(function(layer) {
+                return layer.name.indexOf("L" + treeNode.id + "-") === 0;
+            });
+            for(var i=0; i<layers.length; i++) {
+                c.removeLayer(layers[i].name);
+            }
         } else {  /* 分控箱 */
             var layers = c.getLayers(function(layer) {
                 return layer.name.indexOf("Ln" + treeNode.id + "-") === 0;
@@ -449,13 +538,20 @@
     }
 
     jQuery(function ($) {
+        c.addLayer({
+            type: 'image',
+            source: '/地图.jpg',
+            name: '__maplayer__',
+            fromCenter: false
+        }).drawLayers();
+
         $.fn.zTree.init($("#nozzletree"), setting, nozzleNodes);
 
         for(var i=0; i< nozzleNodes.length; i++) {
             $.fn.zTree.getZTreeObj("nozzletree").setting.view.fontCss["color"] = "#95a0b1";
             var nodeX = $.fn.zTree.getZTreeObj("nozzletree").getNodeByParam("id", nozzleNodes[i].id);
             $.fn.zTree.getZTreeObj("nozzletree").updateNode(nodeX);
-            if (nozzleNodes[i].id.substr(0, 1) === 'c' && nozzleNodes[i].x !== -1) {  /* 分控箱 */
+            if (nozzleNodes[i].id.substr(0, 1) === 'c' && nozzleNodes[i].x[0] !== -1) {  /* 分控箱 */
                 $.fn.zTree.getZTreeObj("nozzletree").setting.view.fontCss["color"] = nozzleNodes[i].color;
                 $.fn.zTree.getZTreeObj("nozzletree").updateNode(nodeX);
                 c.drawRect({
@@ -468,7 +564,7 @@
                     groups: [nozzleNodes[i].id],
                     dragGroups: [nozzleNodes[i].id],
                     fillStyle: nozzleNodes[i].color,
-                    x: nozzleNodes[i].x, y: nozzleNodes[i].y,
+                    x: nozzleNodes[i].x[0], y: nozzleNodes[i].y[0],
                     width: 8, height: 8,
                     mouseover: function(layer) {
                         $(this).drawText({
@@ -484,9 +580,13 @@
                             x: layer.x + 20, y: layer.y - 15,
                             letterSpacing: 0.2
                         });
+                        dragImg.stopDrag();
+                        dragImg = null;
                     },
                     mouseout: function(layer) {
                         $(this).removeLayer("t" + layer.name);
+                        dragImg = new DragScale(c, c);
+                        dragImg.drag(set_canvas_pos);
                     },
                     drag: function(layer) {
                         var layers = $(this).getLayers(function(layer1) {
@@ -505,69 +605,75 @@
                     c.drawLine({
                         layer: true,
                         name: "L" + layers[l].name,
-                        index: 0,
+                        index: -1,
                         strokeStyle: nozzleNodes[i].color,
                         strokeWidth: 2,
                         rounded: true,
-                        x1: nozzleNodes[i].x, y1: nozzleNodes[i].y,  /* 分控箱 */
+                        x1: nozzleNodes[i].x[0], y1: nozzleNodes[i].y[0],  /* 分控箱 */
                         x2: layers[l].x, y2: layers[l].y  /* 洒水站 */
                     });
                 }
-            } else if (nozzleNodes[i].id.substr(0, 1) === 'n' && nozzleNodes[i].x !== -1) {  /* 洒水站 */
+            } else if (nozzleNodes[i].id.substr(0, 1) === 'n' && nozzleNodes[i].x[0] !== -1) {  /* 洒水站 */
                 $.fn.zTree.getZTreeObj("nozzletree").setting.view.fontCss["color"] = nozzleNodes[i].color;
                 $.fn.zTree.getZTreeObj("nozzletree").updateNode(nodeX);
-                c.drawArc({
-                    data: {
-                        name: nozzleNodes[i].name
-                    },
-                    layer: true,
-                    name: nozzleNodes[i].id,
-                    draggable: true,
-                    groups: [nozzleNodes[i].id],
-                    dragGroups: [nozzleNodes[i].id],
-                    fillStyle: nozzleNodes[i].color,
-                    x: nozzleNodes[i].x, y: nozzleNodes[i].y,
-                    radius: 4,
-                    mouseover: function(layer) {
-                        $(this).drawText({
-                            layer: true,
-                            name: "t" + layer.name,
-                            draggable: true,
-                            groups: [layer.name],
-                            dragGroups: [layer.name],
-                            fillStyle: '#fff',
-                            fontFamily: '微软雅黑',
-                            fontSize: 12,
-                            text: layer.data.name,
-                            x: layer.x + 20, y: layer.y - 15,
-                            letterSpacing: 0.2
-                        });
-                    },
-                    mouseout: function(layer) {
-                        $(this).removeLayer("t" + layer.name);
-                    },
-                    drag: function(layer) {
-                        var line_layer = $(this).getLayer("L" + layer.name);
-                        if (line_layer !== undefined) {
-                            line_layer.x2 = layer.x;
-                            line_layer.y2 = layer.y;
-                        }
-                    }
-                });
                 var layers = c.getLayers(function(layer1) {
                     return layer1.name === nozzleNodes[i].parent_id;
                 });
-                if (layers.length > 0) {
-                    c.drawLine({
+                for(var j=0; j<nozzleNodes[i].x.length; j++) {  /* 喷头j */
+                    c.drawArc({
+                        data: {
+                            name: nozzleNodes[i].name
+                        },
                         layer: true,
-                        name: "L" + nozzleNodes[i].id,
-                        index: 0,
-                        strokeStyle: nozzleNodes[i].color,
-                        strokeWidth: 2,
-                        rounded: true,
-                        x1: layers[0].x, y1: layers[0].y,  /* 分控箱 */
-                        x2: nozzleNodes[i].x, y2: nozzleNodes[i].y  /* 洒水站 */
+                        name: nozzleNodes[i].id + "-" + j,
+                        draggable: true,
+                        groups: [nozzleNodes[i].id],
+                        dragGroups: [nozzleNodes[i].id + "-" + j],
+                        fillStyle: nozzleNodes[i].color,
+                        x: nozzleNodes[i].x[j], y: nozzleNodes[i].y[j],
+                        radius: 4,
+                        mouseover: function(layer) {
+                            $(this).drawText({
+                                layer: true,
+                                name: "t" + layer.name,
+                                draggable: true,
+                                groups: [layer.name],
+                                dragGroups: [layer.name],
+                                fillStyle: '#fff',
+                                fontFamily: '微软雅黑',
+                                fontSize: 12,
+                                text: layer.data.name,
+                                x: layer.x + 20, y: layer.y - 15,
+                                letterSpacing: 0.2
+                            });
+                            dragImg.stopDrag();
+                            dragImg = null;
+                        },
+                        mouseout: function(layer) {
+                            $(this).removeLayer("t" + layer.name);
+                            dragImg = new DragScale(c, c);
+                            dragImg.drag(set_canvas_pos);
+                        },
+                        drag: function(layer) {
+                            var line_layer = $(this).getLayer("L" + layer.name);
+                            if (line_layer !== undefined) {
+                                line_layer.x2 = layer.x;
+                                line_layer.y2 = layer.y;
+                            }
+                        }
                     });
+                    if (layers.length > 0) {
+                        c.drawLine({
+                            layer: true,
+                            name: "L" + nozzleNodes[i].id + "-" + j,
+                            index: -1,
+                            strokeStyle: nozzleNodes[i].color,
+                            strokeWidth: 2,
+                            rounded: true,
+                            x1: layers[0].x, y1: layers[0].y,  /* 分控箱 */
+                            x2: nozzleNodes[i].x[j], y2: nozzleNodes[i].y[j]  /* 喷头 */
+                        });
+                    }
                 }
             }
         }
@@ -605,16 +711,17 @@
         $("#do_shadow").click(function() {
             if (s.hasClass('sunzhh')) {
                 $('#do_shadow').html('突出显示喷头');
-                $('canvas').removeLayer('shadowBox').drawLayers();
+                c.removeLayer('shadowLayer').drawLayers();
             } else {
                 $('#do_shadow').html('去除阴暗层');
-                $('canvas').addLayer({
+                c.addLayer({
                     type: 'rectangle',
-                    name: 'shadowBox',
-                    index: 0,
-                    fillStyle: 'rgba(240, 240, 240, 0.5)',
+                    name: 'shadowLayer',
+                    index: 1,
+                    fromCenter: false,
+                    fillStyle: 'rgba(240, 240, 240, 0.3)',
                     x: 0, y: 0,
-                    width: 8000, height: 8000
+                    width: {width}, height: {height}
                 }).drawLayers();
             }
             s.toggleClass('sunzhh');

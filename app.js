@@ -21,6 +21,9 @@ mqtt_client.on('connect', function () {
     mqtt_client.subscribe(process.env.MQTT_BOTTOMUP_TOPIC, {qos: qos});
 });
 const schedule = require('node-schedule');
+const sizeOf = require('image-size');
+var dimensions = sizeOf('static/地图.jpg');
+var map_width = dimensions.width, map_height = dimensions.height;
 const format = require('string-format');
 const numeral = require('numeral');
 const log4js = require('log4js');
@@ -348,7 +351,6 @@ app.post("/login.do", function (req, res) {
             if (users[0].can_login === 1) {  // 允许登录
                 var fromIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip || req.connection.socket.remoteAddress;
                 db.exec("update user set login_time=?, from_ip=? where name=? and password=?", [moment().format("YYYY-MM-DD HH:mm:ss"), fromIp, req.body.username, req.body.password], function () {
-                    req.session.click_count = 0;
                     req.session.user = users[0];
                     real_name = req.session.user['real_name'];
                     if (logger.isInfoEnabled()) {
@@ -385,11 +387,6 @@ app.post("/change_password.do", function (req, res) {
             res.render("change_password", {fail: [0]});
         }
     });
-});
-// 增加点击数操作
-app.post("/inc_click_count.do", function (req, res) {
-    req.session.click_count = req.session.click_count + 1;
-    res.end();
 });
 // 全部停止的操作
 app.post("/stop_all.do", function (req, res) {
@@ -895,14 +892,27 @@ app.post("/save_map.do", function (req, res) {
                     done();
                 });
             }, function() {
-                eachAsync(nozzles, function(nozzle, index, done) {
-                    var no = nozzle.no.split("-");
+                var x = {}, y = {}, color = {};
+                for(var i=0; i<nozzles.length; i++) {
+                    var no = nozzles[i].no.split("-");
+                    var key = no[0] + "-" + no[1];
+                    if (key in x) {
+                        x[key] = x[key] + "," + nozzles[i].x;
+                        y[key] = y[key] + "," + nozzles[i].y;
+                    } else {
+                        x[key] = nozzles[i].x;
+                        y[key] = nozzles[i].y;
+                        color[key] = nozzles[i].color;
+                    }
+                }
+                eachAsync(Object.keys(x), function(key, index, done) {
+                    var no = key.split("-");  // 喷头no
                     if (no[0] === '9999') {  // 洒水站没有分控箱
-                        db.exec("update nozzle set x=?, y=?, color=? where id=?", [nozzle.x, nozzle.y, nozzle.color, no[1]], function () {
+                        db.exec("update nozzle set x=?, y=?, color=? where id=?", [x[key], y[key], color[key], no[1]], function () {
                             done();
                         });
                     } else {
-                        db.exec("update nozzle a join controlbox b on a.controlbox_id=b.id set a.x=?, a.y=?, a.color=? where b.no=? and a.no=?", [nozzle.x, nozzle.y, nozzle.color, no[0], no[1]], function () {
+                        db.exec("update nozzle a join controlbox b on a.controlbox_id=b.id set a.x=?, a.y=?, a.color=? where b.no=? and a.no=?", [x[key], y[key], color[key], no[0], no[1]], function () {
                             done();
                         });
                     }
@@ -1014,7 +1024,6 @@ app.get("/dynamics.html", function (req, res) {
             courses: courses,
             first_course_id: first_course_id,
             user: req.session.user,
-            click_count: req.session.click_count % 2,
             can_irrigate: req.session.user['can_irrigate']
         });
     });
@@ -1134,8 +1143,9 @@ app.get("/dynamics_detail.html", function (req, res) {
                         res.render('dynamics_detail', {
                             rows: finalRows,
                             nozzleNodes: nozzleNodes,
-                            user: req.session.user,
-                            click_count: req.session.click_count % 2
+                            width: map_width,
+                            height: map_height,
+                            user: req.session.user
                         });
                     });
                 });
@@ -1153,8 +1163,7 @@ app.get("/manual.html", function (req, res) {
         res.render('manual', {
             courses: courses,
             first_course_id: first_course_id,
-            user: req.session.user,
-            click_count: req.session.click_count % 2
+            user: req.session.user
         });
     });
 });
@@ -1261,8 +1270,7 @@ app.get("/plan.html", function (req, res) {
             res.render('plan', {
                 tasks: tasks,
                 plans: plans,
-                user: req.session.user,
-                click_count: req.session.click_count % 2
+                user: req.session.user
             });
         });
     });
@@ -1273,7 +1281,6 @@ app.get("/course.html", function (req, res) {
         res.render('course', {
             courses: courses,
             user: req.session.user,
-            click_count: req.session.click_count % 2,
             can_irrigate: req.session.user['can_irrigate']
         });
     });
@@ -1283,8 +1290,7 @@ app.get("/area.html", function (req, res) {
     db.exec("select * from area order by id", [], function (areas) {
         res.render('area', {
             areas: areas,
-            user: req.session.user,
-            click_count: req.session.click_count % 2
+            user: req.session.user
         });
     });
 });
@@ -1296,7 +1302,6 @@ app.get("/controlbox.html", function (req, res) {
                 controlboxes: controlboxes,
                 controlbox_models: controlbox_models,
                 user: req.session.user,
-                click_count: req.session.click_count % 2,
                 can_pos: req.session.user['can_pos'],
                 can_irrigate: req.session.user['can_irrigate']
             });
@@ -1365,7 +1370,6 @@ app.get("/task.html", function (req, res) {
             tasks: tasks,
             focus: focus,
             user: req.session.user,
-            click_count: req.session.click_count % 2,
             can_irrigate: req.session.user['can_irrigate']
         });
     });
@@ -1512,7 +1516,6 @@ app.get("/pipe.html", function (req, res) {
                             pipeNodes: pipeNodes,
                             nozzleNodes: nozzleNodes,
                             user: req.session.user,
-                            click_count: req.session.click_count % 2,
                             can_irrigate: req.session.user['can_irrigate']
                         });
                     });
@@ -1525,22 +1528,23 @@ app.get("/pipe.html", function (req, res) {
 app.get("/map.html", function (req, res) {
     db.exec("select * from controlbox order by no", [], function (controlboxes) {
         var nozzleNodes = [];
-        nozzleNodes.push({id:"c9999",name:"无分控箱",parent_id:0,icon:"/img/分控箱.png",x:-1,y:-1,color:""});  // 把无分控箱也作为一个节点加进去
+        nozzleNodes.push({id:"c9999",name:"无分控箱",parent_id:0,icon:"/img/分控箱.png",x:-1,y:-1,color:"",shot_count:0});  // 把无分控箱也作为一个节点加进去
         for(var i=0; i<controlboxes.length;i++) {
-            nozzleNodes.push({id:"c" + controlboxes[i].no,name:controlboxes[i].no + "：" + controlboxes[i].name,parent_id:0,icon:"/img/分控箱.png",x:(controlboxes[i].x === null)?-1:controlboxes[i].x,y:(controlboxes[i].y === null)?-1:controlboxes[i].y,color:(controlboxes[i].color === null)?"":controlboxes[i].color});
+            nozzleNodes.push({id:"c" + controlboxes[i].no,name:controlboxes[i].no + "：" + controlboxes[i].name,parent_id:0,icon:"/img/分控箱.png",x:(controlboxes[i].x === null)?-1:controlboxes[i].x,y:(controlboxes[i].y === null)?-1:controlboxes[i].y,color:(controlboxes[i].color === null)?"":controlboxes[i].color,shot_count:0});
         }
         db.exec("select a.*,b.no as controlbox_no from nozzle a left join controlbox b on a.controlbox_id=b.id order by b.no, a.no", [], function (nozzles) {
             for(var i=0; i<nozzles.length;i++) {
                 if (nozzles[i].controlbox_no === null) {  // 洒水站没有分控箱
-                    nozzleNodes.push({id:"nc9999-" + nozzles[i].id,name:"无分控箱-" + nozzles[i].no + "：" + nozzles[i].name,parent_id:"c9999",icon:"/img/喷头.png",x:(nozzles[i].x === null)?-1:nozzles[i].x,y:(nozzles[i].y === null)?-1:nozzles[i].y,color:(nozzles[i].color === null)?"":nozzles[i].color});
+                    nozzleNodes.push({id:"nc9999-" + nozzles[i].id,name:"无分控箱-" + ((nozzles[i].no === null)?"无编号":nozzles[i].no) + ((nozzles[i].name === null)?"":"：" + nozzles[i].name),parent_id:"c9999",icon:"/img/喷头.png",x:(nozzles[i].x === null)?-1:nozzles[i].x,y:(nozzles[i].y === null)?-1:nozzles[i].y,color:(nozzles[i].color === null)?"":nozzles[i].color,shot_count:(nozzles[i].shot_count === null)?1:nozzles[i].shot_count});
                 } else {
-                    nozzleNodes.push({id:"nc" + nozzles[i].controlbox_no + "-" + nozzles[i].no,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name,parent_id:"c" + nozzles[i].controlbox_no,icon:"/img/喷头.png",x:(nozzles[i].x === null)?-1:nozzles[i].x,y:(nozzles[i].y === null)?-1:nozzles[i].y,color:(nozzles[i].color === null)?"":nozzles[i].color});
+                    nozzleNodes.push({id:"nc" + nozzles[i].controlbox_no + "-" + nozzles[i].no,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name,parent_id:"c" + nozzles[i].controlbox_no,icon:"/img/喷头.png",x:(nozzles[i].x === null)?-1:nozzles[i].x,y:(nozzles[i].y === null)?-1:nozzles[i].y,color:(nozzles[i].color === null)?"":nozzles[i].color,shot_count:(nozzles[i].shot_count === null)?1:nozzles[i].shot_count});
                 }
             }
             res.render('map', {
                 nozzleNodes: nozzleNodes,
+                width: map_width,
+                height: map_height,
                 user: req.session.user,
-                click_count: req.session.click_count % 2,
                 can_irrigate: req.session.user['can_irrigate']
             });
         });
@@ -1552,7 +1556,6 @@ app.get("/controlbox_model.html", function (req, res) {
         res.render('controlbox_model', {
             models: models,
             user: req.session.user,
-            click_count: req.session.click_count % 2,
             can_irrigate: req.session.user['can_irrigate']
         });
     });
@@ -1563,7 +1566,6 @@ app.get("/nozzle_model.html", function (req, res) {
         res.render('nozzle_model', {
             models: models,
             user: req.session.user,
-            click_count: req.session.click_count % 2,
             can_irrigate: req.session.user['can_irrigate']
         });
     });
@@ -1574,7 +1576,6 @@ app.get("/nozzle_shape.html", function (req, res) {
         res.render('nozzle_shape', {
             shapes: shapes,
             user: req.session.user,
-            click_count: req.session.click_count % 2,
             can_irrigate: req.session.user['can_irrigate']
         });
     });
@@ -1585,7 +1586,6 @@ app.get("/turf.html", function (req, res) {
         res.render('turf', {
             turfs: turfs,
             user: req.session.user,
-            click_count: req.session.click_count % 2,
             can_irrigate: req.session.user['can_irrigate']
         });
     });

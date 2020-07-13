@@ -28,6 +28,15 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->
+
+    <style type="text/css">
+        .drag-box {
+            position: relative;
+        }
+        #myCanvas {
+            position: absolute;
+        }
+    </style>
 </head>
 
 <body>
@@ -114,14 +123,18 @@
         </div>
     </div>
 
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-image: url('/地图.png'); background-repeat: no-repeat; padding: 0;" id="shadowBox">
-        <canvas id="myCanvas" width="1000" height="1000"></canvas>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="overflow: hidden; height: {height}px;">
+        <div class="drag-box">
+            <canvas id="myCanvas" width="{width}" height="{height}"></canvas>
+        </div>
     </div>
 </div>
 <!-- Row Ends -->
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.js"></script>
+
+<script src="js/drag-move.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
@@ -138,12 +151,23 @@
 
 <script type="text/javascript">
     var nozzleNodes = [{#nozzleNodes}{@eq key=$idx value=0 type="number"}
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",x:{x},y:{y},color:"{color}",state:{state}}{:else},
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",x:{x},y:{y},color:"{color}",state:{state}}{/eq}{/nozzleNodes}
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",x:[{x}],y:[{y}],color:"{color}",state:{state}}{:else},
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",x:[{x}],y:[{y}],color:"{color}",state:{state}}{/eq}{/nozzleNodes}
     ];
 
     var c = $('canvas');
+
     jQuery(function ($) {
+        var dragImg = new DragScale(c, c);
+        dragImg.drag();
+
+        c.addLayer({
+            type: 'image',
+            source: '/地图.jpg',
+            name: '__maplayer__',
+            fromCenter: false
+        }).drawLayers();
+
         $("#my_table").treetable({
             column: 0,
             expandable: true,
@@ -160,7 +184,7 @@
         });
 
         for(var i=0; i< nozzleNodes.length; i++) {
-            if (nozzleNodes[i].id.substr(0, 1) === 'c' && nozzleNodes[i].x !== -1) {  /* 分控箱 */
+            if (nozzleNodes[i].id.substr(0, 1) === 'c' && nozzleNodes[i].x[0] !== -1) {  /* 分控箱 */
                 c.drawRect({
                     data: {
                         name: nozzleNodes[i].name
@@ -170,7 +194,7 @@
                     draggable: false,
                     groups: [nozzleNodes[i].id],
                     fillStyle: nozzleNodes[i].color,
-                    x: nozzleNodes[i].x, y: nozzleNodes[i].y,
+                    x: nozzleNodes[i].x[0], y: nozzleNodes[i].y[0],
                     width: 8, height: 8,
                     mouseover: function(layer) {
                         $(this).drawText({
@@ -197,71 +221,74 @@
                     c.drawLine({
                         layer: true,
                         name: "L" + layers[l].name,
-                        index: 0,
+                        index: -1,
                         strokeStyle: nozzleNodes[i].color,
                         strokeWidth: 2,
                         rounded: true,
-                        x1: nozzleNodes[i].x, y1: nozzleNodes[i].y,  /* 分控箱 */
+                        x1: nozzleNodes[i].x[0], y1: nozzleNodes[i].y[0],  /* 分控箱 */
                         x2: layers[l].x, y2: layers[l].y  /* 洒水站 */
                     });
                 }
-            } else if (nozzleNodes[i].id.substr(0, 1) === 'n' && nozzleNodes[i].x !== -1) {  /* 洒水站 */
-                c.drawArc({
-                    data: {
-                        name: nozzleNodes[i].name
-                    },
-                    layer: true,
-                    name: nozzleNodes[i].id,
-                    draggable: false,
-                    groups: [nozzleNodes[i].id],
-                    fillStyle: nozzleNodes[i].color,
-                    x: nozzleNodes[i].x, y: nozzleNodes[i].y,
-                    radius: 4,
-                    mouseover: function(layer) {
-                        $(this).drawText({
-                            layer: true,
-                            name: "t" + layer.name,
-                            draggable: true,
-                            groups: [layer.name],
-                            fillStyle: '#fff',
-                            fontFamily: '微软雅黑',
-                            fontSize: 12,
-                            text: layer.data.name,
-                            x: layer.x + 20, y: layer.y - 15,
-                            letterSpacing: 0.2
-                        });
-                    },
-                    mouseout: function(layer) {
-                        $(this).removeLayer("t" + layer.name);
-                    }
-                });
+            } else if (nozzleNodes[i].id.substr(0, 1) === 'n' && nozzleNodes[i].x[0] !== -1) {  /* 洒水站 */
                 var layers = c.getLayers(function(layer1) {
                     return layer1.name === nozzleNodes[i].parent_id;
                 });
-                if (layers.length > 0) {
-                    c.drawLine({
+                for(var j=0; j<nozzleNodes[i].x.length; j++) {  /* 喷头j */
+                    c.drawArc({
+                        data: {
+                            name: nozzleNodes[i].name
+                        },
                         layer: true,
-                        name: "L" + nozzleNodes[i].id,
-                        index: 0,
-                        strokeStyle: nozzleNodes[i].color,
-                        strokeWidth: 2,
-                        rounded: true,
-                        x1: layers[0].x, y1: layers[0].y,  /* 分控箱 */
-                        x2: nozzleNodes[i].x, y2: nozzleNodes[i].y  /* 洒水站 */
+                        name: nozzleNodes[i].id + "-" + j,
+                        draggable: false,
+                        groups: [nozzleNodes[i].id + "-" + j],
+                        fillStyle: nozzleNodes[i].color,
+                        x: nozzleNodes[i].x[j], y: nozzleNodes[i].y[j],
+                        radius: 4,
+                        mouseover: function(layer) {
+                            $(this).drawText({
+                                layer: true,
+                                name: "t" + layer.name,
+                                draggable: true,
+                                groups: [layer.name],
+                                fillStyle: '#fff',
+                                fontFamily: '微软雅黑',
+                                fontSize: 12,
+                                text: layer.data.name,
+                                x: layer.x + 20, y: layer.y - 15,
+                                letterSpacing: 0.2
+                            });
+                        },
+                        mouseout: function(layer) {
+                            $(this).removeLayer("t" + layer.name);
+                        }
                     });
-                }
-                if (nozzleNodes[i].state === 1) {
-                    c.drawSlice({
-                        layer: true,
-                        name: "s" + nozzleNodes[i].id,
-                        groups: [nozzleNodes[i].id],
-                        fillStyle: '#fff',
-                        x: nozzleNodes[i].x, y: nozzleNodes[i].y,
-                        start: -135, end: -45,
-                        radius: 15,
-                        opacity: 0.5
-                    });
-                    animate_plus("s" + nozzleNodes[i].id);
+                    if (layers.length > 0) {
+                        c.drawLine({
+                            layer: true,
+                            name: "L" + nozzleNodes[i].id + "-" + j,
+                            index: -1,
+                            strokeStyle: nozzleNodes[i].color,
+                            strokeWidth: 2,
+                            rounded: true,
+                            x1: layers[0].x, y1: layers[0].y,  /* 分控箱 */
+                            x2: nozzleNodes[i].x[j], y2: nozzleNodes[i].y[j]  /* 喷头 */
+                        });
+                    }
+                    if (nozzleNodes[i].state === 1) {
+                        c.drawSlice({
+                            layer: true,
+                            name: "s" + nozzleNodes[i].id + "-" + j,
+                            groups: [nozzleNodes[i].id],
+                            fillStyle: '#fff',
+                            x: nozzleNodes[i].x[j], y: nozzleNodes[i].y[j],
+                            start: -135, end: -45,
+                            radius: 20,
+                            opacity: 0.5,
+                            index: -1
+                        });
+                        animate_plus("s" + nozzleNodes[i].id + "-" + j);
+                    }
                 }
             }
         }

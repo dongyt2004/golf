@@ -241,6 +241,26 @@
         return false;
     }
 
+    function stop_all() {
+        reset();
+        alertify.confirm("立刻停止全部灌溉作业，是这样吗？", function (e) {
+            if (e) {
+                $.post("/stop_all.do", {
+                }, function (result) {
+                    if (result.success) {
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 1500);
+                    } else {
+                        alertify.error("联网失败");
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+    }
+
     function logout() {
         reset();
         alertify.confirm("确定离开吗？", function (e) {
@@ -327,6 +347,18 @@
                 return btn[0];
             };
             map.addControl(new RefreshControl());
+            /* 添加停止灌溉按钮 */
+            function StopControl(){
+                this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
+                this.defaultOffset = new BMap.Size(20, 20);
+            }
+            StopControl.prototype = new BMap.Control();
+            StopControl.prototype.initialize = function(map) {
+                var btn = $('<a href="javascript:stop_all()" class="btn btn-info"><i class="icon-ccw"></i>全部停止</a>');
+                map.getContainer().appendChild(btn[0]);
+                return btn[0];
+            };
+            map.addControl(new StopControl());
             /* 添加退出按钮 */
             function LogoutControl(){
                 this.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
