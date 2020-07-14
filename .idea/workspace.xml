@@ -38,12 +38,13 @@
       <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="303" column="72" lean-forward="true" selection-start-line="303" selection-start-column="72" selection-end-line="303" selection-end-column="72" />
+            <state relative-caret-position="414">
+              <caret line="355" column="62" lean-forward="true" selection-start-line="355" selection-start-column="62" selection-end-line="355" selection-end-column="62" />
               <folding>
-                <marker date="1594698398639" expanded="true" signature="10727:10757" ph="..." />
-                <marker date="1594698398639" expanded="true" signature="10805:10846" ph="..." />
-                <marker date="1594698398639" expanded="true" signature="11075:11108" ph="..." />
+                <marker date="1594698884667" expanded="true" signature="10727:10757" ph="..." />
+                <marker date="1594698884667" expanded="true" signature="10805:10846" ph="..." />
+                <marker date="1594698884667" expanded="true" signature="11075:11108" ph="..." />
+                <marker date="1594698884667" expanded="true" signature="13726:13737" ph="..." />
               </folding>
             </state>
           </provider>
@@ -531,14 +532,7 @@
       <workItem from="1594446031951" duration="69044000" />
       <workItem from="1594617059031" duration="3771000" />
       <workItem from="1594626259614" duration="18474000" />
-      <workItem from="1594698203996" duration="208000" />
-    </task>
-    <task id="LOCAL-00086" summary="5th commit">
-      <created>1590848666121</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1590848666121</updated>
+      <workItem from="1594698203996" duration="689000" />
     </task>
     <task id="LOCAL-00087" summary="5th commit">
       <created>1590891368947</created>
@@ -876,11 +870,18 @@
       <option name="project" value="LOCAL" />
       <updated>1594696489816</updated>
     </task>
-    <option name="localTasksCounter" value="135" />
+    <task id="LOCAL-00135" summary="5th commit">
+      <created>1594698424833</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1594698424833</updated>
+    </task>
+    <option name="localTasksCounter" value="136" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1756627000" />
+    <option name="totallyTimeSpent" value="1757108000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1429,12 +1430,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="303" column="72" lean-forward="true" selection-start-line="303" selection-start-column="72" selection-end-line="303" selection-end-column="72" />
+        <state relative-caret-position="414">
+          <caret line="355" column="62" lean-forward="true" selection-start-line="355" selection-start-column="62" selection-end-line="355" selection-end-column="62" />
           <folding>
-            <marker date="1594698398639" expanded="true" signature="10727:10757" ph="..." />
-            <marker date="1594698398639" expanded="true" signature="10805:10846" ph="..." />
-            <marker date="1594698398639" expanded="true" signature="11075:11108" ph="..." />
+            <marker date="1594698884667" expanded="true" signature="10727:10757" ph="..." />
+            <marker date="1594698884667" expanded="true" signature="10805:10846" ph="..." />
+            <marker date="1594698884667" expanded="true" signature="11075:11108" ph="..." />
+            <marker date="1594698884667" expanded="true" signature="13726:13737" ph="..." />
           </folding>
         </state>
       </provider>

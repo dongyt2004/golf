@@ -299,7 +299,7 @@
             '               <div style="text-align: center; padding-bottom: 10px;">\n' +
             '                   <a id="send" href="javascript:send()" class="btn btn-success">开启选中的洒水站</a>\n' +
             '               </div>\n' +
-            '               <ul id="nozzletree" class="ztree" style="max-height:300px;overflow-y:auto;"></ul>\n' +
+            '               <ul id="nozzletree" class="ztree" style="max-height:150px;overflow-y:auto;"></ul>\n' +
             '            </div>');
         $.fn.zTree.init(content.find('ul:eq(0)'), setting, nozzleNodes);
         infoWindow = new BMap.InfoWindow(content[0]);
@@ -354,7 +354,7 @@
             }
             StopControl.prototype = new BMap.Control();
             StopControl.prototype.initialize = function(map) {
-                var btn = $('<a href="javascript:stop_all()" class="btn btn-warning"><i class="icon-controller-stop"></i>全部停止</a>');
+                var btn = $('<a href="javascript:stop_all()" class="btn btn-warning" style="color: red;"><i class="icon-controller-stop"></i>全部停止</a>');
                 map.getContainer().appendChild(btn[0]);
                 return btn[0];
             };
