@@ -215,7 +215,7 @@
         <div class="row gutter">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="panel">
-                    <a href="#" class="btn btn-warning dongyt" id="cancel_all" style="color: red;">取消所有洒水计划</a>
+                    <a href="#" class="btn btn-warning dongyt" id="cancel_all" style="color: red;">取消所有灌溉计划</a>
                     <a href="#" class="btn btn-success dongyt" id="save">保 存</a>
                 </div>
             </div>

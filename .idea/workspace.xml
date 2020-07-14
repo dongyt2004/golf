@@ -4,6 +4,7 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/plan.dust" afterPath="$PROJECT_DIR$/view/plan.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -49,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nozzle.dust" pinned="false" current-in-tab="true">
+      <file leaf-file-name="nozzle.dust" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/nozzle.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="205" column="45" lean-forward="true" selection-start-line="205" selection-start-column="45" selection-end-line="205" selection-end-column="45" />
+            <state relative-caret-position="288">
+              <caret line="208" column="64" lean-forward="true" selection-start-line="208" selection-start-column="64" selection-end-line="208" selection-end-column="64" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#th#8;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -62,6 +63,19 @@
                 <element signature="n#style#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#11;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#13;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plan.dust" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/view/plan.dust">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="363">
+              <caret line="217" column="105" lean-forward="false" selection-start-line="217" selection-start-column="105" selection-end-line="217" selection-end-column="105" />
+              <folding>
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -230,7 +244,6 @@
         <option value="$PROJECT_DIR$/view/task_step.dust" />
         <option value="$PROJECT_DIR$/view/turf.dust" />
         <option value="$PROJECT_DIR$/view/manual.dust" />
-        <option value="$PROJECT_DIR$/view/plan.dust" />
         <option value="$PROJECT_DIR$/view/course.dust" />
         <option value="$PROJECT_DIR$/view/controlbox.dust" />
         <option value="$PROJECT_DIR$/view/task.dust" />
@@ -246,6 +259,7 @@
         <option value="$PROJECT_DIR$/view/gps_control.dust" />
         <option value="$PROJECT_DIR$/view/nozzle.dust" />
         <option value="$PROJECT_DIR$/app.env" />
+        <option value="$PROJECT_DIR$/view/plan.dust" />
       </list>
     </option>
   </component>
@@ -321,6 +335,12 @@
               <item name="golf-project" type="b2602c69:ProjectViewProjectNode" />
               <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
               <item name="golf" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="golf-project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="golf-project" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="golf" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -544,14 +564,7 @@
       <workItem from="1594617059031" duration="3771000" />
       <workItem from="1594626259614" duration="18474000" />
       <workItem from="1594698203996" duration="1311000" />
-      <workItem from="1594710079111" duration="2671000" />
-    </task>
-    <task id="LOCAL-00089" summary="5th commit">
-      <created>1590896406344</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1590896406344</updated>
+      <workItem from="1594710079111" duration="4342000" />
     </task>
     <task id="LOCAL-00090" summary="5th commit">
       <created>1590901244124</created>
@@ -889,11 +902,18 @@
       <option name="project" value="LOCAL" />
       <updated>1594714566347</updated>
     </task>
-    <option name="localTasksCounter" value="138" />
+    <task id="LOCAL-00138" summary="5th commit">
+      <created>1594715400306</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1594715400306</updated>
+    </task>
+    <option name="localTasksCounter" value="139" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1760401000" />
+    <option name="totallyTimeSpent" value="1762072000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -907,7 +927,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12796208" sideWeight="0.49317738" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13744076" sideWeight="0.49317738" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26455027" sideWeight="0.50394946" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21164021" sideWeight="0.49605057" order="10" side_tool="false" content_ui="tabs" />
@@ -1232,13 +1252,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/plan.dust">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="83" column="9" lean-forward="false" selection-start-line="83" selection-start-column="9" selection-end-line="83" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/course.dust">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
@@ -1391,8 +1404,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/nozzle.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="205" column="45" lean-forward="true" selection-start-line="205" selection-start-column="45" selection-end-line="205" selection-end-column="45" />
+        <state relative-caret-position="288">
+          <caret line="208" column="64" lean-forward="true" selection-start-line="208" selection-start-column="64" selection-end-line="208" selection-end-column="64" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#th#8;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1401,6 +1414,17 @@
             <element signature="n#style#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#11;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#13;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/plan.dust">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="217" column="105" lean-forward="false" selection-start-line="217" selection-start-column="105" selection-end-line="217" selection-end-column="105" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
