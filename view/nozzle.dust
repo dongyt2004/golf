@@ -112,34 +112,8 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <label for="hole">球洞(0表示无球洞)</label>
+                            <label for="hole">球洞号(0表示无球洞)</label>
                             <input id="hole" class="form-control" name="hole" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="nozzle_model">型 号</label>
-                            <select class="form-control" id="nozzle_model" name="nozzle_model">
- {#models}
-                                <option value="{id}">{name}</option>
-{/models}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="shape">形 状</label>
-                            <select class="form-control" id="shape" name="shape">
-{#shapes}
-                                <option value="{id}">{name}</option>
-{/shapes}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="angle">夹 角</label>
-                            <input id="angle" class="form-control" name="angle" />
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
@@ -150,13 +124,39 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                         <div class="form-group">
+                            <label for="nozzle_model">喷嘴型号</label>
+                            <select class="form-control" id="nozzle_model" name="nozzle_model">
+ {#models}
+                                <option value="{id}">{name}</option>
+{/models}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="shape">喷头形状</label>
+                            <select class="form-control" id="shape" name="shape">
+{#shapes}
+                                <option value="{id}">{name}</option>
+{/shapes}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="angle">喷嘴夹角(度)</label>
+                            <input id="angle" class="form-control" name="angle" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="form-group">
                             <label for="waterfall_rate">降水率</label>
                             <input id="waterfall_rate" class="form-control" name="waterfall_rate" />
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <label for="turf">湿度调整%</label>
+                            <label for="turf">湿度调整%(同一洒水站控制的喷头应安排为同一场地浇水)</label>
                             <select class="form-control" id="turf" name="turf">
 {#turfs}
                                 <option value="{id}">{name} {moisture}%</option>
@@ -202,12 +202,12 @@
                                 <th>区 域</th>
                                 <th>球 洞</th>
                                 <th style="display: none;"></th>
-                                <th>型 号</th>
+                                <th>喷头数量</th>
+                                <th>喷嘴型号</th>
                                 <th style="display: none;"></th>
-                                <th>形 状</th>
+                                <th>喷头形状</th>
                                 <th style="display: none;"></th>
                                 <th>夹 角</th>
-                                <th>喷头数量</th>
                                 <th>降水率</th>
                                 <th>湿度调整%</th>
                                 <th style="display: none;"></th>
@@ -226,12 +226,12 @@
                                 <td class="area_name_{id}">{area_name}</td>
                                 <td style="display: none;" class="area_id_{id}">{area_id}</td>
                                 <td class="hole_{id}">{hole}</td>
+                                <td class="shot_count_{id}">{shot_count}</td>
                                 <td class="nozzle_model_{id}">{nozzle_model}</td>
                                 <td style="display: none;" class="model_id_{id}">{model_id}</td>
                                 <td class="nozzle_shape_{id}">{nozzle_shape}</td>
                                 <td style="display: none;" class="shape_id_{id}">{shape_id}</td>
                                 <td class="angle_{id}">{angle}</td>
-                                <td class="shot_count_{id}">{shot_count}</td>
                                 <td class="waterfall_rate_{id}">{waterfall_rate}</td>
                                 <td class="nozzle_turf_{id}">{nozzle_turf} {moisture}{@ne key=moisture value=""}%{/ne}</td>
                                 <td style="display: none;" class="turf_id_{id}">{turf_id}</td>
