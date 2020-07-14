@@ -41,9 +41,9 @@
             <state relative-caret-position="594">
               <caret line="302" column="34" lean-forward="true" selection-start-line="302" selection-start-column="34" selection-end-line="302" selection-end-column="34" />
               <folding>
-                <marker date="1594684119233" expanded="true" signature="10727:10757" ph="..." />
-                <marker date="1594684119233" expanded="true" signature="10805:10846" ph="..." />
-                <marker date="1594684119233" expanded="true" signature="11075:11108" ph="..." />
+                <marker date="1594693307339" expanded="true" signature="10727:10757" ph="..." />
+                <marker date="1594693307339" expanded="true" signature="10805:10846" ph="..." />
+                <marker date="1594693307339" expanded="true" signature="11075:11108" ph="..." />
               </folding>
             </state>
           </provider>
@@ -530,14 +530,7 @@
       <workItem from="1594341167675" duration="4273000" />
       <workItem from="1594446031951" duration="69044000" />
       <workItem from="1594617059031" duration="3771000" />
-      <workItem from="1594626259614" duration="15914000" />
-    </task>
-    <task id="LOCAL-00083" summary="5th commit">
-      <created>1590754893340</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1590754893340</updated>
+      <workItem from="1594626259614" duration="16630000" />
     </task>
     <task id="LOCAL-00084" summary="5th commit">
       <created>1590845835666</created>
@@ -875,11 +868,18 @@
       <option name="project" value="LOCAL" />
       <updated>1594654078209</updated>
     </task>
-    <option name="localTasksCounter" value="132" />
+    <task id="LOCAL-00132" summary="5th commit">
+      <created>1594684143948</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1594684143948</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1753859000" />
+    <option name="totallyTimeSpent" value="1754575000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1435,9 +1435,9 @@
         <state relative-caret-position="594">
           <caret line="302" column="34" lean-forward="true" selection-start-line="302" selection-start-column="34" selection-end-line="302" selection-end-column="34" />
           <folding>
-            <marker date="1594684119233" expanded="true" signature="10727:10757" ph="..." />
-            <marker date="1594684119233" expanded="true" signature="10805:10846" ph="..." />
-            <marker date="1594684119233" expanded="true" signature="11075:11108" ph="..." />
+            <marker date="1594693307339" expanded="true" signature="10727:10757" ph="..." />
+            <marker date="1594693307339" expanded="true" signature="10805:10846" ph="..." />
+            <marker date="1594693307339" expanded="true" signature="11075:11108" ph="..." />
           </folding>
         </state>
       </provider>
