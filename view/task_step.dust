@@ -182,7 +182,7 @@
     }
 
     function onDrop(e, treeId, treeNodes, targetNode, moveType) {
-        if (moveType === null && treeNodes[0].name.indexOf('[正在维修]') < 0 && treeNodes[0].name.indexOf('[正在洒水]') < 0) {
+        if (moveType === null) {
             var elem = null;
             if ($(e.target).parents(".timeline-content").length > 0) {
                 elem = $(e.target).parents(".timeline-content").first();
@@ -302,7 +302,7 @@
             var nozzleNodes = [];
             var srcNodes = $.fn.zTree.getZTreeObj("nozzletree").getCheckedNodes(true);
             for (var i=0; i<srcNodes.length; i++) {
-                if (srcNodes[i].id.substr(0, 1) === 't' && srcNodes[i].name.indexOf('[正在维修]') < 0 && srcNodes[i].name.indexOf('[正在洒水]') < 0) {
+                if (srcNodes[i].id.substr(0, 1) === 't') {
                     nozzleNodes.push(srcNodes[i]);
                 }
             }
