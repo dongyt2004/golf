@@ -796,10 +796,13 @@ app.post("/add_task.do", function (req, res) {
             db.exec("insert into task(name,`desc`) values(?,?)", [req.body.name, req.body.desc], function () {
                 db.exec("select id from task where name=?", [req.body.name], function (tasks) {
                     var steps = JSON.parse(req.body.step);
-                    steps.forEach(function (step, i, array) {
-                        db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [tasks[0].id, step.s, step.n]);
+                    eachAsync(steps, function(step, index, done) {
+                        db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [tasks[0].id, step.s, step.n], function () {
+                            done();
+                        });
+                    }, function() {
+                        res.json({success: true});
                     });
-                    res.json({success: true});
                 });
             });
         }
@@ -810,10 +813,13 @@ app.post("/update_task.do", function (req, res) {
     db.exec("update task set name=?,`desc`=? where id=?", [req.body.name, req.body.desc, req.body.id], function () {
         db.exec("delete from step where task_id=?", [req.body.id], function () {
             var steps = JSON.parse(req.body.step);
-            steps.forEach(function (step, i, array) {
-                db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [req.body.id, step.s, step.n]);
+            eachAsync(steps, function(step, index, done) {
+                db.exec("insert into step(task_id,how_long,involved_nozzle) values(?,?,?)", [req.body.id, step.s, step.n], function () {
+                    done();
+                });
+            }, function() {
+                res.json({success: true});
             });
-            res.json({success: true});
         });
     });
 });
