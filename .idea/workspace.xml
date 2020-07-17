@@ -65,8 +65,8 @@
       <file leaf-file-name="task_step.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/task_step.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="184" column="32" lean-forward="true" selection-start-line="184" selection-start-column="32" selection-end-line="184" selection-end-column="32" />
+            <state relative-caret-position="280">
+              <caret line="181" column="5" lean-forward="true" selection-start-line="181" selection-start-column="5" selection-end-line="181" selection-end-column="5" />
               <folding>
                 <marker date="1594977283267" expanded="true" signature="10628:10660" ph="..." />
                 <marker date="1594977283267" expanded="true" signature="10695:10727" ph="..." />
@@ -523,14 +523,7 @@
       <workItem from="1594953262880" duration="2110000" />
       <workItem from="1594957941347" duration="365000" />
       <workItem from="1594969461618" duration="3133000" />
-      <workItem from="1594976455853" duration="1524000" />
-    </task>
-    <task id="LOCAL-00101" summary="5th commit">
-      <created>1591492922982</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1591492922982</updated>
+      <workItem from="1594976455853" duration="1647000" />
     </task>
     <task id="LOCAL-00102" summary="5th commit">
       <created>1591493586603</created>
@@ -868,11 +861,18 @@
       <option name="project" value="LOCAL" />
       <updated>1594977572649</updated>
     </task>
-    <option name="localTasksCounter" value="150" />
+    <task id="LOCAL-00150" summary="5th commit">
+      <created>1594977997423</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1594977997423</updated>
+    </task>
+    <option name="localTasksCounter" value="151" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1774008000" />
+    <option name="totallyTimeSpent" value="1774131000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1359,8 +1359,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/task_step.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="184" column="32" lean-forward="true" selection-start-line="184" selection-start-column="32" selection-end-line="184" selection-end-column="32" />
+        <state relative-caret-position="280">
+          <caret line="181" column="5" lean-forward="true" selection-start-line="181" selection-start-column="5" selection-end-line="181" selection-end-column="5" />
           <folding>
             <marker date="1594977283267" expanded="true" signature="10628:10660" ph="..." />
             <marker date="1594977283267" expanded="true" signature="10695:10727" ph="..." />
