@@ -182,8 +182,7 @@ mqtt_client.on("message", function (topic, message) {
     } else {
         console.log("[" + current_time + "] CRC16校验错误：" + msg);
     }
-});
-function check_crc(message) {
+funstop_allction check_crc(message) {
     var str = message.substr(0, message.length - 4);
     var crc = message.substring(message.length - 4);
     return left_pad(crc16(str).toString(16), 4) === crc.toUpperCase();
@@ -309,6 +308,7 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                     if (!err) {
+                        console.log("[" + start_time + "] 中控按洒水计划下发洒水指令：" + command);
                         db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
                     } else {
                         res.end("0");
@@ -326,6 +326,7 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
         command = command + left_pad(crc16(command).toString(16), 4);
         mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
             if (!err) {
+                console.log("[" + start_time + "] 中控按洒水计划下发洒水指令：" + command);
                 db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function(results) {
                     res.end("1");
                 });
@@ -394,6 +395,7 @@ app.post("/stop_all.do", function (req, res) {
     command = command + left_pad(crc16(command).toString(16), 4);
     mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
         if (!err) {
+            console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] 中控下发全部停止指令：" + command);
             res.json({success: true});
         } else {
             res.json({failure: true});
@@ -428,6 +430,7 @@ app.post("/send.do", function (req, res) {
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                     if (!err) {
+                        console.log("[" + start_time + "] 中控按手动灌溉下发洒水指令：" + command);
                         db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
                     } else {
                         res.json({failure: true});
@@ -445,6 +448,7 @@ app.post("/send.do", function (req, res) {
         command = command + left_pad(crc16(command).toString(16), 4);
         mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
             if (!err) {
+                console.log("[" + start_time + "] 中控按手动灌溉下发洒水指令：" + command);
                 db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
                     res.json({success: true});
                 });
@@ -689,6 +693,7 @@ app.post("/remote_control.do", function (req, res) {
             command = command + left_pad(crc16(command).toString(16), 4);
             mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                 if (!err) {
+                    console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] 中控下发远程控制指令：" + command);
                     res.json({success: true});
                 } else {
                     res.json({failure: true});
@@ -707,6 +712,7 @@ app.post("/local_control.do", function (req, res) {
             command = command + left_pad(crc16(command).toString(16), 4);
             mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                 if (!err) {
+                    console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] 中控下发本地控制指令：" + command);
                     res.json({success: true});
                 } else {
                     res.json({failure: true});
