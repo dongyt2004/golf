@@ -182,7 +182,8 @@ mqtt_client.on("message", function (topic, message) {
     } else {
         console.log("[" + current_time + "] CRC16校验错误：" + msg);
     }
-funstop_allction check_crc(message) {
+});
+function check_crc(message) {
     var str = message.substr(0, message.length - 4);
     var crc = message.substring(message.length - 4);
     return left_pad(crc16(str).toString(16), 4) === crc.toUpperCase();
