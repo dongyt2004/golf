@@ -4,7 +4,7 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.env" afterPath="$PROJECT_DIR$/app.env" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,21 +21,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="32" column="23" lean-forward="false" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+            <state relative-caret-position="828">
+              <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="918">
-              <caret line="1442" column="41" lean-forward="true" selection-start-line="1442" selection-start-column="41" selection-end-line="1442" selection-end-column="41" />
+            <state relative-caret-position="338">
+              <caret line="1408" column="66" lean-forward="true" selection-start-line="1408" selection-start-column="66" selection-end-line="1408" selection-end-column="66" />
               <folding />
             </state>
           </provider>
@@ -177,9 +177,9 @@
         <option value="$PROJECT_DIR$/view/gps_control.dust" />
         <option value="$PROJECT_DIR$/view/nozzle.dust" />
         <option value="$PROJECT_DIR$/view/plan.dust" />
-        <option value="$PROJECT_DIR$/app.env" />
         <option value="$PROJECT_DIR$/view/task_step.dust" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/app.env" />
       </list>
     </option>
   </component>
@@ -486,14 +486,7 @@
       <workItem from="1594969461618" duration="3133000" />
       <workItem from="1594976455853" duration="2597000" />
       <workItem from="1595028895066" duration="161000" />
-      <workItem from="1595054829258" duration="1247000" />
-    </task>
-    <task id="LOCAL-00104" summary="5th commit">
-      <created>1591623800075</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1591623800075</updated>
+      <workItem from="1595054829258" duration="4155000" />
     </task>
     <task id="LOCAL-00105" summary="5th commit">
       <created>1591626653119</created>
@@ -831,11 +824,18 @@
       <option name="project" value="LOCAL" />
       <updated>1594981121883</updated>
     </task>
-    <option name="localTasksCounter" value="153" />
+    <task id="LOCAL-00153" summary="5th commit">
+      <created>1595056139402</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1595056139402</updated>
+    </task>
+    <option name="localTasksCounter" value="154" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1776489000" />
+    <option name="totallyTimeSpent" value="1779397000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -986,19 +986,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/js/InfoBox_min.js" />
-    <entry file="file://$PROJECT_DIR$/static/img/人.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/redis/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="409" column="39" lean-forward="true" selection-start-line="409" selection-start-column="39" selection-end-line="409" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
@@ -1292,14 +1279,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="32" column="23" lean-forward="false" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/task_step.dust">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="118">
@@ -1316,10 +1295,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/mysql/lib/Pool.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1188">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/mysql/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="138" column="31" lean-forward="false" selection-start-line="138" selection-start-column="31" selection-end-line="138" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="22" lean-forward="true" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="1442" column="41" lean-forward="true" selection-start-line="1442" selection-start-column="41" selection-end-line="1442" selection-end-column="41" />
+        <state relative-caret-position="338">
+          <caret line="1408" column="66" lean-forward="true" selection-start-line="1408" selection-start-column="66" selection-end-line="1408" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="828">
+          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
           <folding />
         </state>
       </provider>
