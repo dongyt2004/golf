@@ -4,7 +4,6 @@
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.env" afterPath="$PROJECT_DIR$/app.env" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,21 +20,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.env" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
-              <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+            <state relative-caret-position="180">
+              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="1408" column="66" lean-forward="true" selection-start-line="1408" selection-start-column="66" selection-end-line="1408" selection-end-column="66" />
+            <state relative-caret-position="266">
+              <caret line="1398" column="64" lean-forward="true" selection-start-line="1398" selection-start-column="64" selection-end-line="1398" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -486,14 +485,7 @@
       <workItem from="1594969461618" duration="3133000" />
       <workItem from="1594976455853" duration="2597000" />
       <workItem from="1595028895066" duration="161000" />
-      <workItem from="1595054829258" duration="4155000" />
-    </task>
-    <task id="LOCAL-00105" summary="5th commit">
-      <created>1591626653119</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1591626653119</updated>
+      <workItem from="1595054829258" duration="5101000" />
     </task>
     <task id="LOCAL-00106" summary="5th commit">
       <created>1591664797354</created>
@@ -831,11 +823,18 @@
       <option name="project" value="LOCAL" />
       <updated>1595056139402</updated>
     </task>
-    <option name="localTasksCounter" value="154" />
+    <task id="LOCAL-00154" summary="5th commit">
+      <created>1595060115267</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1595060115267</updated>
+    </task>
+    <option name="localTasksCounter" value="155" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1779397000" />
+    <option name="totallyTimeSpent" value="1780343000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1319,18 +1318,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/app.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="1408" column="66" lean-forward="true" selection-start-line="1408" selection-start-column="66" selection-end-line="1408" selection-end-column="66" />
+        <state relative-caret-position="180">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.env">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        <state relative-caret-position="266">
+          <caret line="1398" column="64" lean-forward="true" selection-start-line="1398" selection-start-column="64" selection-end-line="1398" selection-end-column="64" />
           <folding />
         </state>
       </provider>
