@@ -1443,10 +1443,6 @@ app.get("/task_step.html", function (req, res) {
                             var str = "";
                             if (nozzles[i].use_state === 0) {
                                 str = "[正在维修]";
-                            } else {
-                                if (nozzles[i].state === 1) {
-                                    str = "[正在洒水]";
-                                }
                             }
                             nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].course_id + "-" + nozzles[i].area_id + "-" + nozzles[i].hole,icon:"/img/喷头.png"});
                         }
