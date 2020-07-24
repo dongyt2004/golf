@@ -88,7 +88,7 @@
 
 <script type="text/javascript">
     function initPosition(position) {
-        /*location.replace('/gps_control.html?lon=117.1665001493&lat=39.0851165656');*/
+        /*location.replace('/gps_control.html?lon=117.3060781512&lat=38.9770538089');*/
         BMap.Convertor.translate(new BMap.Point(position.coords.longitude, position.coords.latitude), 0, function (point) {
             location.replace('/gps_control.html?lon=' + point.lng + '&lat=' + point.lat);
         });
@@ -181,12 +181,11 @@
             lon: p.lng,
             lat: p.lat
         }, function (result) {
-            $('#loadingModal').modal('hide');
             if (result.success) {
-                alertify.success("定位成功，经度：" + point.lng + "，纬度：" + point.lat);
+                alertify.success("定位成功，经度：" + p.lng + "，纬度：" + p.lat);
                 setTimeout(function () {
                     window.location.href="/gps_control.html?lon={lon}&lat={lat}&id=" + $("#controlbox").val();
-                }, 1800);
+                }, 1000);
             } else {
                 alertify.error("联网失败");
             }
@@ -364,7 +363,7 @@
             map.addOverlay(person_marker);
             person_marker.enableDragging();
 {@eq key=can_pos value=1 type="number"}
-            person_marker.setLabel(new BMap.Label("点击我可为身边分控箱定位", {offset: new BMap.Size(25, -10)}));
+            person_marker.setLabel(new BMap.Label("移动和点击我可<br>为身边分控箱定位", {offset: new BMap.Size(25, -10)}));
             person_marker.addEventListener("click", function() {
                 this.openInfoWindow(infoWindow2);
             });
