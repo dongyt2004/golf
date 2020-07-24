@@ -121,7 +121,7 @@
                 /* 指定获取地理位置的超时时间，默认不限时，单位为毫秒 */
                 timeout: 10000,
                 /* 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。 */
-                maximumAge: 20000
+                maximumAge: 5000
             });
         }
     }
@@ -171,39 +171,26 @@
         });
     }
 
-    function postPos(position) {
-        BMap.Convertor.translate(new BMap.Point(position.coords.longitude, position.coords.latitude), 0, function (point) {
-            $.post("/pos.do", {
-                id: $("#controlbox").val(),
-                lon: point.lng,
-                lat: point.lat
-            }, function (result) {
-                $('#loadingModal').modal('hide');
-                if (result.success) {
-                    alertify.success("定位成功，经度：" + point.lng + "，纬度：" + point.lat);
-                    setTimeout(function () {
-                        window.location.href="/gps_control.html?lon={lon}&lat={lat}&id=" + $("#controlbox").val();
-                    }, 1800);
-                } else {
-                    alertify.error("联网失败");
-                }
-            });
-        });
-    }
+    var person_marker = null;
 
     /* 为分控箱定位 */
     function pos() {
-        if (navigator.geolocation) {
-            $("#loadingModal").modal('show');
-            navigator.geolocation.getCurrentPosition(postPos, error, {
-                /* 指示浏览器获取高精度的位置，默认为false */
-                enableHighAccuracy: true,
-                /* 指定获取地理位置的超时时间，默认不限时，单位为毫秒 */
-                timeout: 10000,
-                /* 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。 */
-                maximumAge: 20000
-            });
-        }
+        var p = person_marker.getPosition();
+        $.post("/pos.do", {
+            id: $("#controlbox").val(),
+            lon: p.lng,
+            lat: p.lat
+        }, function (result) {
+            $('#loadingModal').modal('hide');
+            if (result.success) {
+                alertify.success("定位成功，经度：" + point.lng + "，纬度：" + point.lat);
+                setTimeout(function () {
+                    window.location.href="/gps_control.html?lon={lon}&lat={lat}&id=" + $("#controlbox").val();
+                }, 1800);
+            } else {
+                alertify.error("联网失败");
+            }
+        });
     }
 
     var setting = {
@@ -373,18 +360,19 @@
             map.addControl(new LogoutControl());
 {@ne key=lon value=""}
             /* 显示我的位置 */
-            var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(36, 36))});
-            map.addOverlay(marker);
+            person_marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/人.png", new BMap.Size(36, 36))});
+            map.addOverlay(person_marker);
+            person_marker.enableDragging();
 {@eq key=can_pos value=1 type="number"}
-            marker.setLabel(new BMap.Label("点击我可为身边分控箱定位", {offset: new BMap.Size(25, -10)}));
-            marker.addEventListener("click", function() {
+            person_marker.setLabel(new BMap.Label("点击我可为身边分控箱定位", {offset: new BMap.Size(25, -10)}));
+            person_marker.addEventListener("click", function() {
                 this.openInfoWindow(infoWindow2);
             });
 {/eq}
 {/ne}
             /* 显示我跟前的分控箱 */
 {#adj_controlboxes}
-            marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/邻分控箱.png", new BMap.Size(36, 36))});
+            var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/邻分控箱.png", new BMap.Size(36, 36))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));
             map.addOverlay(marker);
 {@eq key=can_irrigate value=1 type="number"}
