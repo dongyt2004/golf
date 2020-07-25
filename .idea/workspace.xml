@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
-    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="6th commit - 2020.07.24">
+    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/access.log" afterPath="$PROJECT_DIR$/log/access.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/app.log" afterPath="$PROJECT_DIR$/log/app.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/gps_control.dust" afterPath="$PROJECT_DIR$/view/gps_control.dust" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -36,8 +33,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="1627" column="55" lean-forward="true" selection-start-line="1627" selection-start-column="55" selection-end-line="1627" selection-end-column="55" />
+            <state relative-caret-position="316">
+              <caret line="1631" column="89" lean-forward="true" selection-start-line="1631" selection-start-column="89" selection-end-line="1631" selection-end-column="89" />
               <folding />
             </state>
           </provider>
@@ -46,8 +43,8 @@
       <file leaf-file-name="gps_control.dust" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="129" column="0" lean-forward="true" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+            <state relative-caret-position="363">
+              <caret line="356" column="30" lean-forward="true" selection-start-line="356" selection-start-column="30" selection-end-line="356" selection-end-column="30" />
               <folding>
                 <marker date="1595584872082" expanded="true" signature="10069:10099" ph="..." />
                 <marker date="1595584872082" expanded="true" signature="10147:10188" ph="..." />
@@ -71,7 +68,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>icon-user</find>
       <find>洒水计划</find>
       <find>洒水任务</find>
       <find>::selection</find>
@@ -101,6 +97,7 @@
       <find>pos</find>
       <find>/pos.do</find>
       <find>gps_control</find>
+      <find>5000</find>
     </findStrings>
     <replaceStrings>
       <replace>ci</replace>
@@ -508,14 +505,7 @@
       <workItem from="1595160576789" duration="177000" />
       <workItem from="1595553578262" duration="48000" />
       <workItem from="1595553786425" duration="5319000" />
-      <workItem from="1595583070274" duration="1688000" />
-    </task>
-    <task id="LOCAL-00108" summary="5th commit">
-      <created>1591681088554</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1591681088554</updated>
+      <workItem from="1595583070274" duration="2637000" />
     </task>
     <task id="LOCAL-00109" summary="5th commit">
       <created>1591789838977</created>
@@ -853,11 +843,18 @@
       <option name="project" value="LOCAL" />
       <updated>1595560502669</updated>
     </task>
-    <option name="localTasksCounter" value="157" />
+    <task id="LOCAL-00157" summary="6th commit - 2020.07.24">
+      <created>1595585053888</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1595585053888</updated>
+    </task>
+    <option name="localTasksCounter" value="158" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1788574000" />
+    <option name="totallyTimeSpent" value="1789523000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -871,7 +868,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1937862" sideWeight="0.49317738" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16324382" sideWeight="0.49317738" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26455027" sideWeight="0.50394946" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21164021" sideWeight="0.49605057" order="10" side_tool="false" content_ui="tabs" />
@@ -1323,14 +1320,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="1627" column="55" lean-forward="true" selection-start-line="1627" selection-start-column="55" selection-end-line="1627" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="522">
@@ -1339,10 +1328,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="1631" column="89" lean-forward="true" selection-start-line="1631" selection-start-column="89" selection-end-line="1631" selection-end-column="89" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/view/gps_control.dust">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="129" column="0" lean-forward="true" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+        <state relative-caret-position="363">
+          <caret line="356" column="30" lean-forward="true" selection-start-line="356" selection-start-column="30" selection-end-line="356" selection-end-column="30" />
           <folding>
             <marker date="1595584872082" expanded="true" signature="10069:10099" ph="..." />
             <marker date="1595584872082" expanded="true" signature="10147:10188" ph="..." />
