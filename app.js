@@ -310,7 +310,10 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
                 mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                     if (!err) {
                         console.log("[" + start_time + "] 中控按洒水计划下发洒水指令：" + command);
-                        db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
+                        try {
+                            db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
+                        } catch (e) {
+                        }
                     } else {
                         res.end("0");
                     }
@@ -328,9 +331,13 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
         mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
             if (!err) {
                 console.log("[" + start_time + "] 中控按洒水计划下发洒水指令：" + command);
-                db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function(results) {
-                    res.end("1");
-                });
+                try {
+                    db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function(results) {
+                        res.end("1");
+                    });
+                } catch (e) {
+                    res.end("0");
+                }
             } else {
                 res.end("0");
             }
@@ -408,7 +415,7 @@ app.post("/send.do", function (req, res) {
     var howlong = parseInt(req.body.hour) * 3600 + parseInt(req.body.minute) * 60;  //秒
     var nozzle_ids = JSON.parse(req.body.nozzle_ids);
     var where = "";
-    for(var i=0; i< nozzle_ids.length; i++) {
+    for(var i=0; i<nozzle_ids.length; i++) {
         where += "a.id=" + nozzle_ids[i] + " or ";
     }
     where += "1=0";
@@ -432,7 +439,10 @@ app.post("/send.do", function (req, res) {
                 mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                     if (!err) {
                         console.log("[" + start_time + "] 中控按手动灌溉下发洒水指令：" + command);
-                        db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
+                        try {
+                            db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
+                        } catch (e) {
+                        }
                     } else {
                         res.json({failure: true});
                     }
@@ -450,9 +460,13 @@ app.post("/send.do", function (req, res) {
         mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
             if (!err) {
                 console.log("[" + start_time + "] 中控按手动灌溉下发洒水指令：" + command);
-                db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
-                    res.json({success: true});
-                });
+                try {
+                    db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
+                        res.json({success: true});
+                    });
+                } catch (e) {
+                    res.json({failure: true});
+                }
             } else {
                 res.json({failure: true});
             }
