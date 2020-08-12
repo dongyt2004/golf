@@ -412,7 +412,7 @@ app.post("/stop_all.do", function (req, res) {
 });
 // 手动灌溉，实时发送指令的操作
 app.post("/send.do", function (req, res) {
-    var howlong = parseInt(req.body.hour) * 3600 + parseInt(req.body.minute) * 60;  //秒
+    var howlong = parseInt(req.body.minute) * 60;  //秒
     var nozzle_ids = JSON.parse(req.body.nozzle_ids);
     var where = "";
     for(var i=0; i<nozzle_ids.length; i++) {
@@ -1406,8 +1406,7 @@ app.get("/task_step.html", function (req, res) {
     db.exec("select * from step where task_id=" + JSON.parse(req.query.task_id), [], function (steps) {
         var last_index = -1;
         for (var i = 0; i < steps.length; i++) {
-            steps[i].hour = parseInt(steps[i].how_long / 3600);
-            steps[i].minute = steps[i].how_long % 3600 / 60;
+            steps[i].minute = steps[i].how_long / 60;
             var index = parseInt(Math.random() * colors.length);
             while(index === last_index) {
                 index = parseInt(Math.random() * colors.length);

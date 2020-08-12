@@ -130,10 +130,6 @@
 
     /* 发送洒水指令 */
     function send() {
-        if ($("#hour").val() === '') {
-            alertify.error("灌溉时长不能为空");
-            return;
-        }
         if ($("#minute").val() === '') {
             alertify.error("灌溉时长不能为空");
             return;
@@ -155,7 +151,6 @@
         }
         $.post("/send.do", {
             nozzle_ids: JSON.stringify(nozzle_ids),
-            hour: $("#hour").val(),
             minute: $("#minute").val()
         }, function (result) {
             if (result.success) {
@@ -268,13 +263,7 @@
         var content = $('<div>' +
             '               <label>灌溉时长</label>\n' +
             '               <div class="row gutter">\n' +
-            '                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">\n' +
-            '                      <div class="input-group">\n' +
-            '                           <input type="number" min="0" id="hour" class="form-control" name="hour"/>\n' +
-            '                           <span class="input-group-addon">小时</span>\n' +
-            '                      </div>\n' +
-            '                    </div>\n' +
-            '                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">\n' +
+            '                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">\n' +
             '                       <div class="input-group">\n' +
             '                            <input type="number" min="0" max="59" id="minute" class="form-control" name="minute"/>\n' +
             '                            <span class="input-group-addon">分钟</span>\n' +
@@ -290,7 +279,6 @@
         $.fn.zTree.init(content.find('ul:eq(0)'), setting, nozzleNodes);
         infoWindow = new BMap.InfoWindow(content[0]);
         infoWindow.addEventListener("close", function() {
-            content.find('input#hour:eq(0)').val('');
             content.find('input#minute:eq(0)').val('');
             $.fn.zTree.getZTreeObj("nozzletree").checkAllNodes(false);
         });

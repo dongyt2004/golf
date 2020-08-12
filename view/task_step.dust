@@ -92,7 +92,7 @@
 {#steps}
                 <div id="step_{$idx}" class="timeline-row active">
                     <div class="timeline-time">
-                        <small>灌溉时长：<input class="hour" style="width: 30px; text-align: center;" placeholder="0" value="{hour}"/>小时 <input class="minute" style="width: 30px; text-align: center;" placeholder="0" value="{minute}"/>分钟</small>
+                        <small>灌溉时长：<input class="minute" style="width: 30px; text-align: center;" placeholder="0" value="{minute}"/>分钟</small>
                     </div>
                     <div class="timeline-icon" style="overflow: visible;">
                         <div class="{icon-color}" style="border-radius: 12px;"><i class="icon-droplet" style="color: white;"></i></div>
@@ -252,10 +252,7 @@
         }
         var steps = [];
         $(".timeline-row").each(function () {
-            var h = parseInt($(this).find("input.hour").first().val());
-            var m = parseInt($(this).find("input.minute").first().val());
-            var s = h * 3600 + m * 60;
-            var step = {s: s, n: ""};
+            var step = {s: parseInt($(this).find("input.minute").first().val()) * 60, n: ""};
             $(this).find('.list-group a').each(function () {
                 step['n'] += parseInt($(this).attr('id').slice(1)) + ",";
             });
@@ -284,7 +281,7 @@
             last_index = index;
             $("#step").append($('<div id="step_' + step_count + '" class="timeline-row active">\n' +
                 '    <div class="timeline-time">\n' +
-                '        <small>灌溉时长：<input class="hour" style="width: 30px; text-align: center;"/>小时 <input class="minute" style="width: 30px; text-align: center;"/>分钟</small>' +
+                '        <small>灌溉时长：<input class="minute" style="width: 30px; text-align: center;"/>分钟</small>' +
                 '    </div>\n' +
                 '    <div class="timeline-icon" style="overflow: visible;">\n' +
                 '        <div class="' + colors[index] + '" style="border-radius: 12px;"><i class="icon-droplet" style="color: white;"></i></div><span onclick=del_step(' + step_count + ') class="info-label fa fa-close red-bg" style="cursor: pointer;"></span>\n' +

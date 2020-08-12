@@ -219,10 +219,6 @@
         });
 
         $("#send").click(function() {
-            if ($("#hour", parent.document).val() === '') {
-                parent.alertify.error("灌溉时长不能为空");
-                return;
-            }
             if ($("#minute", parent.document).val() === '') {
                 parent.alertify.error("灌溉时长不能为空");
                 return;
@@ -238,7 +234,6 @@
             }
             $.post("/send.do", {
                 nozzle_ids: JSON.stringify(nozzle_ids),
-                hour: $("#hour", window.parent.document).val(),
                 minute: $("#minute", window.parent.document).val()
             }, function (result) {
                 if (result.success) {
