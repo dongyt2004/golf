@@ -201,9 +201,9 @@
                                     <div class="form-group">
                                         <label for="course">选择球场</label>
                                         <select class="form-control" id="course" name="course" onchange="change_course()">
-        {#courses}
+{#courses}
                                             <option value="{id}">{name}</option>
-        {/courses}
+{/courses}
                                         </select>
                                     </div>
                                 </div>
