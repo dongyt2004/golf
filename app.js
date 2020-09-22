@@ -1,8 +1,6 @@
 require('dotenv').config({ path: './app.env' });
 process.env.TZ = "Asia/Shanghai";
 const http = require('http');
-// const https = require('https');
-// const fs = require('fs');
 const db = require('./db');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -54,7 +52,6 @@ const crc16 = require('crc').crc16modbus;
 //     return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
 // }
 // add_100_controlboxes();
-/** ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- **/
 /** --------------------------------------------------------------------------------- 计 算 crc16 ------------------------------------------------------------------------------------------ **/
 // console.log(left_pad(crc16('1|002|00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000|1|').toString(16), 4));
 /** ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- **/
@@ -92,13 +89,13 @@ log4js.configure({
                     }
                 }
             }
-        },
+        }/*,
         // 远程服务器统一存储
-        remote: {type: 'tcp', host: process.env.LOG_SERVER_HOST, port: process.env.LOG_SERVER_PORT}
+        remote: {type: 'tcp', host: process.env.LOG_SERVER_HOST, port: process.env.LOG_SERVER_PORT}*/
     },
     categories: {
         access: {appenders: ['access'], level: 'info'},
-        default: {appenders: ['local', 'remote'], level: 'debug'}  // 如果不是分布式，只file一个。如果多结点集群，则file，server两个。
+        default: {appenders: ['local'/*, 'remote'*/], level: 'debug'}  // 如果不是分布式，只file一个。如果多结点集群，则file，server两个。
     },
     pm2: true
 });
@@ -133,17 +130,87 @@ app.use(session({
         maxAge: 1800000
     }
 }));
-// 判断用户是否已登录
-app.use(['/*.html', '/*.do'], function (req, res, next) {
-    if (req.session.user) {
-        real_name = req.session.user['real_name'];
-        next();
-    } else if (req.originalUrl === '/login.do') {  // 是登录操作
-        next();
-    } else {
-        res.render('login');
-    }
+/** ------------------------------------------------------------------------------------- 启 动 时 调 度 的 作 业 ----------------------------------------------------------------------------------------------- **/
+// 向Cronicle添加定时转储2天前的job
+scheduler.getEvent({
+    title: process.env.CLUB_NAME + '-dump_job'
+}).catch(function() {  // 没有这个job，则创建
+    scheduler.createEvent({
+        title: process.env.CLUB_NAME + '-dump_job',
+        catch_up: 1,
+        enabled: 1,
+        category: 'general',
+        target: 'allgrp',
+        algo: 'round_robin',
+        plugin: 'urlplug',
+        params: {
+            method: 'get',
+            url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/dump_job',
+            success_match: '1',
+            error_match: '0'
+        },
+        retries: 3,
+        retry_delay: 30,
+        timing: {
+            "hours": [ 3 ],
+            "minutes": [ 0 ]
+        },
+        timezone: 'Asia/Shanghai'
+    }).then(function() {
+        console.log(process.env.CLUB_NAME + '中控启动时向Cronicle添加转储job的事件');
+    }).catch(function(err) {
+        console.log(err.code + ":" + err.message);
+        process.exit();
+    });
 });
+// 向Cronicle添加将来要调度的洒水计划
+db.exec("select * from plan where start_time>=?", [moment().format("YYYY-MM-DD HH:mm:ss")], function (plans) {
+    plans.forEach(function (plan, index, arr) {
+        scheduler.getEvent({
+            title: process.env.CLUB_NAME + "-plan" + plan.id
+        }).catch(function() {  // 没有这个job，则创建
+            scheduler.createEvent({
+                title: process.env.CLUB_NAME + "-plan" + plan.id,
+                catch_up: 1,
+                enabled: 1,
+                category: 'general',
+                target: 'allgrp',
+                algo: 'round_robin',
+                plugin: 'urlplug',
+                params: {
+                    method: 'post',
+                    url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/preprocess/' + plan.id,
+                    success_match: '1',
+                    error_match: '0'
+                },
+                retries: 3,
+                retry_delay: 30,
+                timing: getFutureTiming(moment(plan.start_time).subtract(10, 'seconds')),
+                timezone: 'Asia/Shanghai'
+            }).then(function() {
+                console.log(process.env.CLUB_NAME + "中控启动时向Cronicle添加洒水计划%s，调度时间%s", plan.id, moment(plan.start_time).format("YYYY-MM-DD HH:mm:ss"));
+            }).catch(function(err) {
+                console.log(err.code + ":" + err.message);
+                process.exit();
+            });
+        });
+    });
+});
+// 每分钟调度一次，查看分控箱是否正常
+setInterval(function() {
+    db.exec("select id,last_recv_time from controlbox", [], function (controlboxes) {
+        for(var i=0; i<controlboxes.length; i++) {
+            if (controlboxes[i].last_recv_time !== null) {
+                var diff = moment().diff(moment(controlboxes[i].last_recv_time), 'minute');
+                if (diff >= 5) {
+                    db.exec("update controlbox set use_state=0 where id=?", [controlboxes[i].id]);
+                } else {
+                    db.exec("update controlbox set use_state=1 where id=?", [controlboxes[i].id]);
+                }
+            }
+        }
+    });
+}, 60000);
 /** ------------------------------------------------------------------------------------- 订 阅 ----------------------------------------------------------------------------------------------- **/
 mqtt_client.on("message", function (topic, message) {
     var msg = message.toString();
@@ -170,17 +237,17 @@ mqtt_client.on("message", function (topic, message) {
                                 }
                             }
                         }
-                        console.log("[" + current_time + "] 分控箱报告状态的指令：" + msg);
+                        console.log("[" + current_time + "] " + process.env.CLUB_NAME + "分控箱报告状态的指令：" + msg);
                     });
                 });
             } else {
-                console.log("[" + current_time + "] 忽略本地控制指令：" + msg);
+                console.log("[" + current_time + "] " + process.env.CLUB_NAME + "中控忽略本地控制指令：" + msg);
             }
         } else if (commands[0] === process.env.COMMAND_REMOTE_OR_LOCAL_CONTROL_FEEDBACK) {
-            console.log("[" + current_time + "] 远程或本地控制命令的反馈命令nothing to do：" + msg);  ///////////////////
+            console.log("[" + current_time + "] " + process.env.CLUB_NAME + "远程或本地控制命令的反馈命令nothing to do：" + msg);  ///////////////////
         }
     } else {
-        console.log("[" + current_time + "] CRC16校验错误：" + msg);
+        console.log("[" + current_time + "] " + process.env.CLUB_NAME + "CRC16校验错误：" + msg);
     }
 });
 function check_crc(message) {
@@ -188,6 +255,18 @@ function check_crc(message) {
     var crc = message.substring(message.length - 4);
     return left_pad(crc16(str).toString(16), 4) === crc.toUpperCase();
 }
+/** ----------------------------------------------------------------------------- 所 有 API 的 开 始 ----------------------------------------------------------------------------------------------- **/
+// 判断用户是否已登录
+app.use(['/*.html', '/*.do'], function (req, res, next) {
+    if (req.session.user) {
+        real_name = req.session.user['real_name'];
+        next();
+    } else if (req.originalUrl === '/login.do') {  // 是登录操作
+        next();
+    } else {
+        res.render('login');
+    }
+});
 /** ----------------------------------------------------------------------------- 供 Cronicle HTTP Request 插 件 调 用 的 操 作 ----------------------------------------------------------------------------------------------- **/
 // 转储2天前的job的操作
 app.get("/dump_job", function (req, res) {
@@ -214,13 +293,13 @@ app.post("/preprocess/:plan_id", function (req, res) {
         eachAsync(steps, function(step, index, done) {
             var step_no = index + 1;
             scheduler.getEvent({
-                title: "plan" + req.params.plan_id + "-step" + step_no
+                title: process.env.CLUB_NAME + "-plan" + req.params.plan_id + "-step" + step_no
             }).then(function(data) { // 有这个job，则删除
                 scheduler.deleteEvent({
                     id: data.event.id
                 }).then(function() {
                     scheduler.createEvent({
-                        title: "plan" + req.params.plan_id + "-step" + step_no,
+                        title: process.env.CLUB_NAME + "-plan" + req.params.plan_id + "-step" + step_no,
                         catch_up: 1,
                         enabled: 1,
                         category: 'general',
@@ -249,7 +328,7 @@ app.post("/preprocess/:plan_id", function (req, res) {
                 });
             }).catch(function(err) {
                 scheduler.createEvent({
-                    title: "plan" + req.params.plan_id + "-step" + step_no,
+                    title: process.env.CLUB_NAME + "-plan" + req.params.plan_id + "-step" + step_no,
                     catch_up: 1,
                     enabled: 1,
                     category: 'general',
@@ -309,7 +388,7 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                     if (!err) {
-                        console.log("[" + start_time + "] 中控按洒水计划下发洒水指令：" + command);
+                        console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控按洒水计划下发洒水指令：" + command);
                         try {
                             db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
                         } catch (e) {
@@ -330,7 +409,7 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
         command = command + left_pad(crc16(command).toString(16), 4);
         mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
             if (!err) {
-                console.log("[" + start_time + "] 中控按洒水计划下发洒水指令：" + command);
+                console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控按洒水计划下发洒水指令：" + command);
                 try {
                     db.exec("insert into job(plan_id,nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function(results) {
                         res.end("1");
@@ -403,7 +482,7 @@ app.post("/stop_all.do", function (req, res) {
     command = command + left_pad(crc16(command).toString(16), 4);
     mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
         if (!err) {
-            console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] 中控下发全部停止指令：" + command);
+            console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控下发全部停止指令：" + command);
             res.json({success: true});
         } else {
             res.json({failure: true});
@@ -438,7 +517,7 @@ app.post("/send.do", function (req, res) {
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                     if (!err) {
-                        console.log("[" + start_time + "] 中控按手动灌溉下发洒水指令：" + command);
+                        console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控按手动灌溉下发洒水指令：" + command);
                         try {
                             db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
                         } catch (e) {
@@ -459,7 +538,7 @@ app.post("/send.do", function (req, res) {
         command = command + left_pad(crc16(command).toString(16), 4);
         mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
             if (!err) {
-                console.log("[" + start_time + "] 中控按手动灌溉下发洒水指令：" + command);
+                console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控按手动灌溉下发洒水指令：" + command);
                 try {
                     db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
                         res.json({success: true});
@@ -479,7 +558,7 @@ app.post("/cancel_all.do", function (req, res) {
         limit: 1000
     }).then(function (data) {  // 取出所有job
         eachAsync(data.rows, function(plan_or_step, index, done) {
-            if (plan_or_step.title !== 'dump_job') {
+            if (plan_or_step.title.indexOf(process.env.CLUB_NAME) === 0 && plan_or_step.title !== process.env.CLUB_NAME + '-dump_job') {
                 scheduler.deleteEvent({
                     id: plan_or_step.id
                 }).then(function() {
@@ -522,7 +601,7 @@ app.post("/save_plan.do", function (req, res) {
                 if (moment(plans[0].start_time).format("YYYY-MM-DD HH:mm:ss") !== start_times[i]) {  // 如果开始时间变了，修改开始时间
                     db.exec("update plan set start_time=? where id=?", [start_times[i], plan_id], function (results) {
                         scheduler.getEvent({
-                            title: "plan" + plan_id
+                            title: process.env.CLUB_NAME + "-plan" + plan_id
                         }).then(function(data) { // 有这个job，则修改
                             scheduler.updateEvent({
                                 id: data.event.id,
@@ -549,7 +628,7 @@ app.post("/save_plan.do", function (req, res) {
             db.exec("insert into plan(task_id,start_time) values(?,?)", [task_ids[i], start_times[i]], function (results) {
                 db.exec("select id from plan where task_id=? and start_time=?", [task_ids[i], start_times[i]], function (plans) {
                     scheduler.createEvent({
-                        title: "plan" + plans[0].id,
+                        title: process.env.CLUB_NAME + "-plan" + plans[0].id,
                         catch_up: 1,
                         enabled: 1,
                         category: 'general',
@@ -583,7 +662,7 @@ app.post("/save_plan.do", function (req, res) {
         // 删除已有计划
         eachAsync(delExistingPlanIds, function(delExistingPlanId, i, done) {
             scheduler.getEvent({
-                title: "plan" + delExistingPlanId
+                title: process.env.CLUB_NAME + "-plan" + delExistingPlanId
             }).then(function(data) { // 有这个job，则删除
                 scheduler.deleteEvent({
                     id: data.event.id
@@ -708,7 +787,7 @@ app.post("/remote_control.do", function (req, res) {
             command = command + left_pad(crc16(command).toString(16), 4);
             mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                 if (!err) {
-                    console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] 中控下发远程控制指令：" + command);
+                    console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控下发远程控制指令：" + command);
                     res.json({success: true});
                 } else {
                     res.json({failure: true});
@@ -727,7 +806,7 @@ app.post("/local_control.do", function (req, res) {
             command = command + left_pad(crc16(command).toString(16), 4);
             mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                 if (!err) {
-                    console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] 中控下发本地控制指令：" + command);
+                    console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控下发本地控制指令：" + command);
                     res.json({success: true});
                 } else {
                     res.json({failure: true});
@@ -842,7 +921,7 @@ app.post("/del_task.do", function (req, res) {
     db.exec("select distinct(id) from plan where task_id=?", [req.body.id], function (plans) {
         eachAsync(plans, function(plan, index, done) {
             scheduler.getEvent({
-                title: "plan" + plan.id
+                title: process.env.CLUB_NAME + "-plan" + plan.id
             }).then(function(data) { // 有这个job，则删除
                 scheduler.deleteEvent({
                     id: data.event.id
@@ -1716,16 +1795,11 @@ app.use(function (req, res) {
 
 var server = http.createServer(app);
 server.listen(process.env.SCHEDULED_SERVICE_PORT, '0.0.0.0');
-/*var credentials = {
-    key: fs.readFileSync(path.join(__dirname, 'ssl/privkey.pem')),
-    cert: fs.readFileSync(path.join(__dirname, 'ssl/cert.pem'))
-};
-var https_server = https.createServer(credentials, app);
-https_server.listen(process.env.HTTPS_SERVICE_PORT, '0.0.0.0');*/
+
 process.on('SIGINT', function() {
     log4js.shutdown(function() {
         mqtt_client.end();
-        console.log('%s 应用退出', moment().format("YYYY-MM-DD HH:mm:ss"));
+        console.log('%s " + process.env.CLUB_NAME + "中控停止运行', moment().format("YYYY-MM-DD HH:mm:ss"));
         process.exit();
     });
 });

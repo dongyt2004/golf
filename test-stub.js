@@ -27,9 +27,9 @@ db.exec("select distinct(no) from controlbox order by no", [], function (control
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_client.publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                     if (err) {
-                        console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] test-stub-" + controlbox_no + "号箱上送状态指令出错，连接broker失败");
+                        console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送状态指令出错，连接broker失败");
                     } else {
-                        console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] test-stub-" + controlbox_no + "号箱上送状态指令");
+                        console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送状态指令");
                     }
                 });
             }, 60000, controlbox_no, mqtt_client);  // 每分钟分控箱都要定时上送所有洒水站的状态
@@ -57,9 +57,9 @@ var myInterval = setInterval(function() {
                         command = command + left_pad(crc16(command).toString(16), 4);
                         mqtt_client.publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                             if (err) {
-                                console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] test-stub-" + controlbox_no + "号箱上送状态指令出错，连接broker失败");
+                                console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送状态指令出错，连接broker失败");
                             } else {
-                                console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] test-stub-" + controlbox_no + "号箱上送状态指令");
+                                console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送状态指令");
                             }
                         });
                     }, 60000, controlbox_no, mqtt_client);
@@ -83,7 +83,7 @@ var myInterval = setInterval(function() {
         }
         for(var i=0; i<del_nos.length; i++) {
             delete nozzle_state_dict[del_nos[i]];
-            console.log("删除了test-stub-" + del_nos[i] + "号箱");
+            console.log("删除了" + process.env.CLUB_NAME + del_nos[i] + "号箱");
         }
     });
 }, 600000);
@@ -112,9 +112,9 @@ function recv_msg(client_id, message) {
                             command = command + left_pad(crc16(command).toString(16), 4);
                             mqtt_clients[controlbox_no].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                                 if (err) {
-                                    console.log("[" + current_time + "] test-stub-" + controlbox_no + "号箱上送状态指令出错，连接broker失败");
+                                    console.log("[" + current_time + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送状态指令出错，连接broker失败");
                                 } else {
-                                    console.log("[" + current_time + "] test-stub-" + controlbox_no + "号箱洒完水上送状态");
+                                    console.log("[" + current_time + "] " + process.env.CLUB_NAME + controlbox_no + "号箱洒完水上送状态");
                                 }
                             });
                         }, parseInt(howlong[1], 16) * 1000, controlbox_no, nozzle_no);
@@ -131,14 +131,14 @@ function recv_msg(client_id, message) {
                     command = command + left_pad(crc16(command).toString(16), 4);
                     mqtt_clients[client_id].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                         if (err) {
-                            console.log("[" + current_time + "] test-stub-" + client_id + "号箱上送状态指令出错，连接broker失败");
+                            console.log("[" + current_time + "] " + process.env.CLUB_NAME + client_id + "号箱上送状态指令出错，连接broker失败");
                         } else {
-                            console.log("[" + current_time + "] test-stub-" + client_id + "号箱上收到洒水指令上送状态");
+                            console.log("[" + current_time + "] " + process.env.CLUB_NAME + client_id + "号箱上收到洒水指令后上送状态");
                         }
                     });
                 }
             } else {
-                console.log("[" + current_time + "] 包长度错误：" + msg);
+                console.log("[" + current_time + "] " + process.env.CLUB_NAME + "包长度错误：" + msg);
             }
         } else if (commands[0] === process.env.COMMAND_STOP) {  // 全部停止
             setTimeout(function(controlbox_no, mqtt_client) {
@@ -146,10 +146,10 @@ function recv_msg(client_id, message) {
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_client.publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                     if (err) {
-                        console.log("[" + current_time + "] test-stub-" + controlbox_no + "号箱上送状态指令出错，连接broker失败");
+                        console.log("[" + current_time + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送状态指令出错，连接broker失败");
                     } else {
                         nozzle_state_dict[controlbox_no] = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-                        console.log("[" + current_time + "] test-stub-" + controlbox_no + "号箱收到停止洒水指令上送状态");
+                        console.log("[" + current_time + "] " + process.env.CLUB_NAME + controlbox_no + "号箱收到停止洒水指令后上送状态");
                     }
                 });
             }, random(1, 200), client_id, mqtt_clients[client_id]);
@@ -160,15 +160,15 @@ function recv_msg(client_id, message) {
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_clients[controlbox_no].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
                     if (err) {
-                        console.log("[" + current_time + "] test-stub-" + controlbox_no + "号箱上送远程、本地反馈指令出错，连接broker失败");
+                        console.log("[" + current_time + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送远程、本地反馈指令出错，连接broker失败");
                     } else {
-                        console.log("[" + current_time + "] test-stub-" + controlbox_no + "号箱上送远程、本地反馈指令");
+                        console.log("[" + current_time + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送远程、本地反馈指令");
                     }
                 });
             }
         }
     } else {
-        console.log("[" + current_time + "] CRC16校验错误：" + msg);
+        console.log("[" + current_time + "] " + process.env.CLUB_NAME + "CRC16校验错误：" + msg);
     }
 }
 function check_crc(message) {
@@ -201,11 +201,11 @@ process.on('SIGINT', function() {
     }
     for(var i=0; i<del_nos.length; i++) {
         delete nozzle_state_dict[del_nos[i]];
-        console.log("删除了test-stub-" + del_nos[i] + "号箱");
+        console.log("删除了" + process.env.CLUB_NAME + del_nos[i] + "号箱");
     }
     interval_handles.clear();
     mqtt_clients.clear();
     nozzle_state_dict.clear();
-    console.log('%s 应用退出', moment().format("YYYY-MM-DD HH:mm:ss"));
+    console.log('%s ' + process.env.CLUB_NAME + "测试桩停止", moment().format("YYYY-MM-DD HH:mm:ss"));
     process.exit();
 });
