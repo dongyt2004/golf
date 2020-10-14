@@ -258,29 +258,35 @@ mqtt_client.on("message", function (topic, message) {
                     for(var i=0; i<commands[2].length; i=i+2) {
                         up_states[i/2 + 1] = parseInt(commands[2].substr(i, 2));
                     }
-                    db.exec("select a.id as id,a.no as no,a.use_state as use_state,a.state from nozzle a join controlbox b on a.controlbox_id=b.id and b.no=?", [controlbox_no], function (nozzles) {
-                        for(var i=0; i<nozzles.length; i++) {
-                            if (up_states[nozzles[i].no] !== nozzles[i].state) {
-                                if (up_states[nozzles[i].no] === 0) {
-                                    db.exec("select start_time, how_long from job where nozzle_id=? and start_time<? and end_time is null", [nozzles[i].id, current_time], function (jobs) {
+                    db.exec("select a.id as id,a.no as no,a.state from nozzle a join controlbox b on a.controlbox_id=b.id and b.no=?", [controlbox_no], function (nozzles) {
+                        eachAsync(nozzles, function(nozzle, index, done) {
+                            if (up_states[nozzle.no] !== nozzle.state) {
+                                if (up_states[nozzle.no] === 0) {
+                                    db.exec("select start_time, how_long from job where nozzle_id=? and start_time<? and end_time is null", [nozzle.id, current_time], function (jobs) {
                                         if (jobs.length > 0) {
                                             var remain_time = jobs[0].how_long - moment().diff(moment(jobs[0].start_time), 'second');
                                             if (remain_time > 0) {  // 提前结束
-                                                db.exec("update nozzle set state=0, remain_time=? where id=?", [remain_time, nozzles[i].id]);
+                                                db.exec("update nozzle set state=0, remain_time=? where id=?", [remain_time, nozzle.id]);
                                             } else {
-                                                db.exec("update nozzle set state=0, remain_time=null where id=?", [nozzles[i].id]);
+                                                db.exec("update nozzle set state=0, remain_time=null where id=?", [nozzle.id]);
                                             }
-                                            db.exec("update job set end_time=? where nozzle_id=? and start_time<? and end_time is null", [current_time, nozzles[i].id, current_time]);
+                                            db.exec("update job set end_time=? where nozzle_id=? and start_time<? and end_time is null", [current_time, nozzle.id, current_time]);
+                                            done();
                                         } else {
-                                            db.exec("update nozzle set state=0, remain_time=null where id=?", [nozzles[i].id]);
+                                            db.exec("update nozzle set state=0, remain_time=null where id=?", [nozzle.id]);
+                                            done();
                                         }
                                     });
                                 } else {
-                                    db.exec("update nozzle set state=1,use_state=1,remain_time=null where id=?", [nozzles[i].id]);
+                                    db.exec("update nozzle set state=1,use_state=1,remain_time=null where id=?", [nozzle.id]);
+                                    done();
                                 }
+                            } else {
+                                done();
                             }
-                        }
-                        console.log("[" + current_time + "] " + process.env.CLUB_NAME + "分控箱报告状态的指令：" + msg);
+                        }, function() {
+                            console.log("[" + current_time + "] " + process.env.CLUB_NAME + "分控箱报告状态的指令：" + msg);
+                        });
                     });
                 });
             } else {
@@ -330,31 +336,41 @@ app.get("/dump_plan", function (req, res) {
     db.exec("select end_date from plan_end_date", [], function (results) {
         if (results.length === 0 || results[0].end_date === null) {
             db.exec("select id from plan where start_time<=?", [time], function (dump_plans) {
-                for(var i=0; i < dump_plans.length; i++) {
-                    scheduler.deleteEvent({
-                        id: dump_plans[i].id
-                    }).then(function() {
+                eachAsync(dump_plans, function(dump_plan, index, done) {
+                    scheduler.getEvent({
+                        title: process.env.CLUB_NAME + "-plan" + dump_plan.id
+                    }).then(function(data) { // 有这个job，则删除
+                        scheduler.deleteEvent({
+                            id: data.event.id
+                        }).then(function() {
+                            done();
+                        }).catch(function(err) {
+                            console.log(err.code + ":" + err.message);
+                            done(err.code + ":" + err.message);
+                        });
                     }).catch(function(err) {
-                        console.log(err.code + ":" + err.message);
+                        done();
                     });
-                }
-                db.exec("insert into plan_dump select * from plan where start_time<=?", [time], function (results) {
-                    db.exec("delete from plan where start_time<=?", [time], function (r) {
-                        if (logger.isInfoEnabled()) {
-                            logger.addContext('real_name', real_name);
-                            logger.info("每天一次，转储%s之前的plan", time);
-                        }
-                        res.end("1");
+                }, function() {
+                    db.exec("insert into plan_dump select * from plan where start_time<=?", [time], function (results) {
+                        db.exec("delete from plan where start_time<=?", [time], function (r) {
+                            if (logger.isInfoEnabled()) {
+                                logger.addContext('real_name', real_name);
+                                logger.info("每天一次，转储%s之前的plan", time);
+                            }
+                            res.end("1");
+                        });
                     });
                 });
             });
         } else {
             db.exec("select * from plan where start_time<=?", [time], function (dump_plans) {
-                for(var i=0; i < dump_plans.length; i++) {
-                    var next_time = moment(dump_plans[i].start_time).add(7, 'days');
+                eachAsync(dump_plans, function(dump_plan, index, done) {
+                    var next_time = moment(dump_plan.start_time).add(7, 'days');
                     if (next_time.isBefore(moment(results[0].end_date))) {
-                        db.exec("insert into plan(task_id, start_time) values(?,?)", [dump_plans[i].task_id, next_time], function (results) {
-                            db.exec("select id from plan where task_id=? and start_time=?", [dump_plans[i].task_id, next_time], function (plans) {
+                        var t = next_time.format("YYYY-MM-DD HH:mm:ss");
+                        db.exec("insert into plan(task_id, start_time) values(?,?)", [dump_plan.task_id, t], function (results) {
+                            db.exec("select id from plan where task_id=? and start_time=?", [dump_plan.task_id, t], function (plans) {
                                 scheduler.createEvent({
                                     title: process.env.CLUB_NAME + "-plan" + plans[0].id,
                                     catch_up: 1,
@@ -374,29 +390,41 @@ app.get("/dump_plan", function (req, res) {
                                     timing: getFutureTiming(moment(next_time).subtract(10, 'seconds')),
                                     timezone: 'Asia/Shanghai'
                                 }).then(function() {
+                                    done();
                                 }).catch(function(err) {
                                     console.log(err.code + ":" + err.message);
+                                    done(err.code + ":" + err.message);
                                 });
                             });
                         });
+                    } else {
+                        done();
                     }
-                }
-                db.exec("select id from plan where start_time<=?", [time], function (dump_plans) {
-                    for(var i=0; i < dump_plans.length; i++) {
-                        scheduler.deleteEvent({
-                            id: dump_plans[i].id
-                        }).then(function() {
+                }, function() {
+                    eachAsync(dump_plans, function(dump_plan, index, done) {
+                        scheduler.getEvent({
+                            title: process.env.CLUB_NAME + "-plan" + dump_plan.id
+                        }).then(function(data) { // 有这个job，则删除
+                            scheduler.deleteEvent({
+                                id: data.event.id
+                            }).then(function() {
+                                done();
+                            }).catch(function(err) {
+                                console.log(err.code + ":" + err.message);
+                                done(err.code + ":" + err.message);
+                            });
                         }).catch(function(err) {
-                            console.log(err.code + ":" + err.message);
+                            done();
                         });
-                    }
-                    db.exec("insert into plan_dump select * from plan where start_time<=?", [time], function (results) {
-                        db.exec("delete from plan where start_time<=?", [time], function (r) {
-                            if (logger.isInfoEnabled()) {
-                                logger.addContext('real_name', real_name);
-                                logger.info("每天一次，转储%s之前的plan", time);
-                            }
-                            res.end("1");
+                    }, function() {
+                        db.exec("insert into plan_dump select * from plan where start_time<=?", [time], function (results) {
+                            db.exec("delete from plan where start_time<=?", [time], function (r) {
+                                if (logger.isInfoEnabled()) {
+                                    logger.addContext('real_name', real_name);
+                                    logger.info("每天一次，转储%s之前的plan", time);
+                                }
+                                res.end("1");
+                            });
                         });
                     });
                 });
