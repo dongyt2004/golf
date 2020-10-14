@@ -155,8 +155,13 @@
         }, function (result) {
             if (result.success) {
                 alertify.success("开启成功，洒水站开始喷灌");
-                for(var i=0; i<nozzleNodes.length; i++){
-                    nozzleNodes[i].name = nozzleNodes[i].name + "[正在洒水]";
+                for(var i=0; i<nozzleNodes.length; i++) {
+                    var idx = nozzleNodes[i].name.indexOf('(提前');
+                    if (idx >= 0) {
+                        nozzleNodes[i].name = nozzleNodes[i].name.substring(0, idx) + "[正在洒水]";
+                    } else {
+                        nozzleNodes[i].name = nozzleNodes[i].name + "[正在洒水]";
+                    }
                     $.fn.zTree.getZTreeObj("nozzletree").updateNode(nozzleNodes[i]);
                 }
                 infoWindow.redraw();

@@ -250,8 +250,9 @@
             parent.alertify.error("有步骤尚未添加洒水站");
             return false;
         }
-        var steps = [];
+        var steps_obj = {};
         $(".timeline-row").each(function () {
+            var step_index = $(this).attr('id').split('_')[1];
             var step = {s: parseInt($(this).find("input.minute").first().val()) * 60, n: ""};
             $(this).find('.list-group a').each(function () {
                 step['n'] += parseInt($(this).attr('id').slice(1)) + ",";
@@ -259,7 +260,11 @@
             if (step['n'].length > 0) {
                 step['n'] = step['n'].substr(0, step['n'].length - 1);
             }
-            steps.push(step);
+            steps_obj[step_index] = step;
+        });
+        var steps = [];
+        Object.keys(steps_obj).sort().forEach(function(key) {
+            steps.push(steps_obj[key]);
         });
         return JSON.stringify(steps);
     }

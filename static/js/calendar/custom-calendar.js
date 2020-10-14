@@ -40,7 +40,7 @@ $(function () {
         },
         locale: 'zh-cn',
         firstDay: new Date().getDay(),
-        titleFormat: '制定未来一周洒水计划',
+        titleFormat: '制定一周洒水计划',
         allDaySlot: false,
         slotDuration:'00:30:00',
         header: {

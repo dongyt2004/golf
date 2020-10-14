@@ -14,7 +14,7 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 var qos = 0, clean = true;
 const mqtt = require('mqtt');
-const mqtt_client  = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER, clean: clean});
+const mqtt_client  = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER + "-svc", clean: clean});
 mqtt_client.on('connect', function () {
     mqtt_client.subscribe(process.env.MQTT_BOTTOMUP_TOPIC, {qos: qos});
 });
@@ -163,6 +163,38 @@ scheduler.getEvent({
         process.exit();
     });
 });
+// 向Cronicle添加定时转储3天前的plan
+scheduler.getEvent({
+    title: process.env.CLUB_NAME + '-dump_plan'
+}).catch(function() {  // 没有这个plan，则创建
+    scheduler.createEvent({
+        title: process.env.CLUB_NAME + '-dump_plan',
+        catch_up: 1,
+        enabled: 1,
+        category: 'general',
+        target: 'allgrp',
+        algo: 'round_robin',
+        plugin: 'urlplug',
+        params: {
+            method: 'get',
+            url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/dump_plan',
+            success_match: '1',
+            error_match: '0'
+        },
+        retries: 3,
+        retry_delay: 30,
+        timing: {
+            "hours": [ 3 ],
+            "minutes": [ 1 ]
+        },
+        timezone: 'Asia/Shanghai'
+    }).then(function() {
+        console.log(process.env.CLUB_NAME + '中控启动时向Cronicle添加转储plan的事件');
+    }).catch(function(err) {
+        console.log(err.code + ":" + err.message);
+        process.exit();
+    });
+});
 // 向Cronicle添加将来要调度的洒水计划
 db.exec("select * from plan where start_time>=?", [moment().format("YYYY-MM-DD HH:mm:ss")], function (plans) {
     plans.forEach(function (plan, index, arr) {
@@ -230,10 +262,21 @@ mqtt_client.on("message", function (topic, message) {
                         for(var i=0; i<nozzles.length; i++) {
                             if (up_states[nozzles[i].no] !== nozzles[i].state) {
                                 if (up_states[nozzles[i].no] === 0) {
-                                    db.exec("update nozzle set state=0 where id=?", [nozzles[i].id]);
-                                    db.exec("update job set end_time=? where nozzle_id=? and start_time<? and end_time is null", [current_time, nozzles[i].id, current_time]);
+                                    db.exec("select start_time, how_long from job where nozzle_id=? and start_time<? and end_time is null", [nozzles[i].id, current_time], function (jobs) {
+                                        if (jobs.length > 0) {
+                                            var remain_time = jobs[0].how_long - moment().diff(moment(jobs[0].start_time), 'second');
+                                            if (remain_time > 0) {  // 提前结束
+                                                db.exec("update nozzle set state=0, remain_time=? where id=?", [remain_time, nozzles[i].id]);
+                                            } else {
+                                                db.exec("update nozzle set state=0, remain_time=null where id=?", [nozzles[i].id]);
+                                            }
+                                            db.exec("update job set end_time=? where nozzle_id=? and start_time<? and end_time is null", [current_time, nozzles[i].id, current_time]);
+                                        } else {
+                                            db.exec("update nozzle set state=0, remain_time=null where id=?", [nozzles[i].id]);
+                                        }
+                                    });
                                 } else {
-                                    db.exec("update nozzle set state=1,use_state=1 where id=?", [nozzles[i].id]);
+                                    db.exec("update nozzle set state=1,use_state=1,remain_time=null where id=?", [nozzles[i].id]);
                                 }
                             }
                         }
@@ -279,6 +322,86 @@ app.get("/dump_job", function (req, res) {
             }
             res.end("1");
         });
+    });
+});
+// 转储3天前的plan的操作
+app.get("/dump_plan", function (req, res) {
+    var time = moment().subtract(3, 'days').format("YYYY-MM-DD HH:mm:ss");
+    db.exec("select end_date from plan_end_date", [], function (results) {
+        if (results.length === 0 || results[0].end_date === null) {
+            db.exec("select id from plan where start_time<=?", [time], function (dump_plans) {
+                for(var i=0; i < dump_plans.length; i++) {
+                    scheduler.deleteEvent({
+                        id: dump_plans[i].id
+                    }).then(function() {
+                    }).catch(function(err) {
+                        console.log(err.code + ":" + err.message);
+                    });
+                }
+                db.exec("insert into plan_dump select * from plan where start_time<=?", [time], function (results) {
+                    db.exec("delete from plan where start_time<=?", [time], function (r) {
+                        if (logger.isInfoEnabled()) {
+                            logger.addContext('real_name', real_name);
+                            logger.info("每天一次，转储%s之前的plan", time);
+                        }
+                        res.end("1");
+                    });
+                });
+            });
+        } else {
+            db.exec("select * from plan where start_time<=?", [time], function (dump_plans) {
+                for(var i=0; i < dump_plans.length; i++) {
+                    var next_time = moment(dump_plans[i].start_time).add(7, 'days');
+                    if (next_time.isBefore(moment(results[0].end_date))) {
+                        db.exec("insert into plan(task_id, start_time) values(?,?)", [dump_plans[i].task_id, next_time], function (results) {
+                            db.exec("select id from plan where task_id=? and start_time=?", [dump_plans[i].task_id, next_time], function (plans) {
+                                scheduler.createEvent({
+                                    title: process.env.CLUB_NAME + "-plan" + plans[0].id,
+                                    catch_up: 1,
+                                    enabled: 1,
+                                    category: 'general',
+                                    target: 'allgrp',
+                                    algo: 'round_robin',
+                                    plugin: 'urlplug',
+                                    params: {
+                                        method: 'post',
+                                        url: 'http://' + process.env.SCHEDULED_SERVICE_ID + ":" + process.env.SCHEDULED_SERVICE_PORT + '/preprocess/' + plans[0].id,
+                                        success_match: '1',
+                                        error_match: '0'
+                                    },
+                                    retries: 3,
+                                    retry_delay: 30,
+                                    timing: getFutureTiming(moment(next_time).subtract(10, 'seconds')),
+                                    timezone: 'Asia/Shanghai'
+                                }).then(function() {
+                                }).catch(function(err) {
+                                    console.log(err.code + ":" + err.message);
+                                });
+                            });
+                        });
+                    }
+                }
+                db.exec("select id from plan where start_time<=?", [time], function (dump_plans) {
+                    for(var i=0; i < dump_plans.length; i++) {
+                        scheduler.deleteEvent({
+                            id: dump_plans[i].id
+                        }).then(function() {
+                        }).catch(function(err) {
+                            console.log(err.code + ":" + err.message);
+                        });
+                    }
+                    db.exec("insert into plan_dump select * from plan where start_time<=?", [time], function (results) {
+                        db.exec("delete from plan where start_time<=?", [time], function (r) {
+                            if (logger.isInfoEnabled()) {
+                                logger.addContext('real_name', real_name);
+                                logger.info("每天一次，转储%s之前的plan", time);
+                            }
+                            res.end("1");
+                        });
+                    });
+                });
+            });
+        }
     });
 });
 // 洒水计划预处理操作
@@ -555,10 +678,10 @@ app.post("/send.do", function (req, res) {
 // 取消所有洒水计划的操作（删除Cronicle中除了dump_job以外的所有事件）
 app.post("/cancel_all.do", function (req, res) {
     scheduler.getSchedule({
-        limit: 1000
+        limit: 9999
     }).then(function (data) {  // 取出所有job
         eachAsync(data.rows, function(plan_or_step, index, done) {
-            if (plan_or_step.title.indexOf(process.env.CLUB_NAME) === 0 && plan_or_step.title !== process.env.CLUB_NAME + '-dump_job') {
+            if (plan_or_step.title.indexOf(process.env.CLUB_NAME) === 0 && plan_or_step.title !== process.env.CLUB_NAME + '-dump_job' && plan_or_step.title !== process.env.CLUB_NAME + '-dump_plan') {
                 scheduler.deleteEvent({
                     id: plan_or_step.id
                 }).then(function() {
@@ -576,11 +699,13 @@ app.post("/cancel_all.do", function (req, res) {
             }
         }, function() {
             db.exec("delete from plan", [], function (results) {
-                if (logger.isInfoEnabled()) {
-                    logger.addContext('real_name', real_name);
-                    logger.info("%s于%s取消所有洒水计划", req.session.user.name, moment().format("YYYY-MM-DD HH:mm:ss"));
-                }
-                res.json({success: true});
+                db.exec("delete from plan_end_date", [], function (results) {
+                    if (logger.isInfoEnabled()) {
+                        logger.addContext('real_name', real_name);
+                        logger.info("%s于%s取消所有洒水计划", req.session.user.name, moment().format("YYYY-MM-DD HH:mm:ss"));
+                    }
+                    res.json({success: true});
+                });
             });
         });
     }).catch(function(err) {
@@ -594,6 +719,11 @@ app.post("/save_plan.do", function (req, res) {
     var task_ids = JSON.parse(req.body.task_ids);
     var start_times = JSON.parse(req.body.start_times);
     var delExistingPlanIds = JSON.parse(req.body.delExistingPlanIds);
+    var end_date = req.body.end_date;
+
+    db.exec("delete from plan_end_date", [], function (results) {
+        db.exec("insert into plan_end_date(end_date) values(?)", [end_date]);
+    });
 
     eachAsync(plan_ids, function(plan_id, i, done) {
         if (plan_id.indexOf('-') < 0) {  // 已有该计划
@@ -1092,6 +1222,214 @@ app.post("/pos.do", function (req, res) {
         res.json({success: true});
     });
 });
+/** ------------------------------------------------------------------------------------------ 从 微 信 小  程 序 云 函 数 请 求 ---------------------------------------------------------------------------------------------- **/
+// 验证openid
+app.post("/auth_openid", function (req, res) {
+    db.exec("select id, name, real_name from user where openid=?", [req.query.openid], function (users) {
+        if (users.length > 0) {
+            db.exec("update user set login_time=?, from_ip='wxmp' where id=?", [moment().format("YYYY-MM-DD HH:mm:ss"), users[0].id], function () {
+                if (logger.isInfoEnabled()) {
+                    logger.addContext('real_name', users[0].real_name);
+                    logger.info("%s于%s登录系统", users[0].name, moment().format("YYYY-MM-DD HH:mm:ss"));
+                }
+                res.json({success: true});
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 初始化地图，供微信小程序使用
+app.post("/controlbox_pos", function (req, res) {
+    db.exec("select * from user where openid=?", [req.query.openid], function (users) {
+        if (users.length > 0) {
+            db.exec("select * from controlbox order by id", [], function (controlboxes) {
+                var adj_controlboxes = [];
+                var near_controlboxes = [];
+                var far_controlboxes = [];
+                var nozzleNodes = [];
+                var lon = parseFloat(req.query.lon);
+                var lat = parseFloat(req.query.lat);
+                var where = "";
+                var controlbox_lon = 0, controlbox_lat = 0;
+                var once = true;
+                for(var i=0; i<controlboxes.length; i++) {
+                    if (controlboxes[i].lon !== null) {
+                        var d = distance(lon, lat, controlboxes[i].lon, controlboxes[i].lat);
+                        if (d <= process.env.ADJACENT_DISTANCE) {
+                            adj_controlboxes.push(controlboxes[i]);
+                        } else if (d <= process.env.NEAR_DISTANCE) {
+                            near_controlboxes.push(controlboxes[i]);
+                        } else {
+                            far_controlboxes.push(controlboxes[i]);
+                        }
+                        if (controlboxes[i].use_state === 1) {
+                            controlboxes[i].fullname = controlboxes[i].no + "：" + controlboxes[i].name;
+                        } else {
+                            controlboxes[i].fullname = controlboxes[i].no + "：" + controlboxes[i].name + "[断网]";
+                        }
+                        nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].fullname,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
+                        where += "b.id=" + controlboxes[i].id + " or ";
+                        if (once) {
+                            controlbox_lon = controlboxes[i].lon;
+                            controlbox_lat = controlboxes[i].lat;
+                            once = false;
+                        }
+                        if (req.query.id === "" + controlboxes[i].id) {
+                            controlbox_lon = controlboxes[i].lon;
+                            controlbox_lat = controlboxes[i].lat;
+                        }
+                    }
+                }
+                where += "1=0";
+                db.exec("select a.*,b.no as controlbox_no from nozzle a join controlbox b on a.controlbox_id=b.id where (" + where + ") order by b.no, a.no", [], function (nozzles) {
+                    for(var i=0; i<nozzles.length; i++) {
+                        var str = "";
+                        if (nozzles[i].use_state === 0) {
+                            str = "[正在维修]";
+                        } else {
+                            if (nozzles[i].state === 1) {
+                                str = "[正在洒水]";
+                            }
+                        }
+                        var str2 = '';
+                        if (nozzles[i].remain_time !== null) {
+                            str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分暂停)";
+                        }
+                        nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
+                    }
+                    res.end(JSON.stringify({
+                        controlboxes: controlboxes,
+                        adj_controlboxes: adj_controlboxes,
+                        near_controlboxes: near_controlboxes,
+                        far_controlboxes: far_controlboxes,
+                        nozzleNodes: nozzleNodes,
+                        lon: lon,
+                        lat: lat,
+                        controlbox_lon: controlbox_lon,
+                        controlbox_lat: controlbox_lat,
+                        can_pos: users[0].can_pos,
+                        can_irrigate: users[0].can_irrigate
+                    }));
+                });
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 分控箱定位
+app.post("/pos", function (req, res) {
+    db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
+        if (ids.length > 0) {
+            db.exec("update controlbox set lon=?, lat=? where id=?", [req.body.lon, req.body.lat, req.body.id], function () {
+                res.json({success: true});
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 全部停止的操作
+app.post("/stop_all", function (req, res) {
+    db.exec("select id from user where openid=?", [req.query.openid], function (ids) {
+        if (ids.length > 0) {
+            var command = process.env.COMMAND_STOP + "|";
+            command = command + left_pad(crc16(command).toString(16), 4);
+            mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+                if (!err) {
+                    console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控下发全部停止指令：" + command);
+                    res.json({success: true});
+                } else {
+                    res.json({failure: true});
+                }
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 手动灌溉，实时发送指令的操作
+app.post("/send", function (req, res) {
+    db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
+        if (ids.length > 0) {
+            var howlong = parseInt(req.body.minute) * 60;  //秒
+            var nozzle_ids = JSON.parse(req.body.nozzle_ids);
+            var where = "";
+            for(var i=0; i<nozzle_ids.length; i++) {
+                where += "a.id=" + nozzle_ids[i] + " or ";
+            }
+            where += "1=0";
+            db.exec("select a.id as nozzle_id, b.no as controlbox_no, a.no as nozzle_no, c.moisture from nozzle a join controlbox b on a.controlbox_id=b.id left join turf c on a.turf_id=c.id where (" + where + ")", [], function (results) {
+                var commands = [], values = [];
+                var start_time = moment().format("YYYY-MM-DD HH:mm:ss");
+                for(var i=0; i<results.length; i++) {
+                    if (results[i].moisture === null) {
+                        results[i].moisture = 100;
+                    }
+                    var long = howlong * results[i].moisture / 100;
+                    commands.push(numeral(results[i].controlbox_no).format('000') + "-" + numeral(results[i].nozzle_no).format('00') + "," + left_pad(long.toString(16), 4));
+                    values.push("(" + results[i].nozzle_id + ",'" + results[i].controlbox_no + "-" + results[i].nozzle_no + "','" + start_time + "'," + long + ")");
+                }
+                var command = commands[0], value = values[0];
+                for(i=1; i<commands.length; i++) {
+                    if (i % process.env.COMMAND_BATCH_SIZE === 0) {
+                        command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
+                        command = format(command, numeral(command.length + 1 + 4).format('000'));
+                        command = command + left_pad(crc16(command).toString(16), 4);
+                        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+                            if (!err) {
+                                console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控按手动灌溉下发洒水指令：" + command);
+                                try {
+                                    db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
+                                } catch (e) {
+                                }
+                            } else {
+                                res.json({failure: true});
+                            }
+                        });
+                        command = commands[i];
+                        value = values[i];
+                    } else {
+                        command += ";" + commands[i];
+                        value += "," + values[i];
+                    }
+                }
+                command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
+                command = format(command, numeral(command.length + 1 + 4).format('000'));
+                command = command + left_pad(crc16(command).toString(16), 4);
+                mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+                    if (!err) {
+                        console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控按手动灌溉下发洒水指令：" + command);
+                        try {
+                            db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
+                                res.json({success: true});
+                            });
+                        } catch (e) {
+                            res.json({failure: true});
+                        }
+                    } else {
+                        res.json({failure: true});
+                    }
+                });
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 退出系统
+app.post("/logout", function (req, res) {
+    db.exec("select id from user where openid=?", [req.query.openid], function (ids) {
+        if (ids.length > 0) {
+            db.exec("update user set logout_time=? where openid=?", [moment().format("YYYY-MM-DD HH:mm:ss"), req.query.openid], function () {
+                res.json({success: true});
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
 /** ------------------------------------------------------------------------------------------ 从 网 页 请 求 ---------------------------------------------------------------------------------------------- **/
 // 打开登录页面，也是index首页
 app.get("/", function (req, res) {
@@ -1296,7 +1634,11 @@ app.get("/manual_controlbox.html", function (req, res) {
                             str = "[正在洒水]";
                         }
                     }
-                    nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
+                    var str2 = '';
+                    if (nozzles[i].remain_time !== null) {
+                        str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分暂停)";
+                    }
+                    nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
                 }
                 res.render('manual_controlbox', {
                     nozzleNodes: nozzleNodes
@@ -1336,7 +1678,11 @@ app.get("/manual_area.html", function (req, res) {
                                 str = "[正在洒水]";
                             }
                         }
-                        nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].area_id + "-" + nozzles[i].hole,icon:"/img/喷头.png"});
+                        var str2 = '';
+                        if (nozzles[i].remain_time !== null) {
+                            str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分暂停)";
+                        }
+                        nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].area_id + "-" + nozzles[i].hole,icon:"/img/喷头.png"});
                     }
                     res.render('manual_area', {
                         nozzleNodes: nozzleNodes
@@ -1373,10 +1719,26 @@ app.get("/plan.html", function (req, res) {
                     }
                 }
             }
-            res.render('plan', {
-                tasks: tasks,
-                plans: plans,
-                user: req.session.user
+            db.exec("select end_date from plan_end_date", [], function (results) {
+                if (results.length > 0) {
+                    res.render('plan', {
+                        tasks: tasks,
+                        plans: plans,
+                        end_date: {
+                            value: results[0].end_date
+                        },
+                        user: req.session.user
+                    });
+                } else {
+                    res.render('plan', {
+                        tasks: tasks,
+                        plans: plans,
+                        end_date: {
+                            value: ''
+                        },
+                        user: req.session.user
+                    });
+                }
             });
         });
     });
@@ -1758,7 +2120,11 @@ app.get("/gps_control.html", function (req, res) {
                             str = "[正在洒水]";
                         }
                     }
-                    nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
+                    var str2 = '';
+                    if (nozzles[i].remain_time !== null) {
+                        str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分暂停)";
+                    }
+                    nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
                 }
                 res.render('gps_control', {
                     controlboxes: controlboxes,
