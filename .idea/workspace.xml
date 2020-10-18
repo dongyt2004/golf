@@ -2,12 +2,118 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="7th commit - 2020.08.12">
+      <change afterPath="$PROJECT_DIR$/log/access.2020-09-21.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/log/app.2020-09-21.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/code/cache/04282608eaa32a30b0275fb0a080fb8b067b5e89" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/code/cache/13d0bb4ff069e30016e8f6eefbd49d3e47b46292" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/code/cache/1753e5c68029a58626a751edff15eb0661ce7b67" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/code/cache/23b56cfa53c430d76994327503b9175db49cc85a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/code/cache/27878197665ce50bc65c02a34a5a95b7f64e570d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/code/cache/407cde6a2a4455cb6a5bce099a76f7f6426db625" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/code/cache/68baf5aebeb502dbc69c7600c086f5cd7fcdfff8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/code/cache/a1d50fdf965d25eaed5ccc60db0890237031b53b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/code/cache/fd39e2ccf0e54e349e8a4976750c50e6aa610b48" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/semanticDiagnostics/cache/04282608eaa32a30b0275fb0a080fb8b067b5e89" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/semanticDiagnostics/cache/13d0bb4ff069e30016e8f6eefbd49d3e47b46292" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/semanticDiagnostics/cache/1753e5c68029a58626a751edff15eb0661ce7b67" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/semanticDiagnostics/cache/23b56cfa53c430d76994327503b9175db49cc85a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/semanticDiagnostics/cache/27878197665ce50bc65c02a34a5a95b7f64e570d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/semanticDiagnostics/cache/407cde6a2a4455cb6a5bce099a76f7f6426db625" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/semanticDiagnostics/cache/68baf5aebeb502dbc69c7600c086f5cd7fcdfff8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/semanticDiagnostics/cache/a1d50fdf965d25eaed5ccc60db0890237031b53b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/semanticDiagnostics/cache/fd39e2ccf0e54e349e8a4976750c50e6aa610b48" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/syntacticDiagnostics/cache/04282608eaa32a30b0275fb0a080fb8b067b5e89" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/syntacticDiagnostics/cache/13d0bb4ff069e30016e8f6eefbd49d3e47b46292" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/syntacticDiagnostics/cache/1753e5c68029a58626a751edff15eb0661ce7b67" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/syntacticDiagnostics/cache/23b56cfa53c430d76994327503b9175db49cc85a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/syntacticDiagnostics/cache/27878197665ce50bc65c02a34a5a95b7f64e570d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/syntacticDiagnostics/cache/407cde6a2a4455cb6a5bce099a76f7f6426db625" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/syntacticDiagnostics/cache/68baf5aebeb502dbc69c7600c086f5cd7fcdfff8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/syntacticDiagnostics/cache/a1d50fdf965d25eaed5ccc60db0890237031b53b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/syntacticDiagnostics/cache/fd39e2ccf0e54e349e8a4976750c50e6aa610b48" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/types/cache/0f7d7344d747474361e90e285d04849d6940bd54" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/types/cache/a6365e7888b88e47c1c8d9e0c738b2910a72c9ba" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_841ff98943947f9d523e11294712e5cd10d5883e/types/cache/ea647ce2b509907b2c1644d462c8d8820b9824db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/code/cache/04282608eaa32a30b0275fb0a080fb8b067b5e89" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/code/cache/13d0bb4ff069e30016e8f6eefbd49d3e47b46292" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/code/cache/1753e5c68029a58626a751edff15eb0661ce7b67" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/code/cache/23b56cfa53c430d76994327503b9175db49cc85a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/code/cache/27878197665ce50bc65c02a34a5a95b7f64e570d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/code/cache/407cde6a2a4455cb6a5bce099a76f7f6426db625" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/code/cache/68baf5aebeb502dbc69c7600c086f5cd7fcdfff8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/code/cache/a1d50fdf965d25eaed5ccc60db0890237031b53b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/code/cache/fd39e2ccf0e54e349e8a4976750c50e6aa610b48" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/semanticDiagnostics/cache/04282608eaa32a30b0275fb0a080fb8b067b5e89" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/semanticDiagnostics/cache/13d0bb4ff069e30016e8f6eefbd49d3e47b46292" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/semanticDiagnostics/cache/1753e5c68029a58626a751edff15eb0661ce7b67" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/semanticDiagnostics/cache/23b56cfa53c430d76994327503b9175db49cc85a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/semanticDiagnostics/cache/27878197665ce50bc65c02a34a5a95b7f64e570d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/semanticDiagnostics/cache/407cde6a2a4455cb6a5bce099a76f7f6426db625" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/semanticDiagnostics/cache/68baf5aebeb502dbc69c7600c086f5cd7fcdfff8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/semanticDiagnostics/cache/a1d50fdf965d25eaed5ccc60db0890237031b53b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/semanticDiagnostics/cache/fd39e2ccf0e54e349e8a4976750c50e6aa610b48" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/syntacticDiagnostics/cache/04282608eaa32a30b0275fb0a080fb8b067b5e89" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/syntacticDiagnostics/cache/13d0bb4ff069e30016e8f6eefbd49d3e47b46292" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/syntacticDiagnostics/cache/1753e5c68029a58626a751edff15eb0661ce7b67" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/syntacticDiagnostics/cache/23b56cfa53c430d76994327503b9175db49cc85a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/syntacticDiagnostics/cache/27878197665ce50bc65c02a34a5a95b7f64e570d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/syntacticDiagnostics/cache/407cde6a2a4455cb6a5bce099a76f7f6426db625" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/syntacticDiagnostics/cache/68baf5aebeb502dbc69c7600c086f5cd7fcdfff8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/syntacticDiagnostics/cache/a1d50fdf965d25eaed5ccc60db0890237031b53b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/syntacticDiagnostics/cache/fd39e2ccf0e54e349e8a4976750c50e6aa610b48" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/types/cache/0f7d7344d747474361e90e285d04849d6940bd54" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/types/cache/295a519cd9af1517a6899cd590824a28bc79d2bf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/types/cache/a6365e7888b88e47c1c8d9e0c738b2910a72c9ba" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.tmp/.rpt2_cache/rpt2_f6531b75299b4e116747018eef229b7e376b225a/types/cache/ea647ce2b509907b2c1644d462c8d8820b9824db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/.travis.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/crs.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/gcoord.esm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/gcoord.esm.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/gcoord.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/gcoord.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/constants.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/crs/BD09.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/crs/BD09MC.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/crs/EPSG3857.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/crs/GCJ02.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/crs/WGS84.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/crs/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/geojson.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/helper.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/index.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/dist/types/transform.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/jest.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/rollup.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/crs/BD09.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/crs/BD09MC.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/crs/EPSG3857.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/crs/GCJ02.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/crs/WGS84.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/crs/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/geojson.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/helper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/src/transform.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/fixtures/china-cities.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/fixtures/each.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/helpers/geojson.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/unit/crs/BD09.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/unit/crs/BD09MC.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/unit/crs/EPSG3857.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/unit/crs/GCJ02.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/unit/crs/WGS84.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/unit/helper.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/test/unit/transform.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/gcoord/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../golf-schedule/app.env" beforeDir="false" afterPath="$PROJECT_DIR$/../golf-schedule/app.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.env" beforeDir="false" afterPath="$PROJECT_DIR$/app.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-stub.env" beforeDir="false" afterPath="$PROJECT_DIR$/test-stub.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/plan.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/plan.dust" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,6 +182,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.1.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
@@ -95,7 +202,7 @@
       <recent name="E:\works\node\golf\view\m" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.test-stub.js">
+  <component name="RunManager" selected="Node.js.app.js (2)">
     <configuration name="app.js (1)" type="NodeJSConfigurationType" temporary="true" path-to-js-file="app.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
@@ -123,8 +230,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Node.js.test-stub.js" />
         <item itemvalue="Node.js.app.js (2)" />
+        <item itemvalue="Node.js.test-stub.js" />
         <item itemvalue="Node.js.logserver.js" />
         <item itemvalue="Node.js.app.js (4)" />
         <item itemvalue="Node.js.app.js (1)" />
@@ -331,14 +438,10 @@
       <workItem from="1602505104299" duration="221000" />
       <workItem from="1602507628730" duration="1509000" />
       <workItem from="1602509208714" duration="987000" />
-      <workItem from="1602568091145" duration="52252000" />
-    </task>
-    <task id="LOCAL-00115" summary="5th commit">
-      <created>1592906399306</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1592906399306</updated>
+      <workItem from="1602568091145" duration="53577000" />
+      <workItem from="1602936387458" duration="17000" />
+      <workItem from="1602936934354" duration="114000" />
+      <workItem from="1602988288925" duration="8914000" />
     </task>
     <task id="LOCAL-00116" summary="5th commit">
       <created>1592906470015</created>
@@ -676,7 +779,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602663626190</updated>
     </task>
-    <option name="localTasksCounter" value="164" />
+    <task id="LOCAL-00164" summary="7th commit - 2020.08.12">
+      <created>1602686842433</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1602686842433</updated>
+    </task>
+    <option name="localTasksCounter" value="165" />
     <servers />
   </component>
   <component name="TodoView">
@@ -737,10 +847,10 @@
     <MESSAGE value="4rd commit" />
     <MESSAGE value="5th commit" />
     <MESSAGE value="6th commit - 2020.07.24" />
-    <MESSAGE value="7th commit - 2020.08.12" />
     <MESSAGE value="8th commit - 2020.09.22" />
     <MESSAGE value="8th commit - 2020.10.14" />
-    <option name="LAST_COMMIT_MESSAGE" value="8th commit - 2020.10.14" />
+    <MESSAGE value="7th commit - 2020.08.12" />
+    <option name="LAST_COMMIT_MESSAGE" value="7th commit - 2020.08.12" />
   </component>
   <component name="WindowStateProjectService">
     <state x="561" y="270" key="#Scopes" timestamp="1600591888144">
@@ -755,10 +865,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="117" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1600590870663" />
-    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1602663625511">
+    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1602686841932">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1602663625511" />
+    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1602686841932" />
     <state x="626" y="158" key="EnvironmentVariablesDialog" timestamp="1600590897318">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -767,22 +877,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1600654440369" />
-    <state width="1515" height="531" key="GridCell.Tab.0.bottom" timestamp="1600789370547">
+    <state width="1515" height="170" key="GridCell.Tab.0.bottom" timestamp="1603002447042">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="531" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1600789370547" />
-    <state width="1515" height="531" key="GridCell.Tab.0.center" timestamp="1600789370547">
+    <state width="1515" height="170" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603002447042" />
+    <state width="1515" height="170" key="GridCell.Tab.0.center" timestamp="1603002447042">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="531" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1600789370547" />
-    <state width="1515" height="531" key="GridCell.Tab.0.left" timestamp="1600789370547">
+    <state width="1515" height="170" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1603002447042" />
+    <state width="1515" height="170" key="GridCell.Tab.0.left" timestamp="1603002447042">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="531" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1600789370547" />
-    <state width="1515" height="531" key="GridCell.Tab.0.right" timestamp="1600789370547">
+    <state width="1515" height="170" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1603002447042" />
+    <state width="1515" height="170" key="GridCell.Tab.0.right" timestamp="1603002447042">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="531" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1600789370547" />
+    <state width="1515" height="170" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1603002447042" />
     <state width="1515" height="531" key="GridCell.Tab.1.bottom" timestamp="1600789370548">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -835,10 +945,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="270" y="56" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1600654475291" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1602663637043">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1602686844386">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1602663637043" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1602686844386" />
     <state x="313" y="141" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1597214168435">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

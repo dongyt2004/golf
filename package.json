@@ -48,6 +48,7 @@
     "crc": "3.8.0",
     "string-format": "2.0.0",
     "numeral": "2.0.6",
-    "image-size": "0.8.3"
+    "image-size": "0.8.3",
+    "gcoord": "0.2.3"
   }
 }

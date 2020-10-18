@@ -12,6 +12,7 @@ const _ = require('lodash');
 const moment = require("moment");
 const methodOverride = require('method-override');
 const session = require('express-session');
+const gcoord = require('gcoord')
 var qos = 0, clean = true;
 const mqtt = require('mqtt');
 const mqtt_client  = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER + "-svc", clean: clean});
@@ -52,6 +53,7 @@ const crc16 = require('crc').crc16modbus;
 //     return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
 // }
 // add_100_controlboxes();
+// console.log(gcoord.transform([117.3061177196, 38.9768560444], gcoord.BD09, gcoord.GCJ02));
 /** --------------------------------------------------------------------------------- 计 算 crc16 ------------------------------------------------------------------------------------------ **/
 // console.log(left_pad(crc16('1|002|00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000|1|').toString(16), 4));
 /** ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- **/
@@ -582,7 +584,7 @@ function left_pad(num, n) {
     }
     return num.toUpperCase();
 }
-/** ----------------------------------------------------------------------------------------- 从 AJAX 请 求，代 表 操 作 ----------------------------------------------------------------------------------------------- **/
+/** ---------------------------------------------------------------------- 从 AJAX 请 求，代 表 网 页 或 移 动 app，使 用 百 度 地 图 ----------------------------------------------------------------------------- **/
 // 登录操作
 app.post("/login.do", function (req, res) {
     db.exec("select id,name,password,real_name,can_login,can_pos,can_irrigate from user where name=? and password=?", [req.body.username, req.body.password], function (users) {
@@ -877,6 +879,7 @@ app.post("/update_area.do", function (req, res) {
         res.json({success: true});
     });
 });
+
 // 新增分控箱操作
 app.post("/add_controlbox.do", function (req, res) {
     db.exec("select id from controlbox where no=?", [req.body.no], function (ids) {
@@ -889,7 +892,19 @@ app.post("/add_controlbox.do", function (req, res) {
             var color = '#' + r.toString(16) + g.toString(16) + b.toString(16);
             var lon = (req.body.lon === '')?null:req.body.lon;
             var lat = (req.body.lat === '')?null:req.body.lat;
-            db.exec("insert into controlbox(no,name,model_id,nozzle_count,lon,lat,color,last_recv_time) values(?,?,?,?,?,?,?,?)", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, color, moment().format("YYYY-MM-DD HH:mm:ss")], function () {
+            if (lon === null || lat === null) {
+                var gcj_lon = null;
+                var gcj_lat = null;
+            } else {
+                var gcj = gcoord.transform(
+                    [parseFloat(lon), parseFloat(lat)],    // 经纬度坐标
+                    gcoord.BD09,               // 当前坐标系
+                    gcoord.GCJ02                 // 目标坐标系
+                );
+                gcj_lon = gcj[0];
+                gcj_lat = gcj[1];
+            }
+            db.exec("insert into controlbox(no,name,model_id,nozzle_count,lon,lat,gcj_lon,gcj_lat,color,last_recv_time) values(?,?,?,?,?,?,?,?,?,?)", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, gcj_lon, gcj_lat, color, moment().format("YYYY-MM-DD HH:mm:ss")], function () {
                 res.json({success: true});
             });
         }
@@ -899,9 +914,21 @@ app.post("/add_controlbox.do", function (req, res) {
 app.post("/update_controlbox.do", function (req, res) {
     var lon = (req.body.lon === '')?null:req.body.lon;
     var lat = (req.body.lat === '')?null:req.body.lat;
+    if (lon === null || lat === null) {
+        var gcj_lon = null;
+        var gcj_lat = null;
+    } else {
+        var gcj = gcoord.transform(
+            [parseFloat(lon), parseFloat(lat)],    // 经纬度坐标
+            gcoord.BD09,               // 当前坐标系
+            gcoord.GCJ02                 // 目标坐标系
+        );
+        gcj_lon = gcj[0];
+        gcj_lat = gcj[1];
+    }
     var update_no = JSON.parse(req.body.update_no);
     if (!update_no) {
-        db.exec("update controlbox set name=?,model_id=?,nozzle_count=?,lon=?,lat=? where id=?", [req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, req.body.id], function () {
+        db.exec("update controlbox set name=?,model_id=?,nozzle_count=?,lon=?,lat=?,gcj_lon=?,gcj_lat=? where id=?", [req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, gcj_lon, gcj_lat, req.body.id], function () {
             res.json({success: true});
         });
     } else {
@@ -909,7 +936,7 @@ app.post("/update_controlbox.do", function (req, res) {
             if (ids.length > 0) {
                 res.json({failure: true});  // 分控箱编号重复
             } else {
-                db.exec("update controlbox set no=?,name=?,model_id=?,nozzle_count=?,lon=?,lat=? where id=?", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, req.body.id], function () {
+                db.exec("update controlbox set no=?,name=?,model_id=?,nozzle_count=?,lon=?,lat=?,gcj_lon=?,gcj_lat=? where id=?", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, gcj_lon, gcj_lat, req.body.id], function () {
                     res.json({success: true});
                 });
             }
@@ -1246,11 +1273,16 @@ app.post("/del_turf.do", function (req, res) {
 });
 // 分控箱定位
 app.post("/pos.do", function (req, res) {
-    db.exec("update controlbox set lon=?, lat=? where id=?", [req.body.lon, req.body.lat, req.body.id], function () {
+    var gcj = gcoord.transform(
+        [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+        gcoord.BD09,               // 当前坐标系
+        gcoord.GCJ02                 // 目标坐标系
+    );
+    db.exec("update controlbox set lon=?, lat=?, gcj_lon=?, gcj_lat=? where id=?", [req.body.lon, req.body.lat, gcj[0], gcj[1], req.body.id], function () {
         res.json({success: true});
     });
 });
-/** ------------------------------------------------------------------------------------------ 从 微 信 小  程 序 云 函 数 请 求 ---------------------------------------------------------------------------------------------- **/
+/** ---------------------------------------------------------------------------- 从 微 信 小  程 序 云 函 数 请 求，使 用 腾 讯 地 图 ----------------------------------------------------------------------------------- **/
 // 验证openid
 app.post("/auth_openid", function (req, res) {
     db.exec("select id, name, real_name from user where openid=?", [req.query.openid], function (users) {
@@ -1267,7 +1299,7 @@ app.post("/auth_openid", function (req, res) {
         }
     });
 });
-// 初始化地图，供微信小程序使用
+// 初始化地图，供微信小程序使用，腾讯地图
 app.post("/controlbox_pos", function (req, res) {
     db.exec("select * from user where openid=?", [req.query.openid], function (users) {
         if (users.length > 0) {
@@ -1276,14 +1308,14 @@ app.post("/controlbox_pos", function (req, res) {
                 var near_controlboxes = [];
                 var far_controlboxes = [];
                 var nozzleNodes = [];
-                var lon = parseFloat(req.query.lon);
-                var lat = parseFloat(req.query.lat);
+                var lon = parseFloat(req.query.lon);  // 人
+                var lat = parseFloat(req.query.lat);  // 人
                 var where = "";
                 var controlbox_lon = 0, controlbox_lat = 0;
                 var once = true;
                 for(var i=0; i<controlboxes.length; i++) {
-                    if (controlboxes[i].lon !== null) {
-                        var d = distance(lon, lat, controlboxes[i].lon, controlboxes[i].lat);
+                    if (controlboxes[i].gcj_lon !== null) {
+                        var d = distance(lon, lat, controlboxes[i].gcj_lon, controlboxes[i].gcj_lat);
                         if (d <= process.env.ADJACENT_DISTANCE) {
                             adj_controlboxes.push(controlboxes[i]);
                         } else if (d <= process.env.NEAR_DISTANCE) {
@@ -1299,13 +1331,13 @@ app.post("/controlbox_pos", function (req, res) {
                         nozzleNodes.push({id:controlboxes[i].id,name:controlboxes[i].fullname,parent_id:0,icon:"/img/分控箱.png",isHidden:true});
                         where += "b.id=" + controlboxes[i].id + " or ";
                         if (once) {
-                            controlbox_lon = controlboxes[i].lon;
-                            controlbox_lat = controlboxes[i].lat;
+                            controlbox_lon = controlboxes[i].gcj_lon;
+                            controlbox_lat = controlboxes[i].gcj_lat;
                             once = false;
                         }
                         if (req.query.id === "" + controlboxes[i].id) {
-                            controlbox_lon = controlboxes[i].lon;
-                            controlbox_lat = controlboxes[i].lat;
+                            controlbox_lon = controlboxes[i].gcj_lon;
+                            controlbox_lat = controlboxes[i].gcj_lat;
                         }
                     }
                 }
@@ -1348,9 +1380,14 @@ app.post("/controlbox_pos", function (req, res) {
 });
 // 分控箱定位
 app.post("/pos", function (req, res) {
+    var baidu = gcoord.transform(
+        [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+        gcoord.GCJ02,               // 当前坐标系
+        gcoord.BD09                 // 目标坐标系
+    );
     db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
         if (ids.length > 0) {
-            db.exec("update controlbox set lon=?, lat=? where id=?", [req.body.lon, req.body.lat, req.body.id], function () {
+            db.exec("update controlbox set lon=?, lat=?, gcj_lon=?, gcj_lat=? where id=?", [baidu[0], baidu[1], req.body.lon, req.body.lat, req.body.id], function () {
                 res.json({success: true});
             });
         } else {
@@ -1458,7 +1495,7 @@ app.post("/logout", function (req, res) {
         }
     });
 });
-/** ------------------------------------------------------------------------------------------ 从 网 页 请 求 ---------------------------------------------------------------------------------------------- **/
+/** --------------------------------------------------------------------------- 从 网 页 或 移 动 app 请 求，使 用 百 度 地 图 -------------------------------------------------------------------------------------- **/
 // 打开登录页面，也是index首页
 app.get("/", function (req, res) {
     res.render('login');
@@ -2096,7 +2133,7 @@ function distance(lng1, lat1, lng2, lat2) {
     s = Math.round(s * 10000) / 10000;
     return Math.abs(s);
 }
-// 打开移动端页面
+// 打开移动端页面，百度地图
 app.get("/gps_control.html", function (req, res) {
     db.exec("select * from controlbox order by id", [], function (controlboxes) {
         var adj_controlboxes = [];
