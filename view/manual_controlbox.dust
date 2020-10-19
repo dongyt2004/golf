@@ -52,9 +52,8 @@
 <div class="row gutter">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="panel dongyk">
-
             <a href="#" class="btn btn-success dongyt" id="send">开 启</a>
-
+            <a href="#" class="btn btn-danger dongyt" id="stop">暂停分控箱</a>
         </div>
     </div>
 </div>
@@ -137,8 +136,8 @@
     };
 
     var nozzleNodes = [{#nozzleNodes}{@eq key=$idx value=0 type="number"}
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/nozzleNodes}
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/nozzleNodes}
     ];
 
     function showRemoveBtn(treeId, treeNode) {
@@ -239,6 +238,30 @@
                 if (result.success) {
                     location.reload(true);
                     parent.document.getElementById('myFrame_area').contentWindow.location.reload(true);
+                } else {
+                    parent.alertify.error("网络原因，开启失败");
+                }
+            });
+        });
+
+        $("#stop").click(function() {
+            var controlboxIds = [];
+            var srcNodes = $.fn.zTree.getZTreeObj("nozzletree").getCheckedNodes(true);
+            for (var i=0; i<srcNodes.length; i++) {
+                if (srcNodes[i].id.substr(0, 1) !== 't') {
+                    controlboxIds.push(srcNodes[i].id);
+                }
+            }
+            if (controlboxIds.length === 0) {
+                parent.alertify.error("请选择分控箱");
+                return;
+            }
+            $.post("/stop.do", {
+                controlbox_ids: JSON.stringify(controlboxIds)
+            }, function (result) {
+                if (result.success) {
+                    location.reload(true);
+                    window.parent.document.getElementById('myFrame_controlbox').contentWindow.location.reload(true);
                 } else {
                     parent.alertify.error("网络原因，开启失败");
                 }

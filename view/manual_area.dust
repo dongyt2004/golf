@@ -137,8 +137,8 @@
     };
 
     var nozzleNodes = [{#nozzleNodes}{@eq key=$idx value=0 type="number"}
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/nozzleNodes}
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/nozzleNodes}
     ];
 
     function showRemoveBtn(treeId, treeNode) {

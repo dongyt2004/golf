@@ -296,6 +296,8 @@ mqtt_client.on("message", function (topic, message) {
             }
         } else if (commands[0] === process.env.COMMAND_REMOTE_OR_LOCAL_CONTROL_FEEDBACK) {
             console.log("[" + current_time + "] " + process.env.CLUB_NAME + "远程或本地控制命令的反馈命令nothing to do：" + msg);  ///////////////////
+        } else if (commands[0] === process.env.COMMAND_GPS) {
+
         }
     } else {
         console.log("[" + current_time + "] " + process.env.CLUB_NAME + "CRC16校验错误：" + msg);
@@ -631,7 +633,7 @@ app.post("/change_password.do", function (req, res) {
 });
 // 全部停止的操作
 app.post("/stop_all.do", function (req, res) {
-    var command = process.env.COMMAND_STOP + "|";
+    var command = process.env.COMMAND_STOP_ALL + "|";
     command = command + left_pad(crc16(command).toString(16), 4);
     mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
         if (!err) {
@@ -699,6 +701,35 @@ app.post("/send.do", function (req, res) {
                 } catch (e) {
                     res.json({failure: true});
                 }
+            } else {
+                res.json({failure: true});
+            }
+        });
+    });
+});
+// 暂停灌溉的操作
+app.post("/stop.do", function (req, res) {
+    var controlbox_ids = JSON.parse(req.body.controlbox_ids);
+    var where = "";
+    for(var i=0; i<controlbox_ids.length; i++) {
+        where += "id=" + controlbox_ids[i] + " or ";
+    }
+    where += "1=0";
+    db.exec("select no from controlbox where (" + where + ")", [], function (cotrolbox_nos) {
+        var s = "";
+        for(var i=0; i<cotrolbox_nos.length;i++) {
+            s += numeral(cotrolbox_nos[i].no).format('000') + ',';
+        }
+        if (s.length > 0) {
+            s = s.substr(0, s.length - 1);
+        }
+        var command = process.env.COMMAND_STOP_SOME + "|";
+        command += s + "|";
+        command = command + left_pad(crc16(command).toString(16), 4);
+        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+            if (!err) {
+                console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控向分控箱" + s + "下发停止指令：" + command);
+                res.json({success: true});
             } else {
                 res.json({failure: true});
             }
@@ -895,16 +926,25 @@ app.post("/add_controlbox.do", function (req, res) {
             if (lon === null || lat === null) {
                 var gcj_lon = null;
                 var gcj_lat = null;
+                var gps_lon = null;
+                var gps_lat = null;
             } else {
                 var gcj = gcoord.transform(
                     [parseFloat(lon), parseFloat(lat)],    // 经纬度坐标
                     gcoord.BD09,               // 当前坐标系
-                    gcoord.GCJ02                 // 目标坐标系
+                    gcoord.GCJ02               // 目标坐标系
                 );
                 gcj_lon = gcj[0];
                 gcj_lat = gcj[1];
+                var gps = gcoord.transform(
+                    [parseFloat(lon), parseFloat(lat)],    // 经纬度坐标
+                    gcoord.BD09,               // 当前坐标系
+                    gcoord.WGS84               // 目标坐标系
+                );
+                gps_lon = gps[0];
+                gps_lat = gps[1];
             }
-            db.exec("insert into controlbox(no,name,model_id,nozzle_count,lon,lat,gcj_lon,gcj_lat,color,last_recv_time) values(?,?,?,?,?,?,?,?,?,?)", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, gcj_lon, gcj_lat, color, moment().format("YYYY-MM-DD HH:mm:ss")], function () {
+            db.exec("insert into controlbox(no,name,model_id,nozzle_count,lon,lat,gcj_lon,gcj_lat,gps_lon,gps_lat,color,last_recv_time) values(?,?,?,?,?,?,?,?,?,?,?,?)", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, gcj_lon, gcj_lat, gps_lon, gps_lat, color, moment().format("YYYY-MM-DD HH:mm:ss")], function () {
                 res.json({success: true});
             });
         }
@@ -917,6 +957,8 @@ app.post("/update_controlbox.do", function (req, res) {
     if (lon === null || lat === null) {
         var gcj_lon = null;
         var gcj_lat = null;
+        var gps_lon = null;
+        var gps_lat = null;
     } else {
         var gcj = gcoord.transform(
             [parseFloat(lon), parseFloat(lat)],    // 经纬度坐标
@@ -925,10 +967,17 @@ app.post("/update_controlbox.do", function (req, res) {
         );
         gcj_lon = gcj[0];
         gcj_lat = gcj[1];
+        var gps = gcoord.transform(
+            [parseFloat(lon), parseFloat(lat)],    // 经纬度坐标
+            gcoord.BD09,               // 当前坐标系
+            gcoord.WGS84               // 目标坐标系
+        );
+        gps_lon = gps[0];
+        gps_lat = gps[1];
     }
     var update_no = JSON.parse(req.body.update_no);
     if (!update_no) {
-        db.exec("update controlbox set name=?,model_id=?,nozzle_count=?,lon=?,lat=?,gcj_lon=?,gcj_lat=? where id=?", [req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, gcj_lon, gcj_lat, req.body.id], function () {
+        db.exec("update controlbox set name=?,model_id=?,nozzle_count=?,lon=?,lat=?,gcj_lon=?,gcj_lat=?,gps_lon=?,gps_lat=? where id=?", [req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, gcj_lon, gcj_lat, gps_lon, gps_lat, req.body.id], function () {
             res.json({success: true});
         });
     } else {
@@ -936,7 +985,7 @@ app.post("/update_controlbox.do", function (req, res) {
             if (ids.length > 0) {
                 res.json({failure: true});  // 分控箱编号重复
             } else {
-                db.exec("update controlbox set no=?,name=?,model_id=?,nozzle_count=?,lon=?,lat=?,gcj_lon=?,gcj_lat=? where id=?", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, gcj_lon, gcj_lat, req.body.id], function () {
+                db.exec("update controlbox set no=?,name=?,model_id=?,nozzle_count=?,lon=?,lat=?,gcj_lon=?,gcj_lat=?,gps_lon=?,gps_lat=? where id=?", [req.body.no, req.body.name, req.body.model_id, req.body.nozzle_count, lon, lat, gcj_lon, gcj_lat, gps_lon, gps_lat, req.body.id], function () {
                     res.json({success: true});
                 });
             }
@@ -1278,7 +1327,12 @@ app.post("/pos.do", function (req, res) {
         gcoord.BD09,               // 当前坐标系
         gcoord.GCJ02                 // 目标坐标系
     );
-    db.exec("update controlbox set lon=?, lat=?, gcj_lon=?, gcj_lat=? where id=?", [req.body.lon, req.body.lat, gcj[0], gcj[1], req.body.id], function () {
+    var gps = gcoord.transform(
+        [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+        gcoord.BD09,               // 当前坐标系
+        gcoord.WGS84                 // 目标坐标系
+    );
+    db.exec("update controlbox set lon=?, lat=?, gcj_lon=?, gcj_lat=?, gps_lon=?, gps_lat=? where id=?", [req.body.lon, req.body.lat, gcj[0], gcj[1], gps[0], gps[1], req.body.id], function () {
         res.json({success: true});
     });
 });
@@ -1385,9 +1439,14 @@ app.post("/pos", function (req, res) {
         gcoord.GCJ02,               // 当前坐标系
         gcoord.BD09                 // 目标坐标系
     );
+    var gps = gcoord.transform(
+        [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+        gcoord.GCJ02,               // 当前坐标系
+        gcoord.WGS84                 // 目标坐标系
+    );
     db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
         if (ids.length > 0) {
-            db.exec("update controlbox set lon=?, lat=?, gcj_lon=?, gcj_lat=? where id=?", [baidu[0], baidu[1], req.body.lon, req.body.lat, req.body.id], function () {
+            db.exec("update controlbox set lon=?, lat=?, gcj_lon=?, gcj_lat=?, gps_lon=?, gps_lat=? where id=?", [baidu[0], baidu[1], req.body.lon, req.body.lat, gps[0], gps[1], req.body.id], function () {
                 res.json({success: true});
             });
         } else {
@@ -1399,7 +1458,7 @@ app.post("/pos", function (req, res) {
 app.post("/stop_all", function (req, res) {
     db.exec("select id from user where openid=?", [req.query.openid], function (ids) {
         if (ids.length > 0) {
-            var command = process.env.COMMAND_STOP + "|";
+            var command = process.env.COMMAND_STOP_ALL + "|";
             command = command + left_pad(crc16(command).toString(16), 4);
             mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                 if (!err) {
@@ -1473,6 +1532,41 @@ app.post("/send", function (req, res) {
                         } catch (e) {
                             res.json({failure: true});
                         }
+                    } else {
+                        res.json({failure: true});
+                    }
+                });
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 暂停灌溉的操作
+app.post("/stop", function (req, res) {
+    db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
+        if (ids.length > 0) {
+            var controlbox_ids = JSON.parse(req.body.controlbox_ids);
+            var where = "";
+            for(var i=0; i<controlbox_ids.length; i++) {
+                where += "id=" + controlbox_ids[i] + " or ";
+            }
+            where += "1=0";
+            db.exec("select no from controlbox where (" + where + ")", [], function (cotrolbox_nos) {
+                var s = "";
+                for(var i=0; i<cotrolbox_nos.length;i++) {
+                    s += numeral(cotrolbox_nos[i].no).format('000') + ',';
+                }
+                if (s.length > 0) {
+                    s = s.substr(0, s.length - 1);
+                }
+                var command = process.env.COMMAND_STOP_SOME + "|";
+                command += s + "|";
+                command = command + left_pad(crc16(command).toString(16), 4);
+                mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+                    if (!err) {
+                        console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控向分控箱" + s + "下发停止指令：" + command);
+                        res.json({success: true});
                     } else {
                         res.json({failure: true});
                     }
