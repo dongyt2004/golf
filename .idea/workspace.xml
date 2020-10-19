@@ -4,13 +4,10 @@
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="7th commit - 2020.08.12">
       <change beforePath="$PROJECT_DIR$/../golf-schedule/app.env" beforeDir="false" afterPath="$PROJECT_DIR$/../golf-schedule/app.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.env" beforeDir="false" afterPath="$PROJECT_DIR$/app.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/access.2020-09-21.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/log/access.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/access.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/app.2020-09-21.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/log/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/app.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/gps_control.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/gps_control.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/manual_area.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/manual_area.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/manual_controlbox.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/manual_controlbox.dust" afterDir="false" />
     </list>
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <option name="SHOW_DIALOG" value="false" />
@@ -340,14 +337,7 @@
       <workItem from="1602936934354" duration="114000" />
       <workItem from="1602988288925" duration="29134000" />
       <workItem from="1603066175736" duration="7909000" />
-      <workItem from="1603103928654" duration="2317000" />
-    </task>
-    <task id="LOCAL-00117" summary="5th commit">
-      <created>1592971284170</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1592971284170</updated>
+      <workItem from="1603103928654" duration="2355000" />
     </task>
     <task id="LOCAL-00118" summary="5th commit">
       <created>1592971411325</created>
@@ -685,7 +675,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603002464568</updated>
     </task>
-    <option name="localTasksCounter" value="166" />
+    <task id="LOCAL-00166" summary="7th commit - 2020.08.12">
+      <created>1603106344764</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1603106344764</updated>
+    </task>
+    <option name="localTasksCounter" value="167" />
     <servers />
   </component>
   <component name="TodoView">
@@ -764,10 +761,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="117" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1600590870663" />
-    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1603002463519">
+    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1603106344045">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1603002463519" />
+    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1603106344045" />
     <state width="437" height="466" key="DebuggerActiveHint" timestamp="1603029655349">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -848,10 +845,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="270" y="56" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1600654475291" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1603002466255">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1603106347563">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1603002466255" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1603106347563" />
     <state x="313" y="141" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1597214168435">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
