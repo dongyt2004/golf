@@ -53,7 +53,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="panel dongyk">
             <a href="#" class="btn btn-success dongyt" id="send">开 启</a>
-            <a href="#" class="btn btn-danger dongyt" id="stop">暂停分控箱</a>
+            <a href="#" class="btn btn-danger dongyt" id="stop">暂停选中的分控箱</a>
         </div>
     </div>
 </div>
@@ -245,23 +245,23 @@
         });
 
         $("#stop").click(function() {
-            var controlboxIds = [];
+            var controlbox_ids = [];
             var srcNodes = $.fn.zTree.getZTreeObj("nozzletree").getCheckedNodes(true);
             for (var i=0; i<srcNodes.length; i++) {
                 if (srcNodes[i].id.substr(0, 1) !== 't') {
-                    controlboxIds.push(srcNodes[i].id);
+                    controlbox_ids.push(srcNodes[i].id);
                 }
             }
-            if (controlboxIds.length === 0) {
-                parent.alertify.error("请选择分控箱");
+            if (controlbox_ids.length === 0) {
+                parent.alertify.error("请选择要暂停的分控箱");
                 return;
             }
             $.post("/stop.do", {
-                controlbox_ids: JSON.stringify(controlboxIds)
+                controlbox_ids: JSON.stringify(controlbox_ids)
             }, function (result) {
                 if (result.success) {
                     location.reload(true);
-                    window.parent.document.getElementById('myFrame_controlbox').contentWindow.location.reload(true);
+                    window.parent.document.getElementById('myFrame_area').contentWindow.location.reload(true);
                 } else {
                     parent.alertify.error("网络原因，开启失败");
                 }

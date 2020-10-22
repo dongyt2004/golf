@@ -171,31 +171,30 @@
         });
     }
 
-    /* 暂停分控箱 */
+    /* 暂停当前的分控箱洒水 */
     function stop() {
-        var controlbox_ids = [];
         var controlbox_nodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
             return node.id.substr(0, 1) !== 't' && node.isHidden === false;
         });
-        controlbox_ids.push(controlbox_nodes[0].id);
-        var nozzleNodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
-            return node.id.substr(0, 1) === 't' && node.isHidden === false && node.name.indexOf('[正在洒水]') >= 0;
-        });
-        $.post("/stop.do", {
-            controlbox_ids: JSON.stringify(controlbox_ids)
-        }, function (result) {
-            if (result.success) {
-                alertify.success("成功暂停分控箱");
-                for(var i=0; i<nozzleNodes.length; i++) {
-                    var idx = nozzleNodes[i].name.indexOf('[正在洒水]');
-                    nozzleNodes[i].name = nozzleNodes[i].name.substring(0, idx);
-                    $.fn.zTree.getZTreeObj("nozzletree").updateNode(nozzleNodes[i]);
+        if (controlbox_nodes.length > 0) {
+            $.post("/stop.do", {
+                controlbox_ids: JSON.stringify([controlbox_nodes[0].id])
+            }, function (result) {
+                if (result.success) {
+                    alertify.success("暂停成功");
+                    var nozzleNodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
+                        return node.id.substr(0, 1) === 't' && node.isHidden === false && node.name.indexOf('[正在洒水]') >= 0;
+                    });
+                    for(var i=0; i<nozzleNodes.length; i++) {
+                        nozzleNodes[i].name = nozzleNodes[i].name.replace(/\[正在洒水]/g, '');
+                        $.fn.zTree.getZTreeObj("nozzletree").updateNode(nozzleNodes[i]);
+                    }
+                    infoWindow.redraw();
+                } else {
+                    alertify.error("联网失败");
                 }
-                infoWindow.redraw();
-            } else {
-                alertify.error("联网失败");
-            }
-        });
+            });
+        }
     }
 
     var person_marker = null;
@@ -304,7 +303,7 @@
             '               </div>\n' +
             '               <hr style="border-top: 1px solid #46b8da;">\n' +
             '               <div style="text-align: center; padding-bottom: 10px;">\n' +
-            '                   <a id="send" href="javascript:send()" class="btn btn-sm btn-success">开启选中的洒水站</a> <a id="stop" href="javascript:stop()" class="btn btn-sm btn-danger">暂停分控箱</a>\n' +
+            '                   <a id="send" href="javascript:send()" class="btn btn-sm btn-success">开启选中的洒水站</a> <a id="stop" href="javascript:stop()" class="btn btn-sm btn-danger">暂停当前分控箱</a>\n' +
             '               </div>\n' +
             '               <ul id="nozzletree" class="ztree" style="max-height:150px;overflow-y:auto;"></ul>\n' +
             '            </div>');

@@ -343,14 +343,49 @@ app.get("/dump_plan", function (req, res) {
                 eachAsync(dump_plans, function(dump_plan, index, done) {
                     scheduler.getEvent({
                         title: process.env.CLUB_NAME + "-plan" + dump_plan.id
-                    }).then(function(data) { // 有这个job，则删除
+                    }).then(function(data) {  // 有这个job，则删除
                         scheduler.deleteEvent({
                             id: data.event.id
                         }).then(function() {
-                            done();
+                            db.exec("select s.id from plan p join task t on p.task_id=t.id join step s on s.task_id=t.id and p.id=? order by s.id", [dump_plan.id], function (steps) {
+                                eachAsync(steps, function(step, index, done) {
+                                    scheduler.getEvent({
+                                        title: process.env.CLUB_NAME + "-plan" + dump_plan.id + "-step" + (index + 1)
+                                    }).then(function(data) { // 有这个step job，则删除
+                                        scheduler.deleteEvent({
+                                            id: data.event.id
+                                        }).then(function() {
+                                            done();
+                                        }).catch(function(err) {
+                                            done();
+                                        });
+                                    }).catch(function(err) {
+                                        done();
+                                    });
+                                }, function() {
+                                    done();
+                                });
+                            });
                         }).catch(function(err) {
-                            console.log(err.code + ":" + err.message);
-                            done(err.code + ":" + err.message);
+                            db.exec("select s.id from plan p join task t on p.task_id=t.id join step s on s.task_id=t.id and p.id=? order by s.id", [dump_plan.id], function (steps) {
+                                eachAsync(steps, function(step, index, done) {
+                                    scheduler.getEvent({
+                                        title: process.env.CLUB_NAME + "-plan" + dump_plan.id + "-step" + (index + 1)
+                                    }).then(function(data) { // 有这个step job，则删除
+                                        scheduler.deleteEvent({
+                                            id: data.event.id
+                                        }).then(function() {
+                                            done();
+                                        }).catch(function(err) {
+                                            done();
+                                        });
+                                    }).catch(function(err) {
+                                        done();
+                                    });
+                                }, function() {
+                                    done();
+                                });
+                            });
                         });
                     }).catch(function(err) {
                         done();
@@ -408,14 +443,49 @@ app.get("/dump_plan", function (req, res) {
                     eachAsync(dump_plans, function(dump_plan, index, done) {
                         scheduler.getEvent({
                             title: process.env.CLUB_NAME + "-plan" + dump_plan.id
-                        }).then(function(data) { // 有这个job，则删除
+                        }).then(function(data) {  // 有这个job，则删除
                             scheduler.deleteEvent({
                                 id: data.event.id
                             }).then(function() {
-                                done();
+                                db.exec("select s.id from plan p join task t on p.task_id=t.id join step s on s.task_id=t.id and p.id=? order by s.id", [dump_plan.id], function (steps) {
+                                    eachAsync(steps, function(step, index, done) {
+                                        scheduler.getEvent({
+                                            title: process.env.CLUB_NAME + "-plan" + dump_plan.id + "-step" + (index + 1)
+                                        }).then(function(data) { // 有这个step job，则删除
+                                            scheduler.deleteEvent({
+                                                id: data.event.id
+                                            }).then(function() {
+                                                done();
+                                            }).catch(function(err) {
+                                                done();
+                                            });
+                                        }).catch(function(err) {
+                                            done();
+                                        });
+                                    }, function() {
+                                        done();
+                                    });
+                                });
                             }).catch(function(err) {
-                                console.log(err.code + ":" + err.message);
-                                done(err.code + ":" + err.message);
+                                db.exec("select s.id from plan p join task t on p.task_id=t.id join step s on s.task_id=t.id and p.id=? order by s.id", [dump_plan.id], function (steps) {
+                                    eachAsync(steps, function(step, index, done) {
+                                        scheduler.getEvent({
+                                            title: process.env.CLUB_NAME + "-plan" + dump_plan.id + "-step" + (index + 1)
+                                        }).then(function(data) { // 有这个step job，则删除
+                                            scheduler.deleteEvent({
+                                                id: data.event.id
+                                            }).then(function() {
+                                                done();
+                                            }).catch(function(err) {
+                                                done();
+                                            });
+                                        }).catch(function(err) {
+                                            done();
+                                        });
+                                    }, function() {
+                                        done();
+                                    });
+                                });
                             });
                         }).catch(function(err) {
                             done();
@@ -707,7 +777,7 @@ app.post("/send.do", function (req, res) {
         });
     });
 });
-// 暂停灌溉的操作
+// 暂停分控箱灌溉的操作
 app.post("/stop.do", function (req, res) {
     var controlbox_ids = JSON.parse(req.body.controlbox_ids);
     var where = "";
@@ -718,7 +788,7 @@ app.post("/stop.do", function (req, res) {
     db.exec("select no from controlbox where (" + where + ")", [], function (cotrolbox_nos) {
         var s = "";
         for(var i=0; i<cotrolbox_nos.length;i++) {
-            s += numeral(cotrolbox_nos[i].no).format('000') + ',';
+            s += numeral(cotrolbox_nos[i].no).format('000') + '-99,';
         }
         if (s.length > 0) {
             s = s.substr(0, s.length - 1);
@@ -728,7 +798,7 @@ app.post("/stop.do", function (req, res) {
         command = command + left_pad(crc16(command).toString(16), 4);
         mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
             if (!err) {
-                console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控向分控箱" + s + "下发停止指令：" + command);
+                console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控向分控箱" + s.replace(/-99/g, "") + "下发停止洒水指令：" + command);
                 res.json({success: true});
             } else {
                 res.json({failure: true});
