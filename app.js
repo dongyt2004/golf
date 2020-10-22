@@ -1612,7 +1612,7 @@ app.post("/send", function (req, res) {
         }
     });
 });
-// 暂停灌溉的操作
+// 暂停分控箱灌溉的操作
 app.post("/stop", function (req, res) {
     db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
         if (ids.length > 0) {
@@ -1625,7 +1625,7 @@ app.post("/stop", function (req, res) {
             db.exec("select no from controlbox where (" + where + ")", [], function (cotrolbox_nos) {
                 var s = "";
                 for(var i=0; i<cotrolbox_nos.length;i++) {
-                    s += numeral(cotrolbox_nos[i].no).format('000') + ',';
+                    s += numeral(cotrolbox_nos[i].no).format('000') + '-99,';
                 }
                 if (s.length > 0) {
                     s = s.substr(0, s.length - 1);
@@ -1635,7 +1635,7 @@ app.post("/stop", function (req, res) {
                 command = command + left_pad(crc16(command).toString(16), 4);
                 mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
                     if (!err) {
-                        console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控向分控箱" + s + "下发停止指令：" + command);
+                        console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控向分控箱" + s.replace(/-99/g, "") + "下发停止洒水指令：" + command);
                         res.json({success: true});
                     } else {
                         res.json({failure: true});
