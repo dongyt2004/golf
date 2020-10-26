@@ -218,6 +218,34 @@
         });
     }
 
+    /* 为喷头定位 */
+    function pos_sprinkler() {
+        if ($("#controlbox_spr").val() === '-1') {
+            alertify.error("请选择分控箱");
+            return;
+        }
+        if ($("#nozzle_spr").val() === '-1') {
+            alertify.error("请选择洒水站");
+            return;
+        }
+        if ($("#sprinkler").val() === '-1') {
+            alertify.error("请选择喷头");
+            return;
+        }
+        var p = person_marker.getPosition();
+        $.post("/pos_sprinkler.do", {
+            id: $("#sprinkler").val(),
+            lon: p.lng,
+            lat: p.lat
+        }, function (result) {
+            if (result.success) {
+                alertify.success("定位成功，经度：" + p.lng + "，纬度：" + p.lat);
+            } else {
+                alertify.error("联网失败");
+            }
+        });
+    }
+
     var setting = {
         check: {
             enable: true
@@ -284,6 +312,36 @@
         });
     }
 
+    function change_controlbox() {
+        $.post("/change_controlbox.do", {
+            id: $('#controlbox_spr').val()
+        }, function (result) {
+            if (result.success) {
+                $("#nozzle_spr").empty();
+                $("#nozzle_spr").append($("<option>").val(-1).text("请选择"));
+                for(var i=0; i<result.options.length; i++) {
+                    $("#nozzle_spr").append($("<option>").val(result.options[i].value).text(result.options[i].text));
+                }
+                $("#sprinkler").empty();
+                $("#sprinkler").append($("<option>").val(-1).text("请选择"));
+            }
+        });
+    }
+
+    function change_nozzle() {
+        $.post("/change_nozzle.do", {
+            id: $('#nozzle_spr').val()
+        }, function (result) {
+            if (result.success) {
+                $("#sprinkler").empty();
+                $("#sprinkler").append($("<option>").val(-1).text("请选择"));
+                for(var i=0; i<result.options.length; i++) {
+                    $("#sprinkler").append($("<option>").val(result.options[i].value).text(result.options[i].text));
+                }
+            }
+        });
+    }
+
     jQuery(function ($) {
         $('#loadingModal').modal('hide');
 
@@ -314,14 +372,28 @@
             $.fn.zTree.getZTreeObj("nozzletree").checkAllNodes(false);
         });
 
-        var content2 = $('<div>\n' +
+        var content2 = $('<div><div>\n' +
             '               为 <select class="dongyt" id="controlbox" name="controlbox">\n' +
 {#controlboxes}
             '                   <option value="{id}">{name}</option>\n' +
 {/controlboxes}
             '               </select> 分控箱 <a href="javascript:pos()" class="btn btn-success">定 位</a>' +
-            '            </div>');
-        var infoWindow2 = new BMap.InfoWindow(content2[0], {title: '&nbsp;'});
+            '            </div>' +
+            '<div style="margin-top: 10px;">\n' +
+            '               为 <select class="dongyt" id="controlbox_spr" name="controlbox_spr" onchange="change_controlbox();">\n' +
+            '                   <option value="-1">请选择</option>\n' +
+{#controlboxes}
+    '                   <option value="{id}">{name}</option>\n' +
+{/controlboxes}
+    '               </select> 分控箱' +
+    '               <select class="dongyt" id="nozzle_spr" name="nozzle_spr" onchange="change_nozzle();">\n' +
+    '                   <option value="-1">请选择</option>\n' +
+    '               </select> 号洒水站' +
+    '               <select class="dongyt" id="sprinkler" name="sprinkler">\n' +
+    '                   <option value="-1">请选择</option>\n' +
+    '               </select> 喷头 <a href="javascript:pos_sprinkler()" class="btn btn-success">定 位</a>' +
+    '            </div></div>');
+        var infoWindow2 = new BMap.InfoWindow(content2[0], {title: '&nbsp;',width:490});
         infoWindow2.addEventListener("close", function() {
             content2.find('select:eq(0)').get(0).selectedIndex = 0;
         });

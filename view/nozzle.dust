@@ -119,14 +119,14 @@
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                         <div class="form-group">
                             <label for="shot_count">喷头数量</label>
-                            <input id="shot_count" class="form-control" name="shot_count" />
+                            <input id="shot_count" class="form-control" name="shot_count" value="1"/>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                         <div class="form-group">
                             <label for="nozzle_model">喷嘴型号</label>
                             <select class="form-control" id="nozzle_model" name="nozzle_model">
- {#models}
+{#models}
                                 <option value="{id}">{name}</option>
 {/models}
                             </select>

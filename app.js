@@ -12,7 +12,7 @@ const _ = require('lodash');
 const moment = require("moment");
 const methodOverride = require('method-override');
 const session = require('express-session');
-const gcoord = require('gcoord')
+const gcoord = require('gcoord');
 var qos = 0, clean = true;
 const mqtt = require('mqtt');
 const mqtt_client  = mqtt.connect(process.env.MQTT_URL, {username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD, clientId: process.env.MQTT_USER + "-svc", clean: clean});
@@ -1128,48 +1128,162 @@ app.post("/add_nozzle.do", function (req, res) {
             res.json({failure: true});  // 洒水站编号重复
         } else {
             db.exec("insert into nozzle(controlbox_id,no,name,course_id,hole,area_id,model_id,shape_id,angle,shot_count,waterfall_rate,turf_id,state) values(?,?,?,?,?,?,?,?,?,?,?,?,0)", [req.body.controlbox_id, req.body.no, req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id], function () {
-                res.json({success: true});
+                db.exec("select id from nozzle where controlbox_id=? and no=?", [req.body.controlbox_id, req.body.no], function (ids) {
+                    var sprinkler_nos = [];
+                    for(var i=1; i<=parseInt(req.body.shot_count); i++) {
+                        sprinkler_nos.push(i);
+                    }
+                    eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
+                        db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [ids[0].id, sprinkler_no], function () {
+                            done();
+                        });
+                    }, function() {
+                        res.json({success: true});
+                    });
+                });
             });
         }
     });
 });
 // 修改洒水站操作
 app.post("/update_nozzle.do", function (req, res) {
-    var update_no = JSON.parse(req.body.update_no);
-    if (!update_no) {
-        db.exec("update nozzle set name=?,course_id=?,hole=?,area_id=?,model_id=?,shape_id=?,angle=?,shot_count=?,waterfall_rate=?,turf_id=? where id=?", [req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id, req.body.id], function () {
-            res.json({success: true});
-        });
-    } else {
+    db.exec("select shot_count from nozzle where id=?", [req.body.id], function (shot_count) {
+        var update_no = JSON.parse(req.body.update_no);
+        if (!update_no) {
+            db.exec("update nozzle set name=?,course_id=?,hole=?,area_id=?,model_id=?,shape_id=?,angle=?,shot_count=?,waterfall_rate=?,turf_id=? where id=?", [req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id, req.body.id], function () {
+                if (shot_count[0].shot_count !== parseInt(req.body.shot_count)) {
+                    db.exec("delete from sprinkler where nozzle_id=?", [req.body.id], function () {
+                        var sprinkler_nos = [];
+                        for(var i=1; i<=parseInt(req.body.shot_count); i++) {
+                            sprinkler_nos.push(i);
+                        }
+                        eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
+                            db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
+                                done();
+                            });
+                        }, function() {
+                            res.json({success: true});
+                        });
+                    });
+                } else {
+                    db.exec("select id from sprinkler where nozzle_id=?", [req.body.id], function (ids) {
+                        if (ids.length === 0) {
+                            var sprinkler_nos = [];
+                            for(var i=1; i<=parseInt(req.body.shot_count); i++) {
+                                sprinkler_nos.push(i);
+                            }
+                            eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
+                                db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
+                                    done();
+                                });
+                            }, function() {
+                                res.json({success: true});
+                            });
+                        } else {
+                            res.json({success: true});
+                        }
+                    });
+                }
+            });
+        } else {
+            db.exec("select id from nozzle where controlbox_id=? and no=?", [req.body.controlbox_id, req.body.no], function (ids) {
+                if (ids.length > 0) {
+                    res.json({failure: true});  // 洒水站编号重复
+                } else {
+                    db.exec("update nozzle set controlbox_id=?,no=?,name=?,course_id=?,hole=?,area_id=?,model_id=?,shape_id=?,angle=?,shot_count=?,waterfall_rate=?,turf_id=? where id=?", [req.body.controlbox_id, req.body.no, req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id, req.body.id], function () {
+                        if (shot_count[0].shot_count !== parseInt(req.body.shot_count)) {
+                            db.exec("delete from sprinkler where nozzle_id=?", [req.body.id], function () {
+                                var sprinkler_nos = [];
+                                for(var i=1; i<=parseInt(req.body.shot_count); i++) {
+                                    sprinkler_nos.push(i);
+                                }
+                                eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
+                                    db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
+                                        done();
+                                    });
+                                }, function() {
+                                    res.json({success: true});
+                                });
+                            });
+                        } else {
+                            db.exec("select id from sprinkler where nozzle_id=?", [req.body.id], function (ids) {
+                                if (ids.length === 0) {
+                                    var sprinkler_nos = [];
+                                    for(var i=1; i<=parseInt(req.body.shot_count); i++) {
+                                        sprinkler_nos.push(i);
+                                    }
+                                    eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
+                                        db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
+                                            done();
+                                        });
+                                    }, function() {
+                                        res.json({success: true});
+                                    });
+                                } else {
+                                    res.json({success: true});
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+// 分配洒水站操作
+app.post("/distribute_nozzle.do", function (req, res) {
+    db.exec("select shot_count from nozzle where id=?", [req.body.id], function (shot_count) {
         db.exec("select id from nozzle where controlbox_id=? and no=?", [req.body.controlbox_id, req.body.no], function (ids) {
             if (ids.length > 0) {
                 res.json({failure: true});  // 洒水站编号重复
             } else {
                 db.exec("update nozzle set controlbox_id=?,no=?,name=?,course_id=?,hole=?,area_id=?,model_id=?,shape_id=?,angle=?,shot_count=?,waterfall_rate=?,turf_id=? where id=?", [req.body.controlbox_id, req.body.no, req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id, req.body.id], function () {
-                    res.json({success: true});
+                    db.exec("update nozzle a join controlbox b on a.controlbox_id=b.id set a.color=b.color where a.id=?", [req.body.id], function () {
+                        if (shot_count[0].shot_count !== parseInt(req.body.shot_count)) {
+                            db.exec("delete from sprinkler where nozzle_id=?", [req.body.id], function () {
+                                var sprinkler_nos = [];
+                                for(var i=1; i<=parseInt(req.body.shot_count); i++) {
+                                    sprinkler_nos.push(i);
+                                }
+                                eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
+                                    db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
+                                        done();
+                                    });
+                                }, function() {
+                                    res.json({success: true});
+                                });
+                            });
+                        } else {
+                            db.exec("select id from sprinkler where nozzle_id=?", [req.body.id], function (ids) {
+                                if (ids.length === 0) {
+                                    var sprinkler_nos = [];
+                                    for(var i=1; i<=parseInt(req.body.shot_count); i++) {
+                                        sprinkler_nos.push(i);
+                                    }
+                                    eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
+                                        db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
+                                            done();
+                                        });
+                                    }, function() {
+                                        res.json({success: true});
+                                    });
+                                } else {
+                                    res.json({success: true});
+                                }
+                            });
+                        }
+                    });
                 });
             }
         });
-    }
-});
-// 分配洒水站操作
-app.post("/distribute_nozzle.do", function (req, res) {
-    db.exec("select id from nozzle where controlbox_id=? and no=?", [req.body.controlbox_id, req.body.no], function (ids) {
-        if (ids.length > 0) {
-            res.json({failure: true});  // 洒水站编号重复
-        } else {
-            db.exec("update nozzle set controlbox_id=?,no=?,name=?,course_id=?,hole=?,area_id=?,model_id=?,shape_id=?,angle=?,shot_count=?,waterfall_rate=?,turf_id=? where id=?", [req.body.controlbox_id, req.body.no, req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id, req.body.id], function () {
-                db.exec("update nozzle a join controlbox b on a.controlbox_id=b.id set a.color=b.color where a.id=?", [req.body.id], function () {
-                    res.json({success: true});
-                });
-            });
-        }
     });
 });
 // 删除洒水站操作
 app.post("/del_nozzle.do", function (req, res) {
     db.exec("delete from nozzle where id=?", [req.body.id], function () {
-        res.json({success: true});
+        db.exec("delete from sprinkler where nozzle_id=?", [req.body.id], function () {
+            res.json({success: true});
+        });
     });
 });
 // 禁用洒水站操作
@@ -1395,14 +1509,50 @@ app.post("/pos.do", function (req, res) {
     var gcj = gcoord.transform(
         [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
         gcoord.BD09,               // 当前坐标系
-        gcoord.GCJ02                 // 目标坐标系
+        gcoord.GCJ02               // 目标坐标系
     );
     var gps = gcoord.transform(
         [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
         gcoord.BD09,               // 当前坐标系
-        gcoord.WGS84                 // 目标坐标系
+        gcoord.WGS84               // 目标坐标系
     );
     db.exec("update controlbox set lon=?, lat=?, gcj_lon=?, gcj_lat=?, gps_lon=?, gps_lat=? where id=?", [req.body.lon, req.body.lat, gcj[0], gcj[1], gps[0], gps[1], req.body.id], function () {
+        res.json({success: true});
+    });
+});
+// 改变分控箱，级联洒水站
+app.post("/change_controlbox.do", function (req, res) {
+    db.exec("select id, no from nozzle where controlbox_id=? order by no", [req.body.id], function (nozzles) {
+        var options = [];
+        for(var i=0; i<nozzles.length; i++) {
+            options.push({value: nozzles[i].id, text: nozzles[i].no});
+        }
+        res.json({success: true, options: options});
+    });
+});
+// 改变洒水站，级联喷头
+app.post("/change_nozzle.do", function (req, res) {
+    db.exec("select id, no from sprinkler where nozzle_id=? order by no", [req.body.id], function (sprinklers) {
+        var options = [];
+        for(var i=0; i<sprinklers.length; i++) {
+            options.push({value: sprinklers[i].id, text: sprinklers[i].no});
+        }
+        res.json({success: true, options: options});
+    });
+});
+// 喷头定位
+app.post("/pos_sprinkler.do", function (req, res) {
+    var gcj = gcoord.transform(
+        [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+        gcoord.BD09,               // 当前坐标系
+        gcoord.GCJ02               // 目标坐标系
+    );
+    var gps = gcoord.transform(
+        [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+        gcoord.BD09,               // 当前坐标系
+        gcoord.WGS84               // 目标坐标系
+    );
+    db.exec("update sprinkler set lon=?, lat=?, gcj_lon=?, gcj_lat=?, gps_lon=?, gps_lat=? where id=?", [req.body.lon, req.body.lat, gcj[0], gcj[1], gps[0], gps[1], req.body.id], function () {
         res.json({success: true});
     });
 });
@@ -1504,19 +1654,73 @@ app.post("/controlbox_pos", function (req, res) {
 });
 // 分控箱定位
 app.post("/pos", function (req, res) {
-    var baidu = gcoord.transform(
-        [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
-        gcoord.GCJ02,               // 当前坐标系
-        gcoord.BD09                 // 目标坐标系
-    );
-    var gps = gcoord.transform(
-        [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
-        gcoord.GCJ02,               // 当前坐标系
-        gcoord.WGS84                 // 目标坐标系
-    );
     db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
         if (ids.length > 0) {
+            var baidu = gcoord.transform(
+                [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+                gcoord.GCJ02,               // 当前坐标系
+                gcoord.BD09                 // 目标坐标系
+            );
+            var gps = gcoord.transform(
+                [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+                gcoord.GCJ02,               // 当前坐标系
+                gcoord.WGS84                 // 目标坐标系
+            );
             db.exec("update controlbox set lon=?, lat=?, gcj_lon=?, gcj_lat=?, gps_lon=?, gps_lat=? where id=?", [baidu[0], baidu[1], req.body.lon, req.body.lat, gps[0], gps[1], req.body.id], function () {
+                res.json({success: true});
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 改变分控箱，级联洒水站
+app.post("/change_controlbox", function (req, res) {
+    db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
+        if (ids.length > 0) {
+            db.exec("select id, no from nozzle where controlbox_id=? order by no", [req.body.id], function (nozzles) {
+                var ns = [];
+                for(var i=0; i<nozzles.length; i++) {
+                    ns.push({id: nozzles[i].id, no: nozzles[i].no});
+                }
+                res.json({success: true, nozzles: ns});
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 改变洒水站，级联喷头
+app.post("/change_nozzle", function (req, res) {
+    db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
+        if (ids.length > 0) {
+            db.exec("select id, no from sprinkler where nozzle_id=? order by no", [req.body.id], function (sprinklers) {
+                var sprs = [];
+                for(var i=0; i<sprinklers.length; i++) {
+                    sprs.push({id: sprinklers[i].id, no: sprinklers[i].no});
+                }
+                res.json({success: true, sprinklers: sprs});
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 喷头定位
+app.post("/pos_sprinkler", function (req, res) {
+    db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
+        if (ids.length > 0) {
+            var baidu = gcoord.transform(
+                [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+                gcoord.GCJ02,               // 当前坐标系
+                gcoord.BD09                 // 目标坐标系
+            );
+            var gps = gcoord.transform(
+                [parseFloat(req.body.lon), parseFloat(req.body.lat)],    // 经纬度坐标
+                gcoord.GCJ02,               // 当前坐标系
+                gcoord.WGS84                 // 目标坐标系
+            );
+            db.exec("update sprinkler set lon=?, lat=?, gcj_lon=?, gcj_lat=?, gps_lon=?, gps_lat=? where id=?", [baidu[0], baidu[1], req.body.lon, req.body.lat, gps[0], gps[1], req.body.id], function () {
                 res.json({success: true});
             });
         } else {
@@ -2299,7 +2503,7 @@ function distance(lng1, lat1, lng2, lat2) {
 }
 // 打开移动端页面，百度地图
 app.get("/gps_control.html", function (req, res) {
-    db.exec("select * from controlbox order by id", [], function (controlboxes) {
+    db.exec("select * from controlbox order by no", [], function (controlboxes) {
         var adj_controlboxes = [];
         var near_controlboxes = [];
         var far_controlboxes = [];
