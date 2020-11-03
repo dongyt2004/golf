@@ -38,6 +38,12 @@ const scheduler = new CronicleClient({
     apiKey: process.env.CRONICLE_API_KEY
 });
 const crc16 = require('crc').crc16modbus;
+const EsClient = require('@elastic/elasticsearch');
+const esClient = new EsClient.Client({
+    node: process.env.ES_URL
+});
+const AsyncLock = require('async-lock');
+const lock = new AsyncLock();
 /** ------------------------------------------------------------------------------------ 测 试 ------------------------------------------------------------------------------------------ **/
 // function add_100_controlboxes() {
 //     var current_time = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -132,6 +138,36 @@ app.use(session({
         maxAge: 1800000
     }
 }));
+/** ------------------------------------------------------------------------------------ 向 elasticsearch 初 始 化 喷 头 坐 标 ------------------------------------------------------------------------------------------ **/
+esClient.deleteByQuery({
+    index: process.env.DATABASE,
+    body: {
+        query: {
+            match_all: {}
+        }
+    }
+});
+db.exec("select id,nozzle_id,gps_lon,gps_lat from sprinkler where gps_lon is not null", [], function (sprinklers) {  // 在es中的必须是有坐标的
+    var sp = [];
+    for(var i=0; i<sprinklers.length; i++) {
+        sp.push({
+            id: sprinklers[i].id,
+            nozzle_id: sprinklers[i].nozzle_id,
+            location: {
+                lat: sprinklers[i].gps_lat,
+                lon: sprinklers[i].gps_lon
+            }
+        });
+    }
+    esClient.helpers.bulk({
+        datasource: sp,
+        onDocument (doc) {
+            return {
+                index: { _index: process.env.DATABASE, _id: doc.id }
+            }
+        }
+    })
+});
 /** ------------------------------------------------------------------------------------- 启 动 时 调 度 的 作 业 ----------------------------------------------------------------------------------------------- **/
 // 向Cronicle添加定时转储2天前的job
 scheduler.getEvent({
@@ -245,6 +281,108 @@ setInterval(function() {
         }
     });
 }, 60000);
+/** ------------------------------------------------------------------------------------- 自 动 暂 停 或 重 启 ----------------------------------------------------------------------------------------------- **/
+// 暂停对象的构造函数
+function Pause(cart_no, nozzle_id) {
+    // 该非零元的行下标和列下标
+    this.cart_no = cart_no || '';
+    this.nozzle_id = nozzle_id || 0;
+    this.pause_start_time = moment();
+}
+// 所有暂停对象的三元组表，行是车，列是nozzle
+const pauses = [];
+// 暂停后的自动发送洒水指令
+function auto_send(nozzle_ids) {
+    var where = "";
+    for(var i=0; i<nozzle_ids.length; i++) {
+        where += "a.id=" + nozzle_ids[i] + " or ";
+    }
+    where += "1=0";
+    db.exec("select a.id as nozzle_id, a.remain_time, b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and a.state=0 and (" + where + ")", [], function (results) {
+        var commands = [], values = [];
+        var start_time = moment().format("YYYY-MM-DD HH:mm:ss");
+        for(var i=0; i<results.length; i++) {
+            commands.push(numeral(results[i].controlbox_no).format('000') + "-" + numeral(results[i].nozzle_no).format('00') + "," + left_pad(results[i].remain_time.toString(16), 4));
+            values.push("(" + results[i].nozzle_id + ",'" + results[i].controlbox_no + "-" + results[i].nozzle_no + "','" + start_time + "'," + results[i].remain_time + ")");
+        }
+        var command = commands[0], value = values[0];
+        for(i=1; i<commands.length; i++) {
+            if (i % process.env.COMMAND_BATCH_SIZE === 0) {
+                command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
+                command = format(command, numeral(command.length + 1 + 4).format('000'));
+                command = command + left_pad(crc16(command).toString(16), 4);
+                mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+                    if (!err) {
+                        console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控暂停后又自动下发洒水指令：" + command);
+                        try {
+                            db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
+                        } catch (e) {
+                        }
+                    } else {
+                        return false;
+                    }
+                });
+                command = commands[i];
+                value = values[i];
+            } else {
+                command += ";" + commands[i];
+                value += "," + values[i];
+            }
+        }
+        command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
+        command = format(command, numeral(command.length + 1 + 4).format('000'));
+        command = command + left_pad(crc16(command).toString(16), 4);
+        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+            if (!err) {
+                console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控暂停后又自动下发洒水指令：" + command);
+                try {
+                    db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
+                        return true;
+                    });
+                } catch (e) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        });
+    });
+}
+// 基于距离自动停止洒水
+function auto_stop(nozzle_ids) {
+    var where = "";
+    for(var i=0; i<nozzle_ids.length; i++) {
+        where += "a.id=" + nozzle_ids[i] + " or ";
+    }
+    where += "1=0";
+    db.exec("select b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and a.state=1 and (" + where + ")", [], function (results) {
+        var s = "";
+        for(var i=0; i<results.length;i++) {
+            s += numeral(results[i].controlbox_no).format('000') + "-" + numeral(results[i].nozzle_no).format('00') + ",";
+        }
+        if (s.length > 0) {
+            s = s.substr(0, s.length - 1);
+        }
+        var command = process.env.COMMAND_STOP_SOME + "|";
+        command += s + "|";
+        command = command + left_pad(crc16(command).toString(16), 4);
+        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+            if (!err) {
+                console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控自动下发暂停洒水指令：" + command);
+                return true;
+            } else {
+                return false;
+            }
+        });
+    });
+}
+// 根据两点gps坐标，计算它们的方位角（0~360°）
+function getAngleByGps(lng1, lat1, lng2, lat2){
+    var x = Math.sin(lng2 - lng1) * Math.cos(lat2);
+    var y = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1);
+    var angle = Math.atan2(x, y) * 180 / Math.PI;
+    return angle > 0 ? angle : angle + 360;
+}
 /** ------------------------------------------------------------------------------------- 订 阅 ----------------------------------------------------------------------------------------------- **/
 mqtt_client.on("message", function (topic, message) {
     var msg = message.toString();
@@ -297,7 +435,90 @@ mqtt_client.on("message", function (topic, message) {
         } else if (commands[0] === process.env.COMMAND_REMOTE_OR_LOCAL_CONTROL_FEEDBACK) {
             console.log("[" + current_time + "] " + process.env.CLUB_NAME + "远程或本地控制命令的反馈命令nothing to do：" + msg);  ///////////////////
         } else if (commands[0] === process.env.COMMAND_GPS) {
-
+            var cart_no = commands[1];
+            var gps = commands[2].split(",");
+            var cart_lon = parseFloat(gps[0]);
+            var cart_lat = parseFloat(gps[1]);
+            var distance = parseInt(gps[2]) * 10 + 30;
+            esClient.search({
+                index: process.env.DATABASE,
+                body: {
+                    "query": {
+                        "bool": {
+                            "must": {
+                                "match_all": {}
+                            },
+                            "filter": {
+                                "geo_distance": {
+                                    "distance": distance + "m",
+                                    "location": {
+                                        "lat": cart_lat,
+                                        "lon": cart_lon
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }, (err, result) => {
+                var need_pause_nozzle_ids = [];
+                for(var i=0; i<result.hits.hits.length; i++) {
+                    var angle = getAngleByGps(cart_lon, cart_lat, result.hits.hits[i]._source.location.lon, result.hits.hits[i]._source.location.lat)
+                    if (Math.abs(parseInt(gps[3]) - angle) <= Math.atan(30 / distance) * 180 / Math.PI) {
+                        need_pause_nozzle_ids.push(result.hits.hits[i]._source.nozzle_id);
+                    }
+                }
+                need_pause_nozzle_ids = _.uniq(need_pause_nozzle_ids);
+                var already_paused_nozzle_ids = [];
+                for(var i=0; i<pauses.length; i++) {
+                    if (pauses[i].cart_no === cart_no) {
+                        already_paused_nozzle_ids.push(pauses[i].nozzle_id);
+                    }
+                }
+                var may_restart_nozzle_ids = _.difference(already_paused_nozzle_ids, need_pause_nozzle_ids);
+                var newly_need_pause_nozzle_ids = _.difference(need_pause_nozzle_ids, already_paused_nozzle_ids);
+                lock.acquire('change_pause_matrix', function () {
+                    pauses = pauses.filter(function (pause) {
+                        if (pause.cart_no === cart_no) {
+                            return may_restart_nozzle_ids.indexOf(pause.nozzle_id) === -1;
+                        } else {
+                            return true;
+                        }
+                    });
+                    for(i=0; i < newly_need_pause_nozzle_ids.length; i++) {
+                        pauses.push(new Pause(cart_no, newly_need_pause_nozzle_ids[i]));
+                    }
+                    var may_send_nozzle_ids = [];
+                    for(var i=0; i<may_restart_nozzle_ids.length; i++) {
+                        var may_send = true;
+                        for(var j=0; j<pauses.length; j++) {
+                            if (may_restart_nozzle_ids[i] === pauses[j].nozzle_id) {
+                                may_send = false;
+                                break;
+                            }
+                        }
+                        if (may_send) {
+                            may_send_nozzle_ids.push(may_restart_nozzle_ids[i]);
+                        }
+                    }
+                    auto_send(may_send_nozzle_ids);
+                    var may_stop_nozzle_ids = [];
+                    for(var i=0; i<newly_need_pause_nozzle_ids.length; i++) {
+                        var may_stop = true;
+                        for(var j=0; j<pauses.length; j++) {
+                            if (newly_need_pause_nozzle_ids[i] === pauses[j].nozzle_id) {
+                                may_stop = false;
+                                break;
+                            }
+                        }
+                        if (may_stop) {
+                            may_stop_nozzle_ids.push(newly_need_pause_nozzle_ids[i]);
+                        }
+                    }
+                    auto_stop(may_stop_nozzle_ids);
+                }, function (err, ret) {
+                })
+            });
         }
     } else {
         console.log("[" + current_time + "] " + process.env.CLUB_NAME + "CRC16校验错误：" + msg);
@@ -594,7 +815,7 @@ app.post("/irrigate/:plan_id/:nozzle_ids/:howlong", function (req, res) {
         where += "a.id=" + involved_nozzles[i] + " or ";
     }
     where += "1=0";
-    db.exec("select a.id as nozzle_id, b.no as controlbox_no, a.no as nozzle_no, c.moisture from nozzle a join controlbox b on a.controlbox_id=b.id left join turf c on a.turf_id=c.id where a.use_state=1 and (" + where + ")", [], function (results) {
+    db.exec("select a.id as nozzle_id, b.no as controlbox_no, a.no as nozzle_no, c.moisture from nozzle a join controlbox b on a.controlbox_id=b.id left join turf c on a.turf_id=c.id where a.use_state=1 and a.state=0 and (" + where + ")", [], function (results) {
         var commands = [], values = [];
         var start_time = moment().format("YYYY-MM-DD HH:mm:ss");
         for(var i=0; i<results.length; i++) {
@@ -723,7 +944,7 @@ app.post("/send.do", function (req, res) {
         where += "a.id=" + nozzle_ids[i] + " or ";
     }
     where += "1=0";
-    db.exec("select a.id as nozzle_id, b.no as controlbox_no, a.no as nozzle_no, c.moisture from nozzle a join controlbox b on a.controlbox_id=b.id left join turf c on a.turf_id=c.id where (" + where + ")", [], function (results) {
+    db.exec("select a.id as nozzle_id, b.no as controlbox_no, a.no as nozzle_no, c.moisture from nozzle a join controlbox b on a.controlbox_id=b.id left join turf c on a.turf_id=c.id where a.use_state=1 and a.state=0 and (" + where + ")", [], function (results) {
         var commands = [], values = [];
         var start_time = moment().format("YYYY-MM-DD HH:mm:ss");
         for(var i=0; i<results.length; i++) {
@@ -1129,17 +1350,10 @@ app.post("/add_nozzle.do", function (req, res) {
         } else {
             db.exec("insert into nozzle(controlbox_id,no,name,course_id,hole,area_id,model_id,shape_id,angle,shot_count,waterfall_rate,turf_id,state) values(?,?,?,?,?,?,?,?,?,?,?,?,0)", [req.body.controlbox_id, req.body.no, req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id], function () {
                 db.exec("select id from nozzle where controlbox_id=? and no=?", [req.body.controlbox_id, req.body.no], function (ids) {
-                    var sprinkler_nos = [];
-                    for(var i=1; i<=parseInt(req.body.shot_count); i++) {
-                        sprinkler_nos.push(i);
+                    for(var i=0; i<parseInt(req.body.shot_count); i++) {
+                        db.exec("insert into sprinkler(nozzle_id) values(?)", [ids[0].id]);
                     }
-                    eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
-                        db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [ids[0].id, sprinkler_no], function () {
-                            done();
-                        });
-                    }, function() {
-                        res.json({success: true});
-                    });
+                    res.json({success: true});
                 });
             });
         }
@@ -1151,77 +1365,73 @@ app.post("/update_nozzle.do", function (req, res) {
         var update_no = JSON.parse(req.body.update_no);
         if (!update_no) {
             db.exec("update nozzle set name=?,course_id=?,hole=?,area_id=?,model_id=?,shape_id=?,angle=?,shot_count=?,waterfall_rate=?,turf_id=? where id=?", [req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id, req.body.id], function () {
-                if (shot_count[0].shot_count !== parseInt(req.body.shot_count)) {
+                if (shot_count[0].shot_count !== parseInt(req.body.shot_count)) {  // 需要重新测量喷头的坐标
                     db.exec("delete from sprinkler where nozzle_id=?", [req.body.id], function () {
-                        var sprinkler_nos = [];
-                        for(var i=1; i<=parseInt(req.body.shot_count); i++) {
-                            sprinkler_nos.push(i);
-                        }
-                        eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
-                            db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
-                                done();
-                            });
-                        }, function() {
-                            res.json({success: true});
+                        esClient.deleteByQuery({
+                            index: process.env.DATABASE,
+                            body: {
+                                query: {
+                                    bool: {
+                                        filter: {
+                                            term: {
+                                                nozzle_id: parseInt(req.body.id)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         });
+                        for(var i=0; i<parseInt(req.body.shot_count); i++) {
+                            db.exec("insert into sprinkler(nozzle_id) values(?)", [req.body.id]);
+                        }
+                        res.json({success: true});
                     });
                 } else {
                     db.exec("select id from sprinkler where nozzle_id=?", [req.body.id], function (ids) {
                         if (ids.length === 0) {
-                            var sprinkler_nos = [];
-                            for(var i=1; i<=parseInt(req.body.shot_count); i++) {
-                                sprinkler_nos.push(i);
+                            for(var i=0; i<parseInt(req.body.shot_count); i++) {
+                                db.exec("insert into sprinkler(nozzle_id) values(?)", [req.body.id]);
                             }
-                            eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
-                                db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
-                                    done();
-                                });
-                            }, function() {
-                                res.json({success: true});
-                            });
-                        } else {
-                            res.json({success: true});
                         }
+                        res.json({success: true});
                     });
                 }
             });
-        } else {
+        } else {  // 修改了洒水站编号
             db.exec("select id from nozzle where controlbox_id=? and no=?", [req.body.controlbox_id, req.body.no], function (ids) {
                 if (ids.length > 0) {
                     res.json({failure: true});  // 洒水站编号重复
                 } else {
                     db.exec("update nozzle set controlbox_id=?,no=?,name=?,course_id=?,hole=?,area_id=?,model_id=?,shape_id=?,angle=?,shot_count=?,waterfall_rate=?,turf_id=? where id=?", [req.body.controlbox_id, req.body.no, req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id, req.body.id], function () {
-                        if (shot_count[0].shot_count !== parseInt(req.body.shot_count)) {
+                        if (shot_count[0].shot_count !== parseInt(req.body.shot_count)) {  // 需要重新测量喷头的坐标
                             db.exec("delete from sprinkler where nozzle_id=?", [req.body.id], function () {
-                                var sprinkler_nos = [];
-                                for(var i=1; i<=parseInt(req.body.shot_count); i++) {
-                                    sprinkler_nos.push(i);
-                                }
-                                eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
-                                    db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
-                                        done();
-                                    });
-                                }, function() {
-                                    res.json({success: true});
+                                esClient.deleteByQuery({
+                                    index: process.env.DATABASE,
+                                    body: {
+                                        query: {
+                                            bool: {
+                                                filter: {
+                                                    term: {
+                                                        nozzle_id: parseInt(req.body.id)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 });
+                                for(var i=0; i<parseInt(req.body.shot_count); i++) {
+                                    db.exec("insert into sprinkler(nozzle_id) values(?)", [req.body.id]);
+                                }
+                                res.json({success: true});
                             });
                         } else {
                             db.exec("select id from sprinkler where nozzle_id=?", [req.body.id], function (ids) {
                                 if (ids.length === 0) {
-                                    var sprinkler_nos = [];
-                                    for(var i=1; i<=parseInt(req.body.shot_count); i++) {
-                                        sprinkler_nos.push(i);
+                                    for(var i=0; i<parseInt(req.body.shot_count); i++) {
+                                        db.exec("insert into sprinkler(nozzle_id) values(?)", [req.body.id]);
                                     }
-                                    eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
-                                        db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
-                                            done();
-                                        });
-                                    }, function() {
-                                        res.json({success: true});
-                                    });
-                                } else {
-                                    res.json({success: true});
                                 }
+                                res.json({success: true});
                             });
                         }
                     });
@@ -1239,37 +1449,35 @@ app.post("/distribute_nozzle.do", function (req, res) {
             } else {
                 db.exec("update nozzle set controlbox_id=?,no=?,name=?,course_id=?,hole=?,area_id=?,model_id=?,shape_id=?,angle=?,shot_count=?,waterfall_rate=?,turf_id=? where id=?", [req.body.controlbox_id, req.body.no, req.body.name, req.body.course_id, req.body.hole, req.body.area_id, req.body.model_id, req.body.shape_id, JSON.parse(req.body.angle), JSON.parse(req.body.shot_count), JSON.parse(req.body.waterfall_rate), req.body.turf_id, req.body.id], function () {
                     db.exec("update nozzle a join controlbox b on a.controlbox_id=b.id set a.color=b.color where a.id=?", [req.body.id], function () {
-                        if (shot_count[0].shot_count !== parseInt(req.body.shot_count)) {
+                        if (shot_count[0].shot_count !== parseInt(req.body.shot_count)) {  // 需要重新测量喷头的坐标
                             db.exec("delete from sprinkler where nozzle_id=?", [req.body.id], function () {
-                                var sprinkler_nos = [];
-                                for(var i=1; i<=parseInt(req.body.shot_count); i++) {
-                                    sprinkler_nos.push(i);
-                                }
-                                eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
-                                    db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
-                                        done();
-                                    });
-                                }, function() {
-                                    res.json({success: true});
+                                esClient.deleteByQuery({
+                                    index: process.env.DATABASE,
+                                    body: {
+                                        query: {
+                                            bool: {
+                                                filter: {
+                                                    term: {
+                                                        nozzle_id: parseInt(req.body.id)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 });
+                                for(var i=0; i<parseInt(req.body.shot_count); i++) {
+                                    db.exec("insert into sprinkler(nozzle_id) values(?)", [req.body.id]);
+                                }
+                                res.json({success: true});
                             });
                         } else {
                             db.exec("select id from sprinkler where nozzle_id=?", [req.body.id], function (ids) {
                                 if (ids.length === 0) {
-                                    var sprinkler_nos = [];
-                                    for(var i=1; i<=parseInt(req.body.shot_count); i++) {
-                                        sprinkler_nos.push(i);
+                                    for(var i=0; i<parseInt(req.body.shot_count); i++) {
+                                        db.exec("insert into sprinkler(nozzle_id) values(?)", [req.body.id]);
                                     }
-                                    eachAsync(sprinkler_nos, function(sprinkler_no, index, done) {
-                                        db.exec("insert into sprinkler(nozzle_id,no) values(?,?)", [req.body.id, sprinkler_no], function () {
-                                            done();
-                                        });
-                                    }, function() {
-                                        res.json({success: true});
-                                    });
-                                } else {
-                                    res.json({success: true});
                                 }
+                                res.json({success: true});
                             });
                         }
                     });
@@ -1282,6 +1490,20 @@ app.post("/distribute_nozzle.do", function (req, res) {
 app.post("/del_nozzle.do", function (req, res) {
     db.exec("delete from nozzle where id=?", [req.body.id], function () {
         db.exec("delete from sprinkler where nozzle_id=?", [req.body.id], function () {
+            esClient.deleteByQuery({
+                index: process.env.DATABASE,
+                body: {
+                    query: {
+                        bool: {
+                            filter: {
+                                term: {
+                                    nozzle_id: parseInt(req.body.id)
+                                }
+                            }
+                        }
+                    }
+                }
+            });
             res.json({success: true});
         });
     });
@@ -1532,10 +1754,10 @@ app.post("/change_controlbox.do", function (req, res) {
 });
 // 改变洒水站，级联喷头
 app.post("/change_nozzle.do", function (req, res) {
-    db.exec("select id, no from sprinkler where nozzle_id=? order by no", [req.body.id], function (sprinklers) {
+    db.exec("select id from sprinkler where nozzle_id=? order by id", [req.body.id], function (sprinklers) {
         var options = [];
         for(var i=0; i<sprinklers.length; i++) {
-            options.push({value: sprinklers[i].id, text: sprinklers[i].no});
+            options.push({value: sprinklers[i].id, text: i + 1});
         }
         res.json({success: true, options: options});
     });
@@ -1553,7 +1775,20 @@ app.post("/pos_sprinkler.do", function (req, res) {
         gcoord.WGS84               // 目标坐标系
     );
     db.exec("update sprinkler set lon=?, lat=?, gcj_lon=?, gcj_lat=?, gps_lon=?, gps_lat=? where id=?", [req.body.lon, req.body.lat, gcj[0], gcj[1], gps[0], gps[1], req.body.id], function () {
-        res.json({success: true});
+        db.exec("select * from sprinkler where id=?", [req.body.id], function (sprinklers) {
+            esClient.index({
+                index: process.env.DATABASE,
+                id: parseInt(req.body.id),
+                body: {
+                    nozzle_id: sprinklers[0].nozzle_id,
+                    location: {
+                        lat: sprinklers[0].gps_lat,
+                        lon: sprinklers[0].gps_lon
+                    }
+                }
+            });
+            res.json({success: true});
+        });
     });
 });
 /** ---------------------------------------------------------------------------- 从 微 信 小  程 序 云 函 数 请 求，使 用 腾 讯 地 图 ----------------------------------------------------------------------------------- **/
@@ -1628,7 +1863,7 @@ app.post("/controlbox_pos", function (req, res) {
                         }
                         var str2 = '';
                         if (nozzles[i].remain_time !== null) {
-                            str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分暂停)";
+                            str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分钟暂停)";
                         }
                         nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
                     }
@@ -1694,10 +1929,10 @@ app.post("/change_controlbox", function (req, res) {
 app.post("/change_nozzle", function (req, res) {
     db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
         if (ids.length > 0) {
-            db.exec("select id, no from sprinkler where nozzle_id=? order by no", [req.body.id], function (sprinklers) {
+            db.exec("select id from sprinkler where nozzle_id=? order by id", [req.body.id], function (sprinklers) {
                 var sprs = [];
                 for(var i=0; i<sprinklers.length; i++) {
-                    sprs.push({id: sprinklers[i].id, no: sprinklers[i].no});
+                    sprs.push({id: sprinklers[i].id, no: i + 1});
                 }
                 res.json({success: true, sprinklers: sprs});
             });
@@ -1721,7 +1956,20 @@ app.post("/pos_sprinkler", function (req, res) {
                 gcoord.WGS84                 // 目标坐标系
             );
             db.exec("update sprinkler set lon=?, lat=?, gcj_lon=?, gcj_lat=?, gps_lon=?, gps_lat=? where id=?", [baidu[0], baidu[1], req.body.lon, req.body.lat, gps[0], gps[1], req.body.id], function () {
-                res.json({success: true});
+                db.exec("select * from sprinkler where id=?", [req.body.id], function (sprinklers) {
+                    esClient.index({
+                        index: process.env.DATABASE,
+                        id: parseInt(req.body.id),
+                        body: {
+                            nozzle_id: sprinklers[0].nozzle_id,
+                            location: {
+                                lat: sprinklers[0].gps_lat,
+                                lon: sprinklers[0].gps_lon
+                            }
+                        }
+                    });
+                    res.json({success: true});
+                });
             });
         } else {
             res.json({failure: true});
@@ -1758,7 +2006,7 @@ app.post("/send", function (req, res) {
                 where += "a.id=" + nozzle_ids[i] + " or ";
             }
             where += "1=0";
-            db.exec("select a.id as nozzle_id, b.no as controlbox_no, a.no as nozzle_no, c.moisture from nozzle a join controlbox b on a.controlbox_id=b.id left join turf c on a.turf_id=c.id where (" + where + ")", [], function (results) {
+            db.exec("select a.id as nozzle_id, b.no as controlbox_no, a.no as nozzle_no, c.moisture from nozzle a join controlbox b on a.controlbox_id=b.id left join turf c on a.turf_id=c.id where a.use_state=1 and a.state=0 and (" + where + ")", [], function (results) {
                 var commands = [], values = [];
                 var start_time = moment().format("YYYY-MM-DD HH:mm:ss");
                 for(var i=0; i<results.length; i++) {
@@ -2069,7 +2317,7 @@ app.get("/manual_controlbox.html", function (req, res) {
                     }
                     var str2 = '';
                     if (nozzles[i].remain_time !== null) {
-                        str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分暂停)";
+                        str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分钟暂停)";
                     }
                     nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
                 }
@@ -2113,7 +2361,7 @@ app.get("/manual_area.html", function (req, res) {
                         }
                         var str2 = '';
                         if (nozzles[i].remain_time !== null) {
-                            str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分暂停)";
+                            str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分钟暂停)";
                         }
                         nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].area_id + "-" + nozzles[i].hole,icon:"/img/喷头.png"});
                     }
@@ -2555,7 +2803,7 @@ app.get("/gps_control.html", function (req, res) {
                     }
                     var str2 = '';
                     if (nozzles[i].remain_time !== null) {
-                        str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分暂停)";
+                        str2 = "(提前" + Math.round(nozzles[i].remain_time / 60) + "分钟暂停)";
                     }
                     nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
                 }

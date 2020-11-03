@@ -49,6 +49,8 @@
     "string-format": "2.0.0",
     "numeral": "2.0.6",
     "image-size": "0.8.3",
-    "gcoord": "0.2.3"
+    "gcoord": "0.2.3",
+    "@elastic/elasticsearch": "7.9.1",
+    "async-lock": "1.2.4"
   }
 }
