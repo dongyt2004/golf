@@ -486,11 +486,12 @@ mqtt_client.on("message", function (topic, message) {
                     console.log("sprinkler_lat=" + sprinkler_lat);  ///////////////////
                     console.log("角度=" + getAngleByGps(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat));  ////////////////////
                     var delta = Math.abs(getAngleByGps(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat) - parseInt(gps[3]));
-                    console.log(delta);  ////////////////
+                    console.log("夹角=" + delta);  ////////////////
                     if (delta > 180) {
                         delta = 360 - delta;
                     }
                     var dst = distance(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat);
+                    console.log("距离=" + dst);  ////////////////////////
                     var radius = parseInt(process.env.MAX_IRRIGATE_RADIUS);
                     if (dst <= radius || delta < 90 && dst * Math.sin(delta * Math.PI / 180) < radius) {
                         need_pause_nozzle_ids.push(hits[i]._source.nozzle_id);
