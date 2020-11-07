@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="7th commit - 2020.08.12">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.env" beforeDir="false" afterPath="$PROJECT_DIR$/app.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <option name="SHOW_DIALOG" value="false" />
@@ -387,14 +385,7 @@
       <workItem from="1604649499719" duration="7117000" />
       <workItem from="1604713350109" duration="1738000" />
       <workItem from="1604715223676" duration="5375000" />
-      <workItem from="1604733386806" duration="8099000" />
-    </task>
-    <task id="LOCAL-00125" summary="5th commit">
-      <created>1593914761232</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1593914761232</updated>
+      <workItem from="1604733386806" duration="9257000" />
     </task>
     <task id="LOCAL-00126" summary="5th commit">
       <created>1594082981693</created>
@@ -732,7 +723,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604382732121</updated>
     </task>
-    <option name="localTasksCounter" value="174" />
+    <task id="LOCAL-00174" summary="7th commit - 2020.08.12">
+      <created>1604757691816</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1604757691817</updated>
+    </task>
+    <option name="localTasksCounter" value="175" />
     <servers />
   </component>
   <component name="TodoView">
@@ -812,10 +810,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="117" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1600590870663" />
-    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1604382731500">
+    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1604757691079">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1604382731500" />
+    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1604757691079" />
     <state width="437" height="466" key="DebuggerActiveHint" timestamp="1603950743259">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -896,10 +894,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="274" y="42" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1604399094141" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1604382733812">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1604757696395">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1604382733812" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1604757696395" />
     <state x="93" y="93" width="1350" height="638" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1604213524534">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
