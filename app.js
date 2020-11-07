@@ -45,6 +45,7 @@ const esClient = new EsClient.Client({
 const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
 /** ------------------------------------------------------------------------------------ 测 试 ------------------------------------------------------------------------------------------ **/
+// console.log(getAngleByGps(117.2949181808, 38.9702309017, 117.2945805215, 38.9704888905));
 // function add_100_controlboxes() {
 //     var current_time = moment().format("YYYY-MM-DD HH:mm:ss");
 //     for(var i=1; i<=100; i++) {
@@ -289,8 +290,17 @@ function Pause(cart_no, nozzle_id) {
     this.nozzle_id = nozzle_id || 0;
     this.pause_start_time = moment();
 }
-// 所有暂停对象的三元组表，行是车，列是nozzle
-const pauses = [];
+// 所有暂停对象的三元组表，行是车，列是nozzle洒水站，凡是在稀疏矩阵中的非零元代表自动暂停的洒水站，手动暂停的洒水站不在稀疏矩阵中
+var pauses = [];
+var count = 0;
+db.exec("select json from pause", [], function (result) {
+    if (result.length > 0) {
+        count = 1;
+        if (result[0].json !== null && result[0].json !== '') {
+            pauses = JSON.parse(result[0].json);
+        }
+    }
+});
 // 暂停后的自动发送洒水指令
 function auto_send(nozzle_ids) {
     var where = "";
@@ -298,54 +308,58 @@ function auto_send(nozzle_ids) {
         where += "a.id=" + nozzle_ids[i] + " or ";
     }
     where += "1=0";
-    db.exec("select a.id as nozzle_id, a.remain_time, b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and a.state=0 and (" + where + ")", [], function (results) {
+    db.exec("select a.id as nozzle_id, a.remain_time, b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and (" + where + ")", [], function (results) {
         var commands = [], values = [];
         var start_time = moment().format("YYYY-MM-DD HH:mm:ss");
         for(var i=0; i<results.length; i++) {
-            commands.push(numeral(results[i].controlbox_no).format('000') + "-" + numeral(results[i].nozzle_no).format('00') + "," + left_pad(results[i].remain_time.toString(16), 4));
-            values.push("(" + results[i].nozzle_id + ",'" + results[i].controlbox_no + "-" + results[i].nozzle_no + "','" + start_time + "'," + results[i].remain_time + ")");
+            if (results[i].remain_time !== null) {
+                commands.push(numeral(results[i].controlbox_no).format('000') + "-" + numeral(results[i].nozzle_no).format('00') + "," + left_pad(results[i].remain_time.toString(16), 4));
+                values.push("(" + results[i].nozzle_id + ",'" + results[i].controlbox_no + "-" + results[i].nozzle_no + "','" + start_time + "'," + results[i].remain_time + ")");
+            }
         }
-        var command = commands[0], value = values[0];
-        for(i=1; i<commands.length; i++) {
-            if (i % process.env.COMMAND_BATCH_SIZE === 0) {
-                command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
-                command = format(command, numeral(command.length + 1 + 4).format('000'));
-                command = command + left_pad(crc16(command).toString(16), 4);
-                mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
-                    if (!err) {
-                        console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控暂停后又自动下发洒水指令：" + command);
-                        try {
-                            db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
-                        } catch (e) {
+        if (commands.length > 0 && values.length > 0) {
+            var command = commands[0], value = values[0];
+            for(i=1; i<commands.length; i++) {
+                if (i % process.env.COMMAND_BATCH_SIZE === 0) {
+                    command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
+                    command = format(command, numeral(command.length + 1 + 4).format('000'));
+                    command = command + left_pad(crc16(command).toString(16), 4);
+                    mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+                        if (!err) {
+                            console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控暂停后又自动下发洒水指令：" + command);
+                            try {
+                                db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, []);
+                            } catch (e) {
+                            }
+                        } else {
+                            return false;
                         }
-                    } else {
+                    });
+                    command = commands[i];
+                    value = values[i];
+                } else {
+                    command += ";" + commands[i];
+                    value += "," + values[i];
+                }
+            }
+            command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
+            command = format(command, numeral(command.length + 1 + 4).format('000'));
+            command = command + left_pad(crc16(command).toString(16), 4);
+            mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+                if (!err) {
+                    console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控暂停后又自动下发洒水指令：" + command);
+                    try {
+                        db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
+                            return true;
+                        });
+                    } catch (e) {
                         return false;
                     }
-                });
-                command = commands[i];
-                value = values[i];
-            } else {
-                command += ";" + commands[i];
-                value += "," + values[i];
-            }
-        }
-        command = process.env.COMMAND_IRRIGATE + "|{}|" + command + "|";
-        command = format(command, numeral(command.length + 1 + 4).format('000'));
-        command = command + left_pad(crc16(command).toString(16), 4);
-        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
-            if (!err) {
-                console.log("[" + start_time + "] " + process.env.CLUB_NAME + "中控暂停后又自动下发洒水指令：" + command);
-                try {
-                    db.exec("insert into job(nozzle_id,nozzle_address,start_time,how_long) values " + value, [], function() {
-                        return true;
-                    });
-                } catch (e) {
+                } else {
                     return false;
                 }
-            } else {
-                return false;
-            }
-        });
+            });
+        }
     });
 }
 // 基于距离自动停止洒水
@@ -355,7 +369,7 @@ function auto_stop(nozzle_ids) {
         where += "a.id=" + nozzle_ids[i] + " or ";
     }
     where += "1=0";
-    db.exec("select b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and a.state=1 and (" + where + ")", [], function (results) {
+    db.exec("select b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and (" + where + ")", [], function (results) {
         var s = "";
         for(var i=0; i<results.length;i++) {
             s += numeral(results[i].controlbox_no).format('000') + "-" + numeral(results[i].nozzle_no).format('00') + ",";
@@ -363,20 +377,22 @@ function auto_stop(nozzle_ids) {
         if (s.length > 0) {
             s = s.substr(0, s.length - 1);
         }
-        var command = process.env.COMMAND_STOP_SOME + "|";
-        command += s + "|";
-        command = command + left_pad(crc16(command).toString(16), 4);
-        mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
-            if (!err) {
-                console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控自动下发暂停洒水指令：" + command);
-                return true;
-            } else {
-                return false;
-            }
-        });
+        if (s !== '') {
+            var command = process.env.COMMAND_STOP_SOME + "|";
+            command += s + "|";
+            command = command + left_pad(crc16(command).toString(16), 4);
+            mqtt_client.publish(process.env.MQTT_TOPDOWN_TOPIC, command, {qos: qos}, function (err) {
+                if (!err) {
+                    console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss") + "] " + process.env.CLUB_NAME + "中控基于距离自动下发暂停洒水指令：" + command);
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        }
     });
 }
-// 根据两点gps坐标，计算它们的方位角（0~360°）
+// 根据两点gps坐标，计算它们的方位角（0~360°），正北方是0°，顺时针
 function getAngleByGps(lng1, lat1, lng2, lat2){
     var x = Math.sin(lng2 - lng1) * Math.cos(lat2);
     var y = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1);
@@ -433,13 +449,13 @@ mqtt_client.on("message", function (topic, message) {
                 console.log("[" + current_time + "] " + process.env.CLUB_NAME + "中控忽略本地控制指令：" + msg);
             }
         } else if (commands[0] === process.env.COMMAND_REMOTE_OR_LOCAL_CONTROL_FEEDBACK) {
-            console.log("[" + current_time + "] " + process.env.CLUB_NAME + "远程或本地控制命令的反馈命令nothing to do：" + msg);  ///////////////////
+            console.log("[" + current_time + "] " + process.env.CLUB_NAME + "远程或本地控制命令的反馈命令nothing to do：" + msg);
         } else if (commands[0] === process.env.COMMAND_GPS) {
             var cart_no = commands[1];
             var gps = commands[2].split(",");
-            var cart_lon = parseFloat(gps[0]);
-            var cart_lat = parseFloat(gps[1]);
-            var distance = parseInt(gps[2]) * 10 + 30;
+            var cart_lon = parseFloat(gps[0]);  // 球车经度
+            var cart_lat = parseFloat(gps[1]);  // 球车纬度
+            var reach = parseFloat(gps[2]) * parseInt(process.env.GPS_INTERVAL_SECOND) + parseInt(process.env.MAX_IRRIGATE_RADIUS);  // 球车速度
             esClient.search({
                 index: process.env.DATABASE,
                 body: {
@@ -450,7 +466,7 @@ mqtt_client.on("message", function (topic, message) {
                             },
                             "filter": {
                                 "geo_distance": {
-                                    "distance": distance + "m",
+                                    "distance": reach + "m",
                                     "location": {
                                         "lat": cart_lat,
                                         "lon": cart_lon
@@ -461,63 +477,103 @@ mqtt_client.on("message", function (topic, message) {
                     }
                 }
             }, (err, result) => {
-                var need_pause_nozzle_ids = [];
-                for(var i=0; i<result.hits.hits.length; i++) {
-                    var angle = getAngleByGps(cart_lon, cart_lat, result.hits.hits[i]._source.location.lon, result.hits.hits[i]._source.location.lat)
-                    if (Math.abs(parseInt(gps[3]) - angle) <= Math.atan(30 / distance) * 180 / Math.PI) {
-                        need_pause_nozzle_ids.push(result.hits.hits[i]._source.nozzle_id);
+                var hits = result.body.hits.hits;
+                var need_pause_nozzle_ids = [];  // 需要暂停的nozzle_id
+                for(var i=0; i<hits.length; i++) {
+                    var sprinkler_lon = hits[i]._source.location.lon;
+                    var sprinkler_lat = hits[i]._source.location.lat;
+                    console.log("sprinkler_lon=" + sprinkler_lon);  ///////////////////
+                    console.log("sprinkler_lat=" + sprinkler_lat);  ///////////////////
+                    console.log("角度=" + getAngleByGps(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat));  ////////////////////
+                    var delta = Math.abs(getAngleByGps(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat) - parseInt(gps[3]));
+                    console.log(delta);  ////////////////
+                    if (delta > 180) {
+                        delta = 360 - delta;
+                    }
+                    var dst = distance(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat);
+                    var radius = parseInt(process.env.MAX_IRRIGATE_RADIUS);
+                    if (dst <= radius || delta < 90 && dst * Math.sin(delta * Math.PI / 180) < radius) {
+                        need_pause_nozzle_ids.push(hits[i]._source.nozzle_id);
                     }
                 }
                 need_pause_nozzle_ids = _.uniq(need_pause_nozzle_ids);
-                var already_paused_nozzle_ids = [];
+                console.log("need_pause_nozzle_ids=" + JSON.stringify(need_pause_nozzle_ids));  /////////////////////////
+                var already_paused_nozzle_ids = [];  // 已经暂停的nozzle_id
                 for(var i=0; i<pauses.length; i++) {
                     if (pauses[i].cart_no === cart_no) {
                         already_paused_nozzle_ids.push(pauses[i].nozzle_id);
                     }
                 }
-                var may_restart_nozzle_ids = _.difference(already_paused_nozzle_ids, need_pause_nozzle_ids);
-                var newly_need_pause_nozzle_ids = _.difference(need_pause_nozzle_ids, already_paused_nozzle_ids);
-                lock.acquire('change_pause_matrix', function () {
-                    pauses = pauses.filter(function (pause) {
-                        if (pause.cart_no === cart_no) {
-                            return may_restart_nozzle_ids.indexOf(pause.nozzle_id) === -1;
-                        } else {
-                            return true;
+                console.log("already_paused_nozzle_ids=" + JSON.stringify(already_paused_nozzle_ids));  /////////////////////////
+                var need_restart_nozzle_ids = _.difference(already_paused_nozzle_ids, need_pause_nozzle_ids);  // 需要重启的nozzle_id
+                console.log("need_restart_nozzle_ids=" + JSON.stringify(need_restart_nozzle_ids));  /////////////////////////
+                var newly_need_pause_nozzle_ids = _.difference(need_pause_nozzle_ids, already_paused_nozzle_ids);  // 新加入暂停的nozzle_id
+                console.log("newly_need_pause_nozzle_ids=" + JSON.stringify(newly_need_pause_nozzle_ids));  /////////////////////////
+                /*// 暂停整个分控箱
+                var stay_nozzle_ids = _.intersection(already_paused_nozzle_ids, need_pause_nozzle_ids);
+                if (stay_nozzle_ids.length > 0) {
+                    for(i = 0; i<pauses.length; i++) {
+                        if (pauses[i].cart_no === cart_no && pauses[i].nozzle_id === stay_nozzle_ids[0] && moment().diff(pauses[i].pause_start_time, 'minute') >= parseInt(process.env.MAX_STAY_MINUTE)) {
+
                         }
-                    });
-                    for(i=0; i < newly_need_pause_nozzle_ids.length; i++) {
+                    }
+                }*/
+                lock.acquire('change_pause_matrix', function (done) {
+                    console.log(cart_no + '号球车进入锁');  ////////////////////
+                    // 最新的稀疏矩阵
+                    if (need_restart_nozzle_ids.length > 0) {
+                        for(var i=pauses.length - 1; i>=0; i--) {
+                            if (pauses[i].cart_no === cart_no && need_restart_nozzle_ids.indexOf(pauses[i].nozzle_id) >= 0) {
+                                pauses.splice(i, 1);
+                            }
+                        }
+                    }
+                    for(var i=0; i < newly_need_pause_nozzle_ids.length; i++) {
                         pauses.push(new Pause(cart_no, newly_need_pause_nozzle_ids[i]));
                     }
-                    var may_send_nozzle_ids = [];
-                    for(var i=0; i<may_restart_nozzle_ids.length; i++) {
-                        var may_send = true;
+                    if (count === 0) {
+                        db.exec("insert into pause(json) values(?)", [JSON.stringify(pauses)], function () {
+                            count = 1;
+                        });
+                    } else {
+                        db.exec("update pause set json=?", [JSON.stringify(pauses)]);
+                    }
+                    console.log("pauses=" + JSON.stringify(pauses));  //////////////////////
+                    var need_send_nozzle_ids = [];  // 最终需要发送指令的nozzle_id
+                    for(var i=0; i<need_restart_nozzle_ids.length; i++) {
+                        var need_send = true;
                         for(var j=0; j<pauses.length; j++) {
-                            if (may_restart_nozzle_ids[i] === pauses[j].nozzle_id) {
-                                may_send = false;
+                            if (need_restart_nozzle_ids[i] === pauses[j].nozzle_id && cart_no !== pauses[j].cart_no) {
+                                need_send = false;
                                 break;
                             }
                         }
-                        if (may_send) {
-                            may_send_nozzle_ids.push(may_restart_nozzle_ids[i]);
+                        if (need_send) {
+                            need_send_nozzle_ids.push(need_restart_nozzle_ids[i]);
                         }
                     }
-                    auto_send(may_send_nozzle_ids);
-                    var may_stop_nozzle_ids = [];
+                    console.log("need_send_nozzle_ids=" + JSON.stringify(need_send_nozzle_ids));  //////////////////////
+                    auto_send(need_send_nozzle_ids);  // 自动发送洒水指令
+                    var truly_need_stop_nozzle_ids = [];  // 确实需要发送停止指令的nozzle_id
                     for(var i=0; i<newly_need_pause_nozzle_ids.length; i++) {
-                        var may_stop = true;
+                        var need_stop = true;
                         for(var j=0; j<pauses.length; j++) {
-                            if (newly_need_pause_nozzle_ids[i] === pauses[j].nozzle_id) {
-                                may_stop = false;
+                            if (newly_need_pause_nozzle_ids[i] === pauses[j].nozzle_id && cart_no !== pauses[j].cart_no) {
+                                need_stop = false;
                                 break;
                             }
                         }
-                        if (may_stop) {
-                            may_stop_nozzle_ids.push(newly_need_pause_nozzle_ids[i]);
+                        if (need_stop) {
+                            truly_need_stop_nozzle_ids.push(newly_need_pause_nozzle_ids[i]);
                         }
                     }
-                    auto_stop(may_stop_nozzle_ids);
+                    console.log("truly_need_stop_nozzle_ids=" + JSON.stringify(truly_need_stop_nozzle_ids));  //////////////////////
+                    auto_stop(truly_need_stop_nozzle_ids);  // 自动暂停洒水
+                    console.log(cart_no + '号球车离开锁');  /////////////////////////
+                    done();
                 }, function (err, ret) {
-                })
+                    console.log("[" + current_time + "] " + process.env.CLUB_NAME + "中控收到" + cart_no + "号球车gps定位信息：" + msg);
+                });
             });
         }
     } else {

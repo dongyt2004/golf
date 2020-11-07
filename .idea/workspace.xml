@@ -2,131 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="7th commit - 2020.08.12">
-      <change afterPath="$PROJECT_DIR$/log/access.2020-10-26.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log/app.2020-10-26.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/async_search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/autoscaling.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/bulk.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/cat.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/ccr.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/clear_scroll.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/cluster.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/count.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/create.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/dangling_indices.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/delete.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/delete_by_query.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/delete_by_query_rethrottle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/delete_script.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/enrich.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/eql.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/exists.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/exists_source.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/explain.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/field_caps.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/get.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/get_script.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/get_script_context.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/get_script_languages.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/get_source.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/graph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/ilm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/indices.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/info.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/ingest.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/license.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/mget.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/migration.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/ml.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/monitoring.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/msearch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/msearch_template.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/mtermvectors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/nodes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/ping.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/put_script.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/rank_eval.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/reindex.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/reindex_rethrottle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/render_search_template.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/rollup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/scripts_painless_execute.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/scroll.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/search_shards.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/search_template.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/searchable_snapshots.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/security.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/slm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/snapshot.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/sql.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/ssl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/tasks.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/termvectors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/transform.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/update.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/update_by_query.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/update_by_query_rethrottle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/watcher.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/api/xpack.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/kibana.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/requestParams.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/api/utils.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/codecov.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/index.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/Connection.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/Connection.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/Helpers.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/Helpers.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/Serializer.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/Serializer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/Transport.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/Transport.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/errors.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/errors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/pool/BaseConnectionPool.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/pool/CloudConnectionPool.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/pool/ConnectionPool.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/pool/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/lib/pool/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/@elastic/elasticsearch/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/async-lock/AUTHORS" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/async-lock/History.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/async-lock/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/async-lock/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/async-lock/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/async-lock/lib/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/async-lock/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/decompress-response/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/decompress-response/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/decompress-response/license" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/decompress-response/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/decompress-response/readme.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/mimic-response/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/mimic-response/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/mimic-response/license" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/mimic-response/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/mimic-response/readme.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/secure-json-parse/.npmignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/secure-json-parse/LICENSE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/secure-json-parse/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/secure-json-parse/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/secure-json-parse/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../golf-schedule/app.env" beforeDir="false" afterPath="$PROJECT_DIR$/../golf-schedule/app.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.env" beforeDir="false" afterPath="$PROJECT_DIR$/app.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/access.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/access.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/app.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <option name="SHOW_DIALOG" value="false" />
@@ -192,12 +70,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../golf-gps-gw" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="inlay.hints.Vue" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.1.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -215,7 +93,7 @@
       <recent name="E:\works\node\golf\view\m" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.app.js (2)">
+  <component name="RunManager" selected="Node.js.app.js (1)">
     <configuration name="app.js (1)" type="NodeJSConfigurationType" temporary="true" path-to-js-file="app.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
@@ -243,11 +121,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.app.js (1)" />
         <item itemvalue="Node.js.app.js (2)" />
         <item itemvalue="Node.js.test-stub.js" />
         <item itemvalue="Node.js.logserver.js" />
         <item itemvalue="Node.js.app.js (4)" />
-        <item itemvalue="Node.js.app.js (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -471,21 +349,45 @@
       <workItem from="1604065301672" duration="19294000" />
       <workItem from="1604220210206" duration="17296000" />
       <workItem from="1604282500673" duration="23446000" />
-      <workItem from="1604379730394" duration="2191000" />
-    </task>
-    <task id="LOCAL-00123" summary="5th commit">
-      <created>1593913519376</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1593913519377</updated>
-    </task>
-    <task id="LOCAL-00124" summary="5th commit">
-      <created>1593913590444</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1593913590444</updated>
+      <workItem from="1604379730394" duration="6042000" />
+      <workItem from="1604399012876" duration="17923000" />
+      <workItem from="1604475732426" duration="20000" />
+      <workItem from="1604496182511" duration="10000" />
+      <workItem from="1604497690807" duration="15000" />
+      <workItem from="1604497978082" duration="8000" />
+      <workItem from="1604501232060" duration="17000" />
+      <workItem from="1604501337463" duration="36000" />
+      <workItem from="1604501514446" duration="42000" />
+      <workItem from="1604501696637" duration="9000" />
+      <workItem from="1604545679676" duration="260000" />
+      <workItem from="1604547863203" duration="5000" />
+      <workItem from="1604554275485" duration="36000" />
+      <workItem from="1604554344469" duration="7000" />
+      <workItem from="1604554736943" duration="25000" />
+      <workItem from="1604580056426" duration="17000" />
+      <workItem from="1604580094816" duration="19000" />
+      <workItem from="1604580618936" duration="15000" />
+      <workItem from="1604580673274" duration="11000" />
+      <workItem from="1604580879949" duration="987000" />
+      <workItem from="1604582756524" duration="18000" />
+      <workItem from="1604583090701" duration="14000" />
+      <workItem from="1604589281386" duration="1332000" />
+      <workItem from="1604623347157" duration="5000" />
+      <workItem from="1604623365266" duration="19000" />
+      <workItem from="1604623439813" duration="3000" />
+      <workItem from="1604623934945" duration="211000" />
+      <workItem from="1604625528404" duration="300000" />
+      <workItem from="1604625919527" duration="1858000" />
+      <workItem from="1604643033723" duration="134000" />
+      <workItem from="1604643366335" duration="135000" />
+      <workItem from="1604643783058" duration="82000" />
+      <workItem from="1604644155561" duration="659000" />
+      <workItem from="1604644966153" duration="112000" />
+      <workItem from="1604645357741" duration="3855000" />
+      <workItem from="1604649499719" duration="7117000" />
+      <workItem from="1604713350109" duration="1738000" />
+      <workItem from="1604715223676" duration="5375000" />
+      <workItem from="1604733386806" duration="8099000" />
     </task>
     <task id="LOCAL-00125" summary="5th commit">
       <created>1593914761232</created>
@@ -816,7 +718,21 @@
       <option name="project" value="LOCAL" />
       <updated>1603717386772</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="8th commit - 2020.11.03">
+      <created>1604382706751</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1604382706752</updated>
+    </task>
+    <task id="LOCAL-00173" summary="7th commit - 2020.08.12">
+      <created>1604382732121</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1604382732121</updated>
+    </task>
+    <option name="localTasksCounter" value="174" />
     <servers />
   </component>
   <component name="TodoView">
@@ -879,6 +795,7 @@
     <MESSAGE value="6th commit - 2020.07.24" />
     <MESSAGE value="8th commit - 2020.09.22" />
     <MESSAGE value="8th commit - 2020.10.14" />
+    <MESSAGE value="8th commit - 2020.11.03" />
     <MESSAGE value="7th commit - 2020.08.12" />
     <option name="LAST_COMMIT_MESSAGE" value="7th commit - 2020.08.12" />
   </component>
@@ -895,10 +812,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="117" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1600590870663" />
-    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1603717386014">
+    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1604382731500">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1603717386014" />
+    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1604382731500" />
     <state width="437" height="466" key="DebuggerActiveHint" timestamp="1603950743259">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -907,82 +824,82 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="626" y="158" key="EnvironmentVariablesDialog/0.0.1536.824@0.0.1536.824" timestamp="1600590897318" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1600654440369">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1604623382194">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1600654440369" />
-    <state width="1515" height="137" key="GridCell.Tab.0.bottom" timestamp="1604330951222">
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604623382194" />
+    <state width="1515" height="200" key="GridCell.Tab.0.bottom" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="137" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1604330951222" />
-    <state width="1515" height="137" key="GridCell.Tab.0.center" timestamp="1604330951221">
+    <state width="1515" height="200" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.0.center" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="137" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1604330951221" />
-    <state width="1515" height="137" key="GridCell.Tab.0.left" timestamp="1604330951221">
+    <state width="1515" height="200" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.0.left" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="137" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1604330951221" />
-    <state width="1515" height="137" key="GridCell.Tab.0.right" timestamp="1604330951221">
+    <state width="1515" height="200" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.0.right" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="137" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1604330951221" />
-    <state width="1515" height="200" key="GridCell.Tab.1.bottom" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.1.bottom" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.1.center" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.1.center" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.1.left" timestamp="1603986176139">
+    <state width="1515" height="200" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.1.left" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1603986176139" />
-    <state width="1515" height="200" key="GridCell.Tab.1.right" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.1.right" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.2.bottom" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.2.bottom" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.2.center" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.2.center" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.2.left" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.2.left" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.2.right" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.2.right" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.3.bottom" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.3.bottom" timestamp="1604399000132">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.3.center" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1604399000132" />
+    <state width="1515" height="200" key="GridCell.Tab.3.center" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.3.left" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.3.left" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state width="1515" height="200" key="GridCell.Tab.3.right" timestamp="1603986176140">
+    <state width="1515" height="200" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state width="1515" height="200" key="GridCell.Tab.3.right" timestamp="1604399000131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="200" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1603986176140" />
-    <state x="270" y="56" key="SettingsEditor" timestamp="1603106645684">
+    <state width="1515" height="200" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1604399000131" />
+    <state x="274" y="42" key="SettingsEditor" timestamp="1604399094141">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="270" y="56" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1603106645684" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1603717388462">
+    <state x="274" y="42" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1604399094141" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1604382733812">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1603717388462" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1604382733812" />
     <state x="93" y="93" width="1350" height="638" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1604213524534">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -999,5 +916,13 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="456" y="269" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1536.824@0.0.1536.824" timestamp="1600779660223" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1604554307010">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1604554307010" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1604398917677">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1604398917677" />
   </component>
 </project>
