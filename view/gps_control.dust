@@ -342,6 +342,8 @@
         });
     }
 
+    var cart_markers = [];
+
     jQuery(function ($) {
         $('#loadingModal').modal('hide');
 
@@ -450,7 +452,7 @@
             map.addControl(new LogoutControl());
 {@ne key=lon value=""}
             /* 显示我的位置 */
-            person_marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {raiseOnDrag: true, icon: new BMap.Icon("/img/人.png", new BMap.Size(36, 36))});
+            person_marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {raiseOnDrag: true, icon: new BMap.Icon("/img/人.png", new BMap.Size(32, 32))});
             map.addOverlay(person_marker);
             person_marker.enableDragging();
 {@eq key=can_pos value=1 type="number"}
@@ -462,7 +464,7 @@
 {/ne}
             /* 显示我跟前的分控箱 */
 {#adj_controlboxes}
-            var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/邻分控箱.png", new BMap.Size(36, 36))});
+            var marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/邻分控箱.png", new BMap.Size(44, 32))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));
             map.addOverlay(marker);
 {@eq key=can_irrigate value=1 type="number"}
@@ -499,7 +501,7 @@
 
             /* 显示我附近的分控箱 */
 {#near_controlboxes}
-            marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/近分控箱.png", new BMap.Size(36, 36))});
+            marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/近分控箱.png", new BMap.Size(44, 32))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));
             map.addOverlay(marker);
 {@eq key=can_irrigate value=1 type="number"}
@@ -536,7 +538,7 @@
 
             /* 显示远处的分控箱 */
 {#far_controlboxes}
-            marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/远分控箱.png", new BMap.Size(36, 36))});
+            marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/远分控箱.png", new BMap.Size(44, 32))});
             marker.setLabel(new BMap.Label("{fullname}", {offset: new BMap.Size(35, -10)}));
             map.addOverlay(marker);
 {@eq key=can_irrigate value=1 type="number"}
@@ -570,6 +572,37 @@
             });
 {/eq}
 {/far_controlboxes}
+            /* 显示远处的分控箱 */
+{#carts}
+            marker = new BMap.Marker(new BMap.Point({lon}, {lat}), {icon: new BMap.Icon("/img/球车.png", new BMap.Size(36, 28))});
+            marker.setLabel(new BMap.Label("{no}", {offset: new BMap.Size(30, -10)}));
+            map.addOverlay(marker);
+            cart_markers.push(marker);
+{/carts}
+            setInterval(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/pos_carts.do",
+                    async: true,
+                    timeout: 1500,
+                    success: function(result){
+                        if (result.success) {
+                            for(var i=0; i<cart_markers.length; i++) {
+                                map.removeOverlay(cart_markers[i]);
+                            }
+                            cart_markers.length = 0;
+                            for(i=0; i<result.carts.length; i++) {
+                                marker = new BMap.Marker(new BMap.Point(result.carts[i].lon, result.carts[i].lat), {icon: new BMap.Icon("/img/球车.png", new BMap.Size(36, 28))});
+                                marker.setLabel(new BMap.Label(result.carts[i].no, {offset: new BMap.Size(30, -10)}));
+                                map.addOverlay(marker);
+                                cart_markers.push(marker);
+                            }
+                        }
+                    },
+                    error:function(xhr, error) {
+                    },
+                });
+            }, 3000);
         });
     });
 </script>

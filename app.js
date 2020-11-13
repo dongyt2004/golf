@@ -44,6 +44,9 @@ const esClient = new EsClient.Client({
 });
 const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
+const GPS_INTERVAL_SECOND = parseInt(process.env.GPS_INTERVAL_SECOND);
+const MAX_IRRIGATE_RADIUS = parseInt(process.env.MAX_IRRIGATE_RADIUS);
+const MAX_SHOW_CART_MINUTE = parseInt(process.env.MAX_SHOW_CART_MINUTE);
 /** ------------------------------------------------------------------------------------ 测 试 ------------------------------------------------------------------------------------------ **/
 // console.log(getAngleByGps(117.2949181808, 38.9702309017, 117.2945805215, 38.9704888905));
 // function add_100_controlboxes() {
@@ -60,7 +63,7 @@ const lock = new AsyncLock();
 //     return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
 // }
 // add_100_controlboxes();
-// console.log(gcoord.transform([117.3061177196, 38.9768560444], gcoord.BD09, gcoord.GCJ02));
+// console.log(gcoord.transform([117.1523650000,39.0895650000], gcoord.WGS84, gcoord.BD09));
 /** --------------------------------------------------------------------------------- 计 算 crc16 ------------------------------------------------------------------------------------------ **/
 // console.log(left_pad(crc16('1|002|00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000|1|').toString(16), 4));
 /** ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- **/
@@ -269,15 +272,13 @@ db.exec("select * from plan where start_time>=?", [moment().format("YYYY-MM-DD H
 });
 // 每分钟调度一次，查看分控箱是否正常
 setInterval(function() {
-    db.exec("select id,last_recv_time from controlbox", [], function (controlboxes) {
+    db.exec("select id,last_recv_time from controlbox where last_recv_time is not null", [], function (controlboxes) {
         for(var i=0; i<controlboxes.length; i++) {
-            if (controlboxes[i].last_recv_time !== null) {
-                var diff = moment().diff(moment(controlboxes[i].last_recv_time), 'minute');
-                if (diff >= 5) {
-                    db.exec("update controlbox set use_state=0 where id=?", [controlboxes[i].id]);
-                } else {
-                    db.exec("update controlbox set use_state=1 where id=?", [controlboxes[i].id]);
-                }
+            var diff = moment().diff(moment(controlboxes[i].last_recv_time), 'minute');
+            if (diff >= 5) {
+                db.exec("update controlbox set use_state=0 where id=?", [controlboxes[i].id]);
+            } else {
+                db.exec("update controlbox set use_state=1 where id=?", [controlboxes[i].id]);
             }
         }
     });
@@ -308,14 +309,12 @@ function auto_send(nozzle_ids) {
         where += "a.id=" + nozzle_ids[i] + " or ";
     }
     where += "1=0";
-    db.exec("select a.id as nozzle_id, a.remain_time, b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and (" + where + ")", [], function (results) {
+    db.exec("select a.id as nozzle_id, a.remain_time, b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and a.state=0 and a.remain_time is not null and (" + where + ")", [], function (results) {
         var commands = [], values = [];
         var start_time = moment().format("YYYY-MM-DD HH:mm:ss");
         for(var i=0; i<results.length; i++) {
-            if (results[i].remain_time !== null) {
-                commands.push(numeral(results[i].controlbox_no).format('000') + "-" + numeral(results[i].nozzle_no).format('00') + "," + left_pad(results[i].remain_time.toString(16), 4));
-                values.push("(" + results[i].nozzle_id + ",'" + results[i].controlbox_no + "-" + results[i].nozzle_no + "','" + start_time + "'," + results[i].remain_time + ")");
-            }
+            commands.push(numeral(results[i].controlbox_no).format('000') + "-" + numeral(results[i].nozzle_no).format('00') + "," + left_pad(results[i].remain_time.toString(16), 4));
+            values.push("(" + results[i].nozzle_id + ",'" + results[i].controlbox_no + "-" + results[i].nozzle_no + "','" + start_time + "'," + results[i].remain_time + ")");
         }
         if (commands.length > 0 && values.length > 0) {
             var command = commands[0], value = values[0];
@@ -369,7 +368,7 @@ function auto_stop(nozzle_ids) {
         where += "a.id=" + nozzle_ids[i] + " or ";
     }
     where += "1=0";
-    db.exec("select b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and (" + where + ")", [], function (results) {
+    db.exec("select b.no as controlbox_no, a.no as nozzle_no from nozzle a join controlbox b on a.controlbox_id=b.id where a.use_state=1 and a.state=1 and (" + where + ")", [], function (results) {
         var s = "";
         for(var i=0; i<results.length;i++) {
             s += numeral(results[i].controlbox_no).format('000') + "-" + numeral(results[i].nozzle_no).format('00') + ",";
@@ -455,7 +454,7 @@ mqtt_client.on("message", function (topic, message) {
             var gps = commands[2].split(",");
             var cart_lon = parseFloat(gps[0]);  // 球车经度
             var cart_lat = parseFloat(gps[1]);  // 球车纬度
-            var reach = parseFloat(gps[2]) * parseInt(process.env.GPS_INTERVAL_SECOND) + parseInt(process.env.MAX_IRRIGATE_RADIUS);  // 球车速度
+            var reach = parseFloat(gps[2]) * GPS_INTERVAL_SECOND + MAX_IRRIGATE_RADIUS;  // 球车速度
             esClient.search({
                 index: process.env.DATABASE,
                 body: {
@@ -486,14 +485,13 @@ mqtt_client.on("message", function (topic, message) {
                     console.log("sprinkler_lat=" + sprinkler_lat);  ///////////////////
                     console.log("角度=" + getAngleByGps(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat));  ////////////////////
                     var delta = Math.abs(getAngleByGps(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat) - parseInt(gps[3]));
-                    console.log("夹角=" + delta);  ////////////////
                     if (delta > 180) {
                         delta = 360 - delta;
                     }
+                    console.log("夹角=" + delta);  ////////////////
                     var dst = distance(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat);
                     console.log("距离=" + dst);  ////////////////////////
-                    var radius = parseInt(process.env.MAX_IRRIGATE_RADIUS);
-                    if (dst <= radius || delta < 90 && dst * Math.sin(delta * Math.PI / 180) < radius) {
+                    if (dst <= MAX_IRRIGATE_RADIUS || delta < 90 && dst * Math.sin(delta * Math.PI / 180) < MAX_IRRIGATE_RADIUS) {
                         need_pause_nozzle_ids.push(hits[i]._source.nozzle_id);
                     }
                 }
@@ -569,12 +567,29 @@ mqtt_client.on("message", function (topic, message) {
                         }
                     }
                     console.log("truly_need_stop_nozzle_ids=" + JSON.stringify(truly_need_stop_nozzle_ids));  //////////////////////
-                    auto_stop(truly_need_stop_nozzle_ids);  // 自动暂停洒水
-                    console.log(cart_no + '号球车离开锁');  /////////////////////////
-                    done();
+                    auto_stop(truly_need_stop_nozzle_ids);  // 自动发送暂停指令
+                    var baidu = gcoord.transform(
+                        [cart_lon, cart_lat],    // 经纬度坐标
+                        gcoord.WGS84,            // 当前坐标系
+                        gcoord.BD09              // 目标坐标系
+                    );
+                    var gcj = gcoord.transform(
+                        [cart_lon, cart_lat],    // 经纬度坐标
+                        gcoord.WGS84,            // 当前坐标系
+                        gcoord.GCJ02             // 目标坐标系
+                    );
+                    db.exec("update cart set lon=?,lat=?,gcj_lon=?,gcj_lat=?,gps_lon=?,gps_lat=?,last_recv_time=? where no=?", [baidu[0], baidu[1], gcj[0], gcj[1], cart_lon, cart_lat, moment().format("YYYY-MM-DD HH:mm:ss"), cart_no], function () {
+                        console.log(cart_no + '号球车离开锁');  /////////////////////////
+                        done();
+                    });
                 }, function (err, ret) {
-                    console.log("[" + current_time + "] " + process.env.CLUB_NAME + "中控收到" + cart_no + "号球车gps定位信息：" + msg);
+                    console.log("[" + current_time + "] " + process.env.CLUB_NAME + "中控收到" + cart_no + "号球车发来的gps定位数据：" + msg);
                 });
+            });
+        } else if (commands[0] === process.env.COMMAND_HEARTBEAT) {
+            var cart_no = commands[1];
+            db.exec("update cart set last_recv_time=? where no=?", [moment().format("YYYY-MM-DD HH:mm:ss"), cart_no], function () {
+                console.log("[" + current_time + "] " + process.env.CLUB_NAME + "中控收到" + cart_no + "号球车发来的心跳包：" + msg);
             });
         }
     } else {
@@ -1848,6 +1863,20 @@ app.post("/pos_sprinkler.do", function (req, res) {
         });
     });
 });
+// 取所有球车的位置信息
+app.post("/pos_carts.do", function (req, res) {
+    db.exec("select * from cart where gps_lon is not null and last_recv_time is not null order by no", [], function (results) {
+        var carts = [];
+        var current_time = moment();
+        for(var i=0; i<results.length; i++) {
+            var diff = current_time.diff(moment(results[i].last_recv_time), 'minute');
+            if (diff <= MAX_SHOW_CART_MINUTE) {
+                carts.push(results[i]);
+            }
+        }
+        res.json({success: true, carts: carts});
+    });
+});
 /** ---------------------------------------------------------------------------- 从 微 信 小  程 序 云 函 数 请 求，使 用 腾 讯 地 图 ----------------------------------------------------------------------------------- **/
 // 验证openid
 app.post("/auth_openid", function (req, res) {
@@ -1874,6 +1903,7 @@ app.post("/controlbox_pos", function (req, res) {
                 var near_controlboxes = [];
                 var far_controlboxes = [];
                 var nozzleNodes = [];
+                var carts = [];
                 var lon = parseFloat(req.query.lon);  // 人
                 var lat = parseFloat(req.query.lat);  // 人
                 var where = "";
@@ -1924,19 +1954,29 @@ app.post("/controlbox_pos", function (req, res) {
                         }
                         nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
                     }
-                    res.end(JSON.stringify({
-                        controlboxes: controlboxes,
-                        adj_controlboxes: adj_controlboxes,
-                        near_controlboxes: near_controlboxes,
-                        far_controlboxes: far_controlboxes,
-                        nozzleNodes: nozzleNodes,
-                        lon: lon,
-                        lat: lat,
-                        controlbox_lon: controlbox_lon,
-                        controlbox_lat: controlbox_lat,
-                        can_pos: users[0].can_pos,
-                        can_irrigate: users[0].can_irrigate
-                    }));
+                    db.exec("select * from cart where gps_lon is not null and last_recv_time is not null order by no", [], function (results) {
+                        var current_time = moment();
+                        for(var i=0; i<results.length; i++) {
+                            var diff = current_time.diff(moment(results[i].last_recv_time), 'minute');
+                            if (diff <= MAX_SHOW_CART_MINUTE) {
+                                carts.push(results[i]);
+                            }
+                        }
+                        res.end(JSON.stringify({
+                            controlboxes: controlboxes,
+                            adj_controlboxes: adj_controlboxes,
+                            near_controlboxes: near_controlboxes,
+                            far_controlboxes: far_controlboxes,
+                            nozzleNodes: nozzleNodes,
+                            carts: carts,
+                            lon: lon,
+                            lat: lat,
+                            controlbox_lon: controlbox_lon,
+                            controlbox_lat: controlbox_lat,
+                            can_pos: users[0].can_pos,
+                            can_irrigate: users[0].can_irrigate
+                        }));
+                    });
                 });
             });
         } else {
@@ -2027,6 +2067,26 @@ app.post("/pos_sprinkler", function (req, res) {
                     });
                     res.json({success: true});
                 });
+            });
+        } else {
+            res.json({failure: true});
+        }
+    });
+});
+// 取所有球车的位置信息
+app.post("/pos_carts", function (req, res) {
+    db.exec("select id from user where openid=?", [req.body.openid], function (ids) {
+        if (ids.length > 0) {
+            db.exec("select * from cart where gps_lon is not null and last_recv_time is not null order by no", [], function (results) {
+                var carts = [];
+                var current_time = moment();
+                for(var i=0; i<results.length; i++) {
+                    var diff = current_time.diff(moment(results[i].last_recv_time), 'minute');
+                    if (diff <= MAX_SHOW_CART_MINUTE) {
+                        carts.push(results[i]);
+                    }
+                }
+                res.json({success: true, carts: carts});
             });
         } else {
             res.json({failure: true});
@@ -2813,6 +2873,7 @@ app.get("/gps_control.html", function (req, res) {
         var near_controlboxes = [];
         var far_controlboxes = [];
         var nozzleNodes = [];
+        var carts = [];
         if (req.query.lon) {
             var lon = parseFloat(req.query.lon);
             var lat = parseFloat(req.query.lat);
@@ -2864,18 +2925,28 @@ app.get("/gps_control.html", function (req, res) {
                     }
                     nozzleNodes.push({id:"t" + nozzles[i].id,name:nozzles[i].controlbox_no + "-" + nozzles[i].no + "：" + nozzles[i].name + str + str2,parent_id:nozzles[i].controlbox_id,icon:"/img/喷头.png"});
                 }
-                res.render('gps_control', {
-                    controlboxes: controlboxes,
-                    adj_controlboxes: adj_controlboxes,
-                    near_controlboxes: near_controlboxes,
-                    far_controlboxes: far_controlboxes,
-                    nozzleNodes: nozzleNodes,
-                    lon: lon,
-                    lat: lat,
-                    controlbox_lon: controlbox_lon,
-                    controlbox_lat: controlbox_lat,
-                    can_pos: req.session.user['can_pos'],
-                    can_irrigate: req.session.user['can_irrigate']
+                db.exec("select * from cart where gps_lon is not null and last_recv_time is not null order by no", [], function (results) {
+                    var current_time = moment();
+                    for(var i=0; i<results.length; i++) {
+                        var diff = current_time.diff(moment(results[i].last_recv_time), 'minute');
+                        if (diff <= MAX_SHOW_CART_MINUTE) {
+                            carts.push(results[i]);
+                        }
+                    }
+                    res.render('gps_control', {
+                        controlboxes: controlboxes,
+                        adj_controlboxes: adj_controlboxes,
+                        near_controlboxes: near_controlboxes,
+                        far_controlboxes: far_controlboxes,
+                        nozzleNodes: nozzleNodes,
+                        carts: carts,
+                        lon: lon,
+                        lat: lat,
+                        controlbox_lon: controlbox_lon,
+                        controlbox_lat: controlbox_lat,
+                        can_pos: req.session.user['can_pos'],
+                        can_irrigate: req.session.user['can_irrigate']
+                    });
                 });
             });
         } else {
@@ -2885,6 +2956,7 @@ app.get("/gps_control.html", function (req, res) {
                 near_controlboxes: near_controlboxes,
                 far_controlboxes: far_controlboxes,
                 nozzleNodes: nozzleNodes,
+                carts: carts,
                 lon: "",
                 lat: ""
             });
