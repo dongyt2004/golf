@@ -63,7 +63,7 @@ const MAX_SHOW_CART_MINUTE = parseInt(process.env.MAX_SHOW_CART_MINUTE);
 //     return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
 // }
 // add_100_controlboxes();
-// console.log(gcoord.transform([117.1523650000,39.0895650000], gcoord.WGS84, gcoord.BD09));
+// console.log(gcoord.transform([117.1521916667,39.0775633333], gcoord.WGS84, gcoord.BD09));
 /** --------------------------------------------------------------------------------- 计 算 crc16 ------------------------------------------------------------------------------------------ **/
 // console.log(left_pad(crc16('1|002|00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000|1|').toString(16), 4));
 /** ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- **/
@@ -479,11 +479,12 @@ mqtt_client.on("message", function (topic, message) {
                 var hits = result.body.hits.hits;
                 var need_pause_nozzle_ids = [];  // 需要暂停的nozzle_id
                 for(var i=0; i<hits.length; i++) {
+                    console.log("nozzle_id=" + hits[i]._source.nozzle_id);  ///////////////////
+                    // console.log("sprinkler_lon=" + sprinkler_lon);  ///////////////////
+                    // console.log("sprinkler_lat=" + sprinkler_lat);  ///////////////////
+                    // console.log("角度=" + getAngleByGps(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat));  ////////////////////
                     var sprinkler_lon = hits[i]._source.location.lon;
                     var sprinkler_lat = hits[i]._source.location.lat;
-                    console.log("sprinkler_lon=" + sprinkler_lon);  ///////////////////
-                    console.log("sprinkler_lat=" + sprinkler_lat);  ///////////////////
-                    console.log("角度=" + getAngleByGps(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat));  ////////////////////
                     var delta = Math.abs(getAngleByGps(cart_lon, cart_lat, sprinkler_lon, sprinkler_lat) - parseInt(gps[3]));
                     if (delta > 180) {
                         delta = 360 - delta;
@@ -496,18 +497,18 @@ mqtt_client.on("message", function (topic, message) {
                     }
                 }
                 need_pause_nozzle_ids = _.uniq(need_pause_nozzle_ids);
-                console.log("need_pause_nozzle_ids=" + JSON.stringify(need_pause_nozzle_ids));  /////////////////////////
+                // console.log("need_pause_nozzle_ids=" + JSON.stringify(need_pause_nozzle_ids));  /////////////////////////
                 var already_paused_nozzle_ids = [];  // 已经暂停的nozzle_id
                 for(var i=0; i<pauses.length; i++) {
                     if (pauses[i].cart_no === cart_no) {
                         already_paused_nozzle_ids.push(pauses[i].nozzle_id);
                     }
                 }
-                console.log("already_paused_nozzle_ids=" + JSON.stringify(already_paused_nozzle_ids));  /////////////////////////
-                var need_restart_nozzle_ids = _.difference(already_paused_nozzle_ids, need_pause_nozzle_ids);  // 需要重启的nozzle_id
-                console.log("need_restart_nozzle_ids=" + JSON.stringify(need_restart_nozzle_ids));  /////////////////////////
+                // console.log("already_paused_nozzle_ids=" + JSON.stringify(already_paused_nozzle_ids));  /////////////////////////
                 var newly_need_pause_nozzle_ids = _.difference(need_pause_nozzle_ids, already_paused_nozzle_ids);  // 新加入暂停的nozzle_id
                 console.log("newly_need_pause_nozzle_ids=" + JSON.stringify(newly_need_pause_nozzle_ids));  /////////////////////////
+                var need_restart_nozzle_ids = _.difference(already_paused_nozzle_ids, need_pause_nozzle_ids);  // 需要重启的nozzle_id
+                console.log("need_restart_nozzle_ids=" + JSON.stringify(need_restart_nozzle_ids));  /////////////////////////
                 /*// 暂停整个分控箱
                 var stay_nozzle_ids = _.intersection(already_paused_nozzle_ids, need_pause_nozzle_ids);
                 if (stay_nozzle_ids.length > 0) {
