@@ -30,7 +30,7 @@
 
     <style type="text/css">
         .dongyt {
-            margin-right: 10px;
+            margin: 0 10px 5px 0;
         }
         .sunzhh{
         }
@@ -54,6 +54,7 @@
         <div class="panel dongyk">
             <a href="#" class="btn btn-success dongyt" id="send">开 启</a>
             <a href="#" class="btn btn-danger dongyt" id="stop">暂停选中的分控箱</a>
+            <label>总流量  </label> <label><h2 class="text-success" id="flow" style="margin: 0;">{flow}</h2></label> <label>  m<sup>3</sup>/小时</label>
         </div>
     </div>
 </div>
@@ -136,8 +137,8 @@
     };
 
     var nozzleNodes = [{#nozzleNodes}{@eq key=$idx value=0 type="number"}
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
-        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/nozzleNodes}
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}",flow:{flow}}{:else},
+        {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}",flow:{flow}}{/eq}{/nozzleNodes}
     ];
 
     function showRemoveBtn(treeId, treeNode) {
@@ -160,8 +161,10 @@
 
     function onDrop(e, treeId, treeNodes, targetNode, moveType) {
         if (moveType === null && $(e.target).parents(".sunzhh").length > 0 && treeNodes[0].name.indexOf('[正在维修]') < 0 && treeNodes[0].name.indexOf('[正在洒水]') < 0) {
-            $('#selected_nozzle').append('<a onclick="click_selected_nozzle(\'' + treeNodes[0].id + '\')" id="' + treeNodes[0].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + treeNodes[0].parent_id + '" data-icon="' + treeNodes[0].icon + '">' + treeNodes[0].name + '</a>');
+            $('#selected_nozzle').append('<a onclick="click_selected_nozzle(\'' + treeNodes[0].id + '\')" id="' + treeNodes[0].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + treeNodes[0].parent_id + '" data-flow="' + treeNodes[0].flow + '" data-icon="' + treeNodes[0].icon + '">' + treeNodes[0].name + '</a>');
             $.fn.zTree.getZTreeObj("nozzletree").removeNode(treeNodes[0]);
+            totalFlow += treeNodes[0].flow;
+            $('#flow').html(totalFlow.toFixed(1));
             reinitIframe();
         }
     }
@@ -179,6 +182,8 @@
         selected_nozzle_id = nozzle_id;
     }
 
+    var totalFlow = {totalFlow};
+
     jQuery(function ($) {
         $.fn.zTree.init($("#nozzletree"), setting, nozzleNodes);
 
@@ -195,9 +200,11 @@
                 return;
             }
             for (var j=0; j<nozzleNodes.length; j++) {
-                $('#selected_nozzle').append('<a onclick="click_selected_nozzle(\'' + nozzleNodes[j].id + '\')" id="' + nozzleNodes[j].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + nozzleNodes[j].parent_id + '" data-icon="' + nozzleNodes[j].icon + '">' + nozzleNodes[j].name + '</a>');
+                $('#selected_nozzle').append('<a onclick="click_selected_nozzle(\'' + nozzleNodes[j].id + '\')" id="' + nozzleNodes[j].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + nozzleNodes[j].parent_id + '" data-flow="' + nozzleNodes[j].flow + '" data-icon="' + nozzleNodes[j].icon + '">' + nozzleNodes[j].name + '</a>');
                 $.fn.zTree.getZTreeObj("nozzletree").removeNode(nozzleNodes[j]);
+                totalFlow += nozzleNodes[j].flow;
             }
+            $('#flow').html(totalFlow.toFixed(1));
             $.fn.zTree.getZTreeObj("nozzletree").checkAllNodes(false);
             reinitIframe();
         });
@@ -211,14 +218,18 @@
             var targetNodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
                 return node.id === "" + selectedElement.data("parent_id");
             });
-            $.fn.zTree.getZTreeObj("nozzletree").addNodes(targetNodes[0], {id: selectedElement.attr("id"), parent_id: targetNodes[0].id, name: selectedElement.html(), open:true, icon:selectedElement.data("icon"), iconOpen:selectedElement.data("icon"), iconClose:selectedElement.data("icon")});
+            $.fn.zTree.getZTreeObj("nozzletree").addNodes(targetNodes[0], {id: selectedElement.attr("id"), parent_id: targetNodes[0].id, name: selectedElement.html(), open:true, icon:selectedElement.data("icon"), iconOpen:selectedElement.data("icon"), iconClose:selectedElement.data("icon"), flow: selectedElement.data("flow")});
             selectedElement.remove();
             selected_nozzle_id = "";
+            totalFlow -= parseFloat(selectedElement.data("flow"));
+            $('#flow').html(totalFlow.toFixed(1));
             reinitIframe();
         });
 
         $("#send").click(function() {
-            if ($("#minute", parent.document).val() === '') {
+            var minute = $("#minute", parent.document).val();
+            var second = $("#second", parent.document).val();
+            if (minute === '' && second === '') {
                 parent.alertify.error("灌溉时长不能为空");
                 return;
             }
@@ -233,7 +244,8 @@
             }
             $.post("/send.do", {
                 nozzle_ids: JSON.stringify(nozzle_ids),
-                minute: $("#minute", parent.document).val()
+                minute: (minute === '')?0:minute,
+                second: (second === '')?0:second
             }, function (result) {
                 if (result.success) {
                     location.reload(true);

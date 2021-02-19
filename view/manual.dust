@@ -69,7 +69,7 @@
 
     <!-- Logo starts -->
     <a href="/dynamics.html" class="logo">
-        <img src="/logo.png" alt="高尔夫球场中控管理系统"/><span style="margin-left: 10px; font-family: 'Microsoft YaHei'; font-size: large; vertical-align: middle;">团泊湖高尔夫俱乐部</span>
+        <img src="/logo.png" alt="高尔夫球场中控管理系统" style="max-width: 200px;"/><span style="margin-left: 10px; font-family: 'Microsoft YaHei'; font-size: large; vertical-align: middle;">东莞长安高尔夫球乡村俱乐部</span>
     </a>
     <!-- Logo ends -->
 
@@ -154,10 +154,7 @@
                     <a href='/controlbox_model.html'>设备型号</a>
                 </li>
                 <li>
-                    <a href='/nozzle_model.html'>喷嘴型号</a>
-                </li>
-                <li>
-                    <a href='/nozzle_shape.html'>喷头形状</a>
+                    <a href='/nozzle_model.html'>喷头型号</a>
                 </li>
                 <li>
                     <a href='/turf.html'>湿度调整</a>
@@ -197,22 +194,31 @@
                     <div class="row gutter">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="row gutter">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="course">选择球场</label>
                                         <select class="form-control" id="course" name="course" onchange="change_course()">
 {#courses}
-                                            <option value="{id}">{name}</option>
+                                            <option value="{id}" {@eq key=id value=1 type="number"} selected{/eq}>{name}</option>
 {/courses}
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <div class="form-group" id="dongytForm">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="form-group">
                                         <label>灌溉时长</label>
                                         <div class="input-group">
                                             <input id="minute" class="form-control" name="minute" placeholder='0'/>
-                                            <span class="input-group-addon">分钟</span>
+                                            <span class="input-group-addon">分</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <div class="input-group">
+                                            <input id="second" class="form-control" name="second" placeholder='0'/>
+                                            <span class="input-group-addon">秒</span>
                                         </div>
                                     </div>
                                 </div>

@@ -64,7 +64,7 @@
 
                 <!-- Row starts -->
                 <div class="row gutter">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                         <div class="form-group">
                             <label for="nozzle_no">分控箱编号及名称</label>
                             <select class="form-control" id="controlbox" name="controlbox">
@@ -78,29 +78,29 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                         <div class="form-group">
                             <label for="nozzle_no">洒水站编号</label>
                             <input id="nozzle_no" class="form-control" name="nozzle_no" />
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                         <div class="form-group">
                             <label for="nozzle_name">洒水站名称</label>
                             <input id="nozzle_name" class="form-control" name="nozzle_name" />
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                         <div class="form-group">
                             <label for="course">球 场</label>
                             <select class="form-control" id="course" name="course">
 {#courses}
-                                <option value="{id}">{name}</option>
+                                <option value="{id}" {@eq key=id value=1 type="number"} selected{/eq}>{name}</option>
 {/courses}
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                         <div class="form-group">
                             <label for="area">区 域</label>
                             <select class="form-control" id="area" name="area">
@@ -110,21 +110,21 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                         <div class="form-group">
                             <label for="hole">球洞号(0表示无球洞)</label>
                             <input id="hole" class="form-control" name="hole" />
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                         <div class="form-group">
                             <label for="shot_count">喷头数量</label>
                             <input id="shot_count" class="form-control" name="shot_count" value="1"/>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                         <div class="form-group">
-                            <label for="nozzle_model">喷嘴型号</label>
+                            <label for="nozzle_model">喷头型号</label>
                             <select class="form-control" id="nozzle_model" name="nozzle_model">
 {#models}
                                 <option value="{id}">{name}</option>
@@ -132,31 +132,15 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
                         <div class="form-group">
-                            <label for="shape">喷头形状</label>
-                            <select class="form-control" id="shape" name="shape">
-{#shapes}
-                                <option value="{id}">{name}</option>
-{/shapes}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="angle">喷嘴夹角(度)</label>
+                            <label for="angle">喷洒角度(度)</label>
                             <input id="angle" class="form-control" name="angle" />
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6" style="display: none;">
                         <div class="form-group">
-                            <label for="waterfall_rate">降水率</label>
-                            <input id="waterfall_rate" class="form-control" name="waterfall_rate" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="turf">湿度调整%(同一洒水站控制的喷头应安排为同一场地浇水)</label>
+                            <label for="turf">湿度调整%</label>
                             <select class="form-control" id="turf" name="turf">
 {#turfs}
                                 <option value="{id}">{name} {moisture}%</option>
@@ -203,20 +187,19 @@
                                 <th>球 洞</th>
                                 <th style="display: none;"></th>
                                 <th>喷头数量</th>
-                                <th>喷嘴型号</th>
+                                <th>喷头型号</th>
                                 <th style="display: none;"></th>
-                                <th>喷头形状</th>
-                                <th style="display: none;"></th>
-                                <th>夹 角</th>
-                                <th>降水率</th>
-                                <th>湿度调整%</th>
+                                <th width="60">弧 度</th>
+                                <th>喷嘴流量<br>(升/分钟)</th>
+                                <th>洒水站流量<br>(升/分钟)</th>
+                                <th style="display: none;">湿度调整%</th>
                                 <th style="display: none;"></th>
                                 <th width="155">设备状态</th>
                             </tr>
                             </thead>
-                            <tbody style="cursor: pointer;">
+                            <tbody style="cursor: pointer;" id="tb">
 {#nozzles}
-                            <tr onclick="transfer_nozzle({id})">
+                            <tr onclick="transfer_nozzle({id},this)">
                                 <td><a href="javascript:del_nozzle({id})" class="btn btn-danger btn-rounded btn-sm">删 除</a></td>
                                 <td style="display: none;" class="controlbox_id_{id}">{controlbox_id}</td>
                                 <td class="nozzle_no_{id}">{no}</td>
@@ -229,15 +212,14 @@
                                 <td class="shot_count_{id}">{shot_count}</td>
                                 <td class="nozzle_model_{id}">{nozzle_model}</td>
                                 <td style="display: none;" class="model_id_{id}">{model_id}</td>
-                                <td class="nozzle_shape_{id}">{nozzle_shape}</td>
-                                <td style="display: none;" class="shape_id_{id}">{shape_id}</td>
-                                <td class="angle_{id}">{angle}</td>
-                                <td class="waterfall_rate_{id}">{waterfall_rate}</td>
-                                <td class="nozzle_turf_{id}">{nozzle_turf} {moisture}{@ne key=moisture value=""}%{/ne}</td>
+                                <td width="60" class="angle_{id}"><img src="{angle_pic}" style="margin-right: 10px;">{angle}</td>
+                                <td class="model_flow_{id}">{model_flow}</td>
+                                <td class="nozzle_flow_{id}">{nozzle_flow}</td>
+                                <td style="display: none;" class="nozzle_turf_{id}">{nozzle_turf} {moisture}{@ne key=moisture value=""}%{/ne}</td>
                                 <td style="display: none;" class="turf_id_{id}">{turf_id}</td>
-                                <td class="skin skin-line" width="155">
-                                    {@eq key=use_state value="1" type="number"}<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color: #32AB52;">正常</div>{:else}<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color: red;">异常</div>{/eq}
-                                    <div class="skin-section col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <td class="skin skin-line">
+                                    <div class="skin-section" style="display: inline-flex; flex-direction: row; align-items: center;">
+                                        {@eq key=use_state value="1" type="number"}<div style="color: #32AB52; margin-right: 15px;">正常</div>{:else}<div style="color: red; margin-right: 15px;">异常</div>{/eq}
                                         <input id="{id}" type="checkbox" {@eq key=use_state value="0" type="number"} checked{/eq}>
                                         <label>{@eq key=use_state value="1" type="number"}禁用{:else}启用{/eq}</label>
                                     </div>
@@ -286,7 +268,7 @@
     var transfered_nozzle_no = "";
 
     /* 转移洒水站 */
-    function transfer_nozzle(id) {
+    function transfer_nozzle(id,obj) {
         transfered_nozzle_id = id;
         transfered_nozzle_no = $('td.nozzle_no_' + id).html();
         $('#controlbox').val($('td.controlbox_id_' + id).html());
@@ -296,11 +278,12 @@
         $('#hole').val($('td.hole_' + id).html());
         $('#area').val($('td.area_id_' + id).html());
         $('#nozzle_model').val($('td.model_id_' + id).html());
-        $('#shape').val($('td.shape_id_' + id).html());
-        $('#angle').val($('td.angle_' + id).html());
+        $('#angle').val($('td.angle_' + id).text());
         $('#shot_count').val($('td.shot_count_' + id).html());
-        $('#waterfall_rate').val($('td.waterfall_rate_' + id).html());
         $('#turf').val($('td.turf_id_' + id).html());
+        $('#tb').find("td:visible").removeAttr("style");
+        $(obj).children("td:visible").css('background-color', '#008888');
+        $(obj).children("td:visible").css('color', 'white');
     }
 
     /* 删除洒水站 */
@@ -366,10 +349,8 @@
                 hole: $("#hole").val(),
                 area_id: $("#area").val(),
                 model_id: $("#nozzle_model").val(),
-                shape_id: $("#shape").val(),
                 angle: ($("#angle").val() === "") ? JSON.stringify(null) : $("#angle").val(),
                 shot_count: ($("#shot_count").val() === "") ? JSON.stringify(null) : $("#shot_count").val(),
-                waterfall_rate: ($("#waterfall_rate").val() === "") ? JSON.stringify(null) : $("#waterfall_rate").val(),
                 turf_id: $("#turf").val()
             }, function (result) {
                 if (result.success) {
@@ -424,10 +405,8 @@
                 hole: $("#hole").val(),
                 area_id: $("#area").val(),
                 model_id: $("#nozzle_model").val(),
-                shape_id: $("#shape").val(),
                 angle: ($("#angle").val() === "") ? JSON.stringify(null) : $("#angle").val(),
                 shot_count: ($("#shot_count").val() === "") ? JSON.stringify(null) : $("#shot_count").val(),
-                waterfall_rate: ($("#waterfall_rate").val() === "") ? JSON.stringify(null) : $("#waterfall_rate").val(),
                 turf_id: $("#turf").val()
             }, function (result) {
                 if (result.success) {
@@ -452,10 +431,8 @@
                 hole: $("#hole").val(),
                 area_id: $("#area").val(),
                 model_id: $("#nozzle_model").val(),
-                shape_id: $("#shape").val(),
                 angle: ($("#angle").val() === "") ? JSON.stringify(null) : $("#angle").val(),
                 shot_count: ($("#shot_count").val() === "") ? JSON.stringify(null) : $("#shot_count").val(),
-                waterfall_rate: ($("#waterfall_rate").val() === "") ? JSON.stringify(null) : $("#waterfall_rate").val(),
                 turf_id: $("#turf").val()
             }, function (result) {
                 if (result.success) {

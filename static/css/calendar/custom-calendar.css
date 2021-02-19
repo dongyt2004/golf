@@ -148,7 +148,6 @@ label.remove-cb {
 }
 
 .fc-calendar .fc-toolbar {
-    color: #707C8E;
     padding: 30px;
     margin: 0;
     position: relative;
@@ -179,10 +178,6 @@ label.remove-cb {
     font-size: 15px
 }
 
-.fc-toolbar .fc-center {
-    float: left
-}
-
 .fc-calendar .fc-toolbar .fc-center h2 {
     font-size: 20px;
     padding: 12px 0;
@@ -193,7 +188,6 @@ label.remove-cb {
 }
 
 .fc-calendar .fc-toolbar .fc-next-button, .fc-calendar .fc-toolbar .fc-prev-button {
-    position: absolute;
     background: 0 0;
     border: none;
     -webkit-border-radius: 0;
@@ -209,10 +203,6 @@ label.remove-cb {
 
 .fc-calendar .fc-toolbar .fc-next-button {
     right: 15px
-}
-
-.fc-calendar .fc-toolbar .fc-prev-button {
-    right: 50px
 }
 
 .fc-calendar .fc-toolbar .fc-right {
@@ -255,7 +245,7 @@ label.remove-cb {
     font-weight: 500;
     padding: 10px 5px;
     font-size: 14px;
-    text-align: right;
+    text-align: center;
     font-style: normal
 }
 

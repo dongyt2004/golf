@@ -51,6 +51,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <h4>球场动态列表</h4>
+                <label>总流量  </label> <label><h2 class="text-success" id="flow" style="margin: 0;">{flow}</h2></label> <label>  m<sup>3</sup>/小时</label>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">

@@ -13,11 +13,19 @@ var pool = mysql.createPool({
 });
 
 module.exports.exec = function (sql, args, callback) {
-    pool.query(sql, args, function (err, results) {
-        if (err) {
+    pool.getConnection(function(err, conn) {
+        if (err){
             throw err;
-        } else if (callback) {
-            callback(results);
+        } else {
+            conn.query(sql, args, function (err, results) {
+                if (err) {
+                    throw err;
+                } else if (callback) {
+                    callback(results);
+                }
+            });
+            //释放连接，需要注意的是连接释放需要在此处释放，而不是在查询回调里面释放
+            conn.release();
         }
     });
 };

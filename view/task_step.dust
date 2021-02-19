@@ -52,6 +52,9 @@
         .main {
             border:5px solid white;
         }
+        .orange-bg {
+            background: #FF7B00;
+        }
     </style>
 </head>
 
@@ -92,14 +95,15 @@
 {#steps}
                 <div id="step_{$idx}" class="timeline-row active">
                     <div class="timeline-time">
-                        <small>灌溉时长：<input class="minute" style="width: 30px; text-align: center;" placeholder="0" value="{minute}"/>分钟</small>
+                        <small>灌溉时长：<input class="minute" style="width: 30px; text-align: center;" placeholder="0" value="{minute}"/>分<input class="second" style="width: 30px; text-align: center;" placeholder="0" value="{second}"/>秒</small>
                     </div>
                     <div class="timeline-icon" style="overflow: visible;">
                         <div class="{icon-color}" style="border-radius: 12px;"><i class="icon-droplet" style="color: white;"></i></div>
                         <span onclick=del_step({$idx}) class="info-label fa fa-close red-bg" style="cursor: pointer;"></span>
                     </div>
                     <div id="step_nozzle_{$idx}" class="timeline-content text-center" style="background-color: {bg-color}; color: white; min-height: 80px; cursor: pointer;" onclick="pick_step('step_nozzle_{$idx}')">
-                        <h4>负责灌溉的洒水站</h4>
+                        <h4>所选洒水站</h4>
+                        <div style="display: inline-flex; align-items: center;"><h5>总流量&nbsp;</h5> <h3 class="flow">0</h3> <h5>&nbsp;m<sup>3</sup>/小时</h5></div>
                         <div class="list-group no-margin">
                         </div>
                     </div>
@@ -159,8 +163,8 @@
     };
 
     var nozzleNodes = [{#nozzleNodes}{@eq key=$idx value=0 type="number"}
-    {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{:else},
-    {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:true,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}"}{/eq}{/nozzleNodes}
+    {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}",flow:{flow}}{:else},
+    {id:"{id}",parent_id:"{parent_id}",name:"{name}",open:false,icon:"{icon}",iconOpen:"{icon}",iconClose:"{icon}",flow:{flow}}{/eq}{/nozzleNodes}
     ];
 
     function showRemoveBtn(treeId, treeNode) {
@@ -192,9 +196,11 @@
             if (elem === null) {
                 return false;
             }
-            pick_step(elem.attr("id"));
-            $('#' + elem.attr("id") + ' .list-group').append('<a onclick="click_selected_nozzle(\'' + treeNodes[0].id + '\')" id="' + treeNodes[0].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + treeNodes[0].parent_id + '" data-icon="' + treeNodes[0].icon + '">' + treeNodes[0].name + '</a>');
+            var id = elem.attr("id");
+            pick_step(id);
+            $('#' + id + ' .list-group').append('<a onclick="click_selected_nozzle(\'' + treeNodes[0].id + '\')" id="' + treeNodes[0].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + treeNodes[0].parent_id + '" data-flow="' + treeNodes[0].flow + '" data-icon="' + treeNodes[0].icon + '">' + treeNodes[0].name + '</a>');
             $.fn.zTree.getZTreeObj("nozzletree").removeNode(treeNodes[0]);
+            $('#' + id + ' .flow').html((parseFloat($('#' + id + ' .flow').html()) + treeNodes[0].flow).toFixed(1));
             reinitIframe();
         }
     }
@@ -253,7 +259,7 @@
         var steps_obj = {};
         $(".timeline-row").each(function () {
             var step_index = $(this).attr('id').split('_')[1];
-            var step = {s: parseInt($(this).find("input.minute").first().val()) * 60, n: ""};
+            var step = {s: parseInt($(this).find("input.minute").first().val()) * 60 + parseInt($(this).find("input.second").first().val()), n: ""};
             $(this).find('.list-group a').each(function () {
                 step['n'] += parseInt($(this).attr('id').slice(1)) + ",";
             });
@@ -286,13 +292,14 @@
             last_index = index;
             $("#step").append($('<div id="step_' + step_count + '" class="timeline-row active">\n' +
                 '    <div class="timeline-time">\n' +
-                '        <small>灌溉时长：<input class="minute" style="width: 30px; text-align: center;"/>分钟</small>' +
+                '        <small>灌溉时长：<input class="minute" style="width: 30px; text-align: center;"/>分<input class="second" style="width: 30px; text-align: center;"/>秒</small>' +
                 '    </div>\n' +
                 '    <div class="timeline-icon" style="overflow: visible;">\n' +
                 '        <div class="' + colors[index] + '" style="border-radius: 12px;"><i class="icon-droplet" style="color: white;"></i></div><span onclick=del_step(' + step_count + ') class="info-label fa fa-close red-bg" style="cursor: pointer;"></span>\n' +
                 '    </div>\n' +
                 '    <div id="step_nozzle_' + step_count + '" class="timeline-content text-center" style="background-color: ' + colors2[index] + '; color: white; min-height: 80px; cursor: pointer;" onclick="pick_step(\'step_nozzle_' + step_count + '\')">\n' +
-                '        <h4>负责灌溉的洒水站</h4>\n' +
+                '        <h4>所选洒水站</h4>\n' +
+                '        <div style="display: inline-flex; align-items: center;"><h5>总流量&nbsp;</h5> <h3 class="flow">0</h3> <h5>&nbsp;m<sup>3</sup>/小时</h5></div>\n' +
                 '        <div class="list-group no-margin"></div>\n' +
                 '    </div>\n' +
                 '</div>'));
@@ -316,10 +323,13 @@
                 parent.alertify.error("请单击选择一个步骤");
                 return;
             }
+            var totalFlow = 0;
             for (var j=0; j<nozzleNodes.length; j++) {
-                $('#' + picked_step_id + ' .list-group').append('<a onclick="click_selected_nozzle(\'' + nozzleNodes[j].id + '\')" id="' + nozzleNodes[j].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + nozzleNodes[j].parent_id + '" data-icon="' + nozzleNodes[j].icon + '">' + nozzleNodes[j].name + '</a>');
+                $('#' + picked_step_id + ' .list-group').append('<a onclick="click_selected_nozzle(\'' + nozzleNodes[j].id + '\')" id="' + nozzleNodes[j].id + '" href="javascript:void(0)" class="list-group-item list-group-item-info" data-original-title="" title="" data-parent_id="' + nozzleNodes[j].parent_id + '" data-flow="' + nozzleNodes[j].flow + '" data-icon="' + nozzleNodes[j].icon + '">' + nozzleNodes[j].name + '</a>');
                 $.fn.zTree.getZTreeObj("nozzletree").removeNode(nozzleNodes[j]);
+                totalFlow += nozzleNodes[j].flow;
             }
+            $('#' + picked_step_id + ' .flow').html((parseFloat($('#' + picked_step_id + ' .flow').html()) + totalFlow).toFixed(1));
             $.fn.zTree.getZTreeObj("nozzletree").checkAllNodes(false);
             reinitIframe();
         });
@@ -333,8 +343,15 @@
             var targetNodes = $.fn.zTree.getZTreeObj("nozzletree").getNodesByFilter(function(node) {
                 return node.id === "" + selectedElement.data("parent_id");
             });
-            $.fn.zTree.getZTreeObj("nozzletree").addNodes(targetNodes[0], {id: selectedElement.attr("id"), parent_id: targetNodes[0].id, name: selectedElement.html(), open:true, icon:selectedElement.data("icon"), iconOpen:selectedElement.data("icon"), iconClose:selectedElement.data("icon")});
+            $.fn.zTree.getZTreeObj("nozzletree").addNodes(targetNodes[0], {id: selectedElement.attr("id"), parent_id: targetNodes[0].id, name: selectedElement.html(), open:true, icon:selectedElement.data("icon"), iconOpen:selectedElement.data("icon"), iconClose:selectedElement.data("icon"), flow: selectedElement.data("flow")});
+            var flowNode = selectedElement.parent().parent().find(".flow").first();
+            var parentNode = selectedElement.parent();
             selectedElement.remove();
+            if (parentNode.children().length > 0) {
+                flowNode.html((parseFloat(flowNode.html()) - parseFloat(selectedElement.data("flow"))).toFixed(1));
+            } else {
+                flowNode.html("0");
+            }
             selected_nozzle_id = "";
             reinitIframe();
         });

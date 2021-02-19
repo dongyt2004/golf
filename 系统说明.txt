@@ -1,0 +1,2 @@
+【1】nozzle代表洒水站，sprinkler代表喷头
+【2】nozzle_model代表喷头型号（包括喷嘴型号和压力）

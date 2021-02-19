@@ -95,9 +95,9 @@
                                 <th>区域名称</th>
                             </tr>
                             </thead>
-                            <tbody style="cursor: pointer;">
+                            <tbody style="cursor: pointer;" id="tb">
 {#areas}
-                            <tr onclick="transfer_area({id})">
+                            <tr onclick="transfer_area({id},this)">
                                 <td>{@math key=$idx method="add" operand=1/}</td>
                                 <td class="area_name_{id}">{name}</td>
                             </tr>
@@ -134,9 +134,12 @@
 
 <script type="text/javascript">
     /* 转移区域 */
-    function transfer_area(id) {
+    function transfer_area(id, obj) {
         $('#area_id').val(id);
         $('#area_name').val($('td.area_name_' + id).html());
+        $('#tb').find("td:visible").removeAttr("style");
+        $(obj).children("td:visible").css('background-color', '#008888');
+        $(obj).children("td:visible").css('color', 'white');
     }
 
     jQuery(function($) {

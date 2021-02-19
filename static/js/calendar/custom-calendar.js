@@ -32,6 +32,8 @@ $(function () {
 
     });
 
+    var prev_start, prev_end;
+
     /* initialize the calendar */
     $('#calendar').fullCalendar({
         height: window.innerHeight - 250,
@@ -42,8 +44,10 @@ $(function () {
         firstDay: new Date().getDay(),
         titleFormat: '制定一周洒水计划',
         allDaySlot: false,
-        slotDuration:'00:30:00',
+        slotDuration:'00:15:00',
+        nowIndicator : true,
         header: {
+            center: 'agendaWeek,agendaDay,prev,next',
             right: ''
         },
         defaultView: 'agendaWeek',
@@ -63,7 +67,7 @@ $(function () {
             var start = date.local();
             var end = date.clone().add(copiedEventObject.howLong, 's').local();
             var overlayPlans = $('#calendar').fullCalendar('clientEvents', function (plan) {
-                return copiedEventObject.task_id === plan.task_id && (start.isBetween(plan.start, plan.end) || plan.start.isBetween(start, end));
+                return copiedEventObject.task_id === plan.task_id && (start.diff(plan.start, 'second') === 0 || start.isBetween(plan.start, plan.end) || plan.start.isBetween(start, end));
             });
             if (overlayPlans.length > 0) {
                 alertify.error("同一任务不能相互覆盖，请重新设置洒水时间");
@@ -90,6 +94,36 @@ $(function () {
         eventRender: function (plan, element) {
             element.css('overflow', 'visible');
             element.append('<span onclick=del_plan("' + plan.id + '") class="info-label fa fa-close red-bg" style="cursor: pointer;"></span>');
+        },
+        eventClick: function(plan) {
+            var concurrent_tasks = [];
+            var events = $("#calendar").fullCalendar('clientEvents');
+            for(var i=0; i < events.length; i++) {
+                if (events[i].start - plan.start === 0) {
+                    concurrent_tasks.push(events[i].task_id);
+                }
+            }
+            window.open ("/plan_flow.html?start=" + plan.start.valueOf() + "&concurrent_tasks=" + JSON.stringify(concurrent_tasks), "newwindow", "height=600, width=900, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+            return false;
+        },
+        eventDragStart : function(event) {
+            prev_start = event.start.local();
+            prev_end = event.end.local();
+        },
+        eventDrop : function(event) {
+            var me_start = event.start.local();
+            var me_end = event.end.local();
+            var overlayPlans = $('#calendar').fullCalendar('clientEvents', function (plan) {
+                var it_start = plan.start.local();
+                var it_end = plan.end.local();
+                return event.id !== plan.id && event.task_id === plan.task_id && (me_start.diff(it_start, 'second') === 0 || me_start.isBetween(it_start, it_end) || it_start.isBetween(me_start, me_end));
+            });
+            if (overlayPlans.length > 0) {
+                alertify.error("同一任务不能相互覆盖，请重新设置洒水时间");
+                event.start = prev_start;
+                event.end = prev_end;
+                return;
+            }
         }
     });
 

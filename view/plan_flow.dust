@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height">
+    <title>水流量和用水量</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;height:100%;margin:0;}</style>
+</head>
+<body>
+<div style="height: 20px; text-align: center; font-family: 微软雅黑; font-size: large; font-weight: bold;">
+    总水量：{#flow}{total}{/flow} 立方米
+</div>
+<div class="modal" id="loadingModal" data-backdrop="static" data-keyboard="false">
+    <div style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50%; margin-left:-100px; margin-top:-10px">
+        <div class="progress progress-striped active" style="margin-bottom: 0;">
+            <div class="progress-bar" style="width: 100%;"></div>
+        </div>
+        <h5 style="color:black"> <strong>请稍等...</strong> </h5>
+    </div>
+</div>
+<div id="mountNode"></div>
+<script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.1/dist/g2.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.1/dist/data-set.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<style>
+    .g2-tooltip {
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 3px;
+        color: rgb(87, 87, 87);
+        font-size: 12px;
+        line-height: 20px;
+        padding: 10px 10px 6px 10px;
+        box-shadow: 0px 0px 10px #aeaeae;
+        pointer-events: none;
+    }
+    .g2-tooltip-list {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    .g2-tooltip-value {
+        margin-left: 30px;
+        display: inline;
+        float: right;
+    }
+    .g2-tooltip-statistic {
+        font-size: 14px;
+        padding-bottom: 10px;
+        margin-top: 10px;
+        list-style-type: none;
+    }
+    .g2-tooltip-statistic-value {
+        font-weight: 'bold';
+        display: 'inline-block';
+        float: right;
+        margin-left: 30px
+    }
+    #toolbar {
+        position: absolute;
+        top:0px;
+        left: 0px;
+        height: 40px;
+        width: 100%;
+        z-index: 0;
+    }
+    .toolbox-button {width:60px; height: 27px; border-style: solid; border-color:#d9d9d9; border-width:1px; color:#727272; text-align: center; font-size:12px; float: left; cursor: pointer;}
+    .toolbox-button:after {
+        display: inline-block;
+        width: 0;
+        height: 100%;
+        vertical-align: middle;
+        content: '';
+    }
+    .button-selected { border-color:#1890ff; color:#1890ff;}
+    .buttonGroup-left {border-top-left-radius: 5px; border-bottom-left-radius: 5px;}
+    .buttonGroup-right {border-top-right-radius: 5px; border-bottom-right-radius: 5px;}
+</style>
+<div id="toolbar"><div class="toolbox-button buttonGroup-left button-selected" data-index="1">绝对值</div><div class="toolbox-button buttonGroup-right" data-index="2">百分比</div></div>
+<script>
+    $("#loadingModal").modal('show');
+    var chartType = 1;
+    $.getJSON('/data.json', function(data) {
+        $('#loadingModal').modal('hide');
+        var chart = new G2.Chart({
+            container: 'mountNode',
+            forceFit: true,
+            height: window.innerHeight,
+            padding: [50, 120, 50, 50]
+        });
+        var ds = new DataSet();
+        var dv = ds.createView().source(data);
+        dv.transform({
+            type: 'percent',
+            field: 'flow',
+            dimension: 'area',
+            groupBy: ['time'],
+            as: 'percent'
+        });
+        dv.transform({
+            type: 'rename',
+            map: {
+                flow: '立方米/小时'
+            }
+        });
+        chart.source(dv, {
+            percent: {
+                max: 1.0,
+                min: 0.0,
+                nice: true,
+                formatter: function formatter(value) {
+                    value = value || 0;
+                    value = value * 100;
+                    return parseInt(value);
+                }
+            }
+        });
+        chart.scale('time', {
+            range: [0, 1],
+            nice: true,
+            type: 'time',
+            mask: 'MM-DD HH:mm:ss'
+        });
+        chart.tooltip({
+            crosshairs: 'y',
+            htmlContent: function htmlContent(title, items) {
+                var html = '<div class="g2-tooltip">';
+                var titleDom = '<div class="g2-tooltip-title" style="margin-bottom: 4px;">' + title + '</div>';
+                var listDom = '<ul class="g2-tooltip-list">';
+                var sum = 0;
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    var itemDom = '<li data-index={index}>' + '<span style="background-color:' + item.color + ';width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:8px;"></span>' + item.name.split(" ")[0] + '<span class="g2-tooltip-value">' + item.value + '</span>' + '</li>';
+                    listDom += itemDom;
+                    sum += parseFloat(item.value);
+                }
+                listDom += '</ul>';
+                var sumDom = '<li class="g2-tooltip-statistic">总计：<span class="g2-tooltip-statistic-value">' + sum.toFixed(2) + '</span></li>';
+                if (chartType === 1) {
+                    return html + titleDom + sumDom + listDom + '</div>';
+                } else {
+                    return html + titleDom + listDom + '</div>';
+                }
+            }
+        });
+        chart.legend({
+            offsetX: -100,
+            attachLast: true,
+            textStyle: {
+                fontSize: '14',
+                fontWeight: 'bold'
+            }
+        });
+        chartType1();
+        chart.render();
+        $('.toolbox-button').click(function(event) {
+            var $dom = $(event.target);
+            var index = $dom.data().index;
+            chartType = index;
+            $('.toolbox-button').removeClass('button-selected');
+            $dom.addClass('button-selected');
+            if (index === 1) {
+                chart.clear();
+                chartType1();
+                chart.repaint();
+            } else {
+                chart.clear();
+                chartType2();
+                chart.repaint();
+            }
+        });
+
+        function chartType1() {
+            chart.axis('time', {
+                label: {
+                    textStyle: {
+                        fill: '#aaaaaa'
+                    }
+                }
+            });
+            chart.axis('立方米/小时', {
+                label: {
+                    textStyle: {
+                        fill: '#aaaaaa'
+                    },
+                    formatter: function formatter(text) {
+                        return text.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+                    }
+                },
+                title: {
+                    offset: 25
+                }
+            });
+            chart.lineStack().position('time*立方米/小时').color('area');
+            chart.areaStack().position('time*立方米/小时').color('area').opacity(0.7);
+        }
+
+        function chartType2() {
+            chart.axis('time', {
+                label: {
+                    textStyle: {
+                        fill: '#aaaaaa'
+                    }
+                }
+            });
+            chart.axis('percent', {
+                label: {
+                    textStyle: {
+                        fill: '#aaaaaa'
+                    }
+                }
+            });
+            chart.lineStack().position('time*percent').color('area');
+            chart.areaStack().position('time*percent').color('area').opacity(0.7);
+        }
+    });
+</script>
+</body>
+</html>

@@ -133,7 +133,7 @@ function recv_msg(client_id, message) {
                         if (err) {
                             console.log("[" + current_time + "] " + process.env.CLUB_NAME + client_id + "号箱上送状态指令出错，连接broker失败");
                         } else {
-                            console.log("[" + current_time + "] " + process.env.CLUB_NAME + client_id + "号箱上收到洒水指令后上送状态");
+                            console.log("[" + current_time + "] " + process.env.CLUB_NAME + client_id + "号箱收到洒水指令后上送状态");
                         }
                     });
                 }
@@ -163,6 +163,36 @@ function recv_msg(client_id, message) {
                         console.log("[" + current_time + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送远程、本地反馈指令出错，连接broker失败");
                     } else {
                         console.log("[" + current_time + "] " + process.env.CLUB_NAME + controlbox_no + "号箱上送远程、本地反馈指令");
+                    }
+                });
+            }
+        } else if (commands[0] === process.env.COMMAND_STOP_SOME) {  // 部分停止
+            let stop_nozzles = [];
+            let nozzles = commands[1].split(',');
+            for(i=0; i<nozzles.length; i++) {
+                let x_y = nozzles[i].split('-');
+                if (x_y[0] === client_id) {
+                    stop_nozzles.push(parseInt(x_y[1]));
+                }
+            }
+            if (stop_nozzles.length > 0) {
+                let nozzle_state_string = nozzle_state_dict[client_id];
+                for(let i=0; i<stop_nozzles.length; i++) {
+                    if (stop_nozzles[i] === 99) {
+                        nozzle_state_string = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+                        break;
+                    }
+                    let pos = (stop_nozzles[i] - 1) * 2;
+                    nozzle_state_string = replacepos(nozzle_state_string, pos, '00');
+                }
+                nozzle_state_dict[client_id] = nozzle_state_string;
+                command = process.env.COMMAND_NOZZLE_STATE + "|" + client_id + "|" + nozzle_state_string + "|1|";
+                command = command + left_pad(crc16(command).toString(16), 4);
+                mqtt_clients[client_id].publish(MQTT_BOTTOMUP_TOPIC, command, {qos: qos}, function (err) {
+                    if (err) {
+                        console.log("[" + current_time + "] " + process.env.CLUB_NAME + client_id + "号箱上送状态指令出错，连接broker失败");
+                    } else {
+                        console.log("[" + current_time + "] " + process.env.CLUB_NAME + client_id + "号箱收到停止指令后上送状态");
                     }
                 });
             }
