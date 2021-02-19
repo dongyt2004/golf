@@ -1,82 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="8th commit - 2020.11.07">
-      <change afterPath="$PROJECT_DIR$/data.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log/access.2021-01-25.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log/access.2021-02-06.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log/access.2021-02-17.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log/app.2021-01-25.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log/app.2021-02-06.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log/app.2021-02-17.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/data.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/180度.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/270度.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/360度.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/90度.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/690.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/720.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/720G.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/734.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/750.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/760.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/780.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/810G25.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/810G5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/834-835.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/854-855.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX34.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX34B.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX35-6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX35-6B.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX35.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX35B.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX54.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX54RB.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX55-6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX55-6RB.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX55.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/FLX55RB.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/INF34.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/INF35-6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/INF35.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/INF54.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/INF55-6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/nozzle-model/INF55.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/弧度.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/plan_flow.dust" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/系统说明.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.env" beforeDir="false" afterPath="$PROJECT_DIR$/app.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/db.js" afterDir="false" />
+    <list default="true" id="91c7d13c-0c8e-4f66-8add-4d9ee2a75448" name="Default" comment="9th commit - 2021.02.19">
+      <change beforePath="$PROJECT_DIR$/log/access.2021-01-25.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/access.2021-02-06.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/access.2021-02-17.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/log/access.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/access.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/app.2021-01-25.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/app.2021-02-06.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/app.2021-02-17.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/log/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/app.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/calendar/custom-calendar.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/calendar/custom-calendar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/calendar/custom-calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/calendar/custom-calendar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-stub.env" beforeDir="false" afterPath="$PROJECT_DIR$/test-stub.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-stub.js" beforeDir="false" afterPath="$PROJECT_DIR$/test-stub.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/area.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/area.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/change_password.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/change_password.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/controlbox.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/controlbox.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/controlbox_model.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/controlbox_model.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/course.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/course.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/dynamics.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/dynamics.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/dynamics_detail.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/dynamics_detail.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/login.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/login.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/manual.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/manual.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/manual_area.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/manual_area.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/manual_controlbox.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/manual_controlbox.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/map.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/map.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/nozzle.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/nozzle.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/nozzle_model.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/nozzle_model.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/nozzle_shape.dust" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/pipe.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/pipe.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/plan.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/plan.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/task.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/task.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/task_step.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/task_step.dust" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/turf.dust" beforeDir="false" afterPath="$PROJECT_DIR$/view/turf.dust" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/data.json" beforeDir="false" />
     </list>
     <list id="cf1b0e4e-9c59-45b8-b20f-da50af988d74" name="Revert: Initial commit" comment="Revert: Initial commit" />
     <option name="SHOW_DIALOG" value="false" />
@@ -576,14 +510,7 @@
       <workItem from="1613262502997" duration="21000" />
       <workItem from="1613262551262" duration="8000" />
       <workItem from="1613263157027" duration="1193000" />
-      <workItem from="1613471750465" duration="83699000" />
-    </task>
-    <task id="LOCAL-00134" summary="5th commit">
-      <created>1594696489816</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1594696489816</updated>
+      <workItem from="1613471750465" duration="84066000" />
     </task>
     <task id="LOCAL-00135" summary="5th commit">
       <created>1594698424833</created>
@@ -921,7 +848,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605591851687</updated>
     </task>
-    <option name="localTasksCounter" value="183" />
+    <task id="LOCAL-00183" summary="9th commit - 2021.02.19">
+      <created>1613738122774</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1613738122775</updated>
+    </task>
+    <option name="localTasksCounter" value="184" />
     <servers />
   </component>
   <component name="TodoView">
@@ -987,13 +921,14 @@
     <MESSAGE value="8th commit - 2020.11.03" />
     <MESSAGE value="7th commit - 2020.08.12" />
     <MESSAGE value="8th commit - 2020.11.07" />
-    <option name="LAST_COMMIT_MESSAGE" value="8th commit - 2020.11.07" />
+    <MESSAGE value="9th commit - 2021.02.19" />
+    <option name="LAST_COMMIT_MESSAGE" value="9th commit - 2021.02.19" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1613729799123">
+    <state x="366" y="0" key="CommitChangelistDialog2" timestamp="1613738121927">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1613729799123" />
+    <state x="366" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1613738121927" />
     <state width="937" height="466" key="DebuggerActiveHint" timestamp="1613563405837">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1002,78 +937,78 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1613262360022" />
-    <state width="1515" height="122" key="GridCell.Tab.0.bottom" timestamp="1613692464308">
+    <state width="1515" height="152" key="GridCell.Tab.0.bottom" timestamp="1613738161466">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="122" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613692464308" />
-    <state width="1515" height="122" key="GridCell.Tab.0.center" timestamp="1613692464308">
+    <state width="1515" height="152" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613738161466" />
+    <state width="1515" height="152" key="GridCell.Tab.0.center" timestamp="1613738161466">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="122" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1613692464308" />
-    <state width="1515" height="122" key="GridCell.Tab.0.left" timestamp="1613692464308">
+    <state width="1515" height="152" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1613738161466" />
+    <state width="1515" height="152" key="GridCell.Tab.0.left" timestamp="1613738161466">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="122" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1613692464308" />
-    <state width="1515" height="122" key="GridCell.Tab.0.right" timestamp="1613692464308">
+    <state width="1515" height="152" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1613738161466" />
+    <state width="1515" height="152" key="GridCell.Tab.0.right" timestamp="1613738161466">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="122" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1613692464308" />
-    <state width="1515" height="152" key="GridCell.Tab.1.bottom" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1613738161466" />
+    <state width="1515" height="152" key="GridCell.Tab.1.bottom" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.1.center" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.1.center" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.1.left" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.1.left" timestamp="1613738161466">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.1.right" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1613738161466" />
+    <state width="1515" height="152" key="GridCell.Tab.1.right" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.2.bottom" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.2.bottom" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.2.center" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.2.center" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.2.left" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.2.left" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.2.right" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.2.right" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.3.bottom" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.3.bottom" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.3.center" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.3.center" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.3.left" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.3.left" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
-    <state width="1515" height="152" key="GridCell.Tab.3.right" timestamp="1613621089363">
+    <state width="1515" height="152" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
+    <state width="1515" height="152" key="GridCell.Tab.3.right" timestamp="1613738161467">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="152" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1613621089363" />
+    <state width="1515" height="152" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1613738161467" />
     <state x="270" y="56" key="SettingsEditor" timestamp="1613262367883">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="270" y="56" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1613262367883" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1605591853139">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1613738125016">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1605591853139" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1613738125016" />
     <state x="356" y="12" width="782" height="804" key="find.popup" timestamp="1612269725745">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
